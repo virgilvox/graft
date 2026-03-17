@@ -1,0 +1,44 @@
+name: Conformance
+
+on:
+  push:
+    paths: ['protocol/**', 'conformance/**', 'sdk/**']
+  pull_request:
+    paths: ['protocol/**', 'conformance/**', 'sdk/**']
+
+jobs:
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: cd sdk/js && npm ci
+      - run: cd conformance && npx tsx runner.ts
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: cd sdk/python && pip install -e .
+      - run: cd sdk/python && python -m pytest tests/test_conformance.py -v
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - run: cd sdk/go && go test -run Conformance -v
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cd sdk/rust && cargo test conformance -- --nocapture

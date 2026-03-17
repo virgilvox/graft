@@ -1,0 +1,27 @@
+{
+  "name": "Graft",
+  "version": "0.1.0",
+  "description": "GRAFT protocol firmware library — transport-agnostic, capability-first binary protocol for host-device hardware control",
+  "keywords": ["iot", "protocol", "hardware", "serial", "mqtt", "ble", "firmware"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lumencanvas/graft"
+  },
+  "authors": [
+    {
+      "name": "LumenCanvas",
+      "url": "https://lumencanvas.studio"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://graft.io",
+  "frameworks": ["arduino"],
+  "platforms": "*",
+  "build": {
+    "srcDir": "src",
+    "includeDir": "src"
+  },
+  "export": {
+    "include": ["src", "examples", "library.properties"]
+  }
+}

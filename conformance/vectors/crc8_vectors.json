@@ -1,0 +1,11 @@
+{
+  "description": "CRC8 Dallas/Maxim test vectors. All SDKs must produce identical results.",
+  "vectors": [
+    { "input": [], "expected": 0 },
+    { "input": [0], "expected": 0 },
+    { "input": [1], "expected": 49 },
+    { "input": [71, 70, 1, 2], "expected": null, "note": "deterministic — must match across all impls" },
+    { "input": [1, 2, 3], "expected": null, "note": "different from [1, 2, 4]" },
+    { "input": [255], "expected": null, "note": "max single byte" }
+  ]
+}

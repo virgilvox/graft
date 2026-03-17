@@ -1,0 +1,11 @@
+{
+  "description": "COBS encode/decode test vectors. All SDKs must produce identical results.",
+  "vectors": [
+    { "decoded": [], "encoded": [1] },
+    { "decoded": [0], "encoded": [1, 1] },
+    { "decoded": [66], "encoded": [2, 66] },
+    { "decoded": [0, 0], "encoded": [1, 1, 1] },
+    { "decoded": [17, 34, 0, 51], "encoded": [3, 17, 34, 2, 51] },
+    { "decoded": [17, 34, 51, 68], "encoded": [5, 17, 34, 51, 68] }
+  ]
+}

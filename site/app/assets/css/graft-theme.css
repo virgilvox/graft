@@ -1,0 +1,100 @@
+/**
+ * GRAFT Design System
+ * Extracted from graft-spec.html
+ */
+
+:root {
+  --bg: #060608;
+  --surface: #0d0d10;
+  --card: #111115;
+  --border: #1c1c22;
+  --border-bright: #2a2a35;
+  --text: #9898a8;
+  --text-bright: #dddde8;
+  --text-dim: #44444e;
+  --accent: #00d4aa;
+  --accent-dim: rgba(0,212,170,0.08);
+  --accent-glow: rgba(0,212,170,0.25);
+  --orange: #e85d3b;
+  --orange-dim: rgba(232,93,59,0.1);
+  --yellow: #f0c040;
+  --yellow-dim: rgba(240,192,64,0.08);
+  --purple: #9b7cf4;
+  --red: #e85d70;
+  --mono: 'Space Mono', monospace;
+  --code: 'JetBrains Mono', monospace;
+  --heading: 'Oswald', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Noise overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4 { color: var(--text-bright); }
+h1, h2 { font-family: var(--heading); letter-spacing: 4px; text-transform: uppercase; }
+h3 { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); }
+
+code {
+  font-family: var(--code);
+  font-size: 11px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-bright);
+  padding: 1px 6px;
+  color: var(--accent);
+  border-radius: 2px;
+}
+
+pre {
+  background: #070709;
+  border: 1px solid var(--border);
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: var(--code);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--text);
+  border-left: 2px solid var(--border-bright);
+}
+
+/* Tag badges */
+.tag {
+  font-family: var(--code);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--border-bright);
+  color: var(--text-dim);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.tag-accent { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.tag-orange { border-color: var(--orange); color: var(--orange); background: var(--orange-dim); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); }

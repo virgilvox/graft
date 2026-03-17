@@ -1,0 +1,19 @@
+name: Swift CI
+
+on:
+  push:
+    paths: ['sdk/swift/**', 'protocol/**']
+  pull_request:
+    paths: ['sdk/swift/**', 'protocol/**']
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        working-directory: sdk/swift
+        run: swift build
+      - name: Test
+        working-directory: sdk/swift
+        run: swift test

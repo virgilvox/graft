@@ -1,0 +1,121 @@
+{
+  "protocol": {
+    "name": "GRAFT",
+    "fullName": "Generic Remote Actuator Firmware Transport",
+    "version": 1,
+    "magic": [71, 70],
+    "magicHex": ["0x47", "0x46"],
+    "license": "CC BY 4.0"
+  },
+
+  "packetTypes": {
+    "commands": {
+      "PING":            { "byte": "0x01", "description": "Keepalive. Device replies PONG." },
+      "HELLO":           { "byte": "0x02", "description": "Request full capability advertisement (HELLO_RESP)." },
+      "PIN_MODE":        { "byte": "0x10", "description": "Set pin mode: input, output, pwm, analog, input_pullup." },
+      "PIN_WRITE":       { "byte": "0x11", "description": "Write digital (0/1) or PWM duty (0-255) to pin." },
+      "PIN_READ":        { "byte": "0x12", "description": "One-shot read request. Device replies PIN_READ_RESP." },
+      "PIN_SUBSCRIBE":   { "byte": "0x13", "description": "Subscribe to pin changes or analog sampling." },
+      "PIN_UNSUBSCRIBE": { "byte": "0x14", "description": "Cancel active subscription." },
+      "I2C_WRITE":       { "byte": "0x20", "description": "Write byte array to I2C address on specified bus." },
+      "I2C_READ":        { "byte": "0x21", "description": "Read N bytes from I2C address." },
+      "I2C_READ_REG":    { "byte": "0x22", "description": "Read N bytes from register at I2C address." },
+      "SPI_XFER":        { "byte": "0x30", "description": "Full-duplex SPI transaction." },
+      "MOD_CMD":         { "byte": "0x40", "description": "Send command to a named module by module_id + cmd byte." },
+      "STREAM_START":    { "byte": "0x50", "description": "Begin high-rate analog stream with pin mask + rate_hz." },
+      "STREAM_STOP":     { "byte": "0x51", "description": "Stop active stream." },
+      "DS_WRITE":        { "byte": "0x60", "description": "Write value to a named datastream by index." },
+      "DS_READ":         { "byte": "0x61", "description": "One-shot datastream read." },
+      "DS_SUBSCRIBE":    { "byte": "0x62", "description": "Subscribe to datastream changes with optional threshold." },
+      "OTA_BEGIN":       { "byte": "0x70", "description": "Initiate OTA firmware update. Payload: total size + sha256." },
+      "OTA_CHUNK":       { "byte": "0x71", "description": "Firmware chunk: offset + data bytes." },
+      "OTA_FINALIZE":    { "byte": "0x72", "description": "Commit and reboot. Device validates sha256 before applying." },
+      "RESET":           { "byte": "0xF0", "description": "Soft-reset device state. Clears subscriptions; modules remain loaded." }
+    },
+    "events": {
+      "PONG":            { "byte": "0x80", "description": "Keepalive reply to PING." },
+      "HELLO_RESP":      { "byte": "0x81", "description": "Full capability advertisement payload." },
+      "ACK":             { "byte": "0x82", "description": "Command acknowledged. Echoes SEQ number." },
+      "NAK":             { "byte": "0x83", "description": "Command failed. Echoes SEQ + error code byte." },
+      "PIN_EVENT":       { "byte": "0x90", "description": "Subscribed pin value report." },
+      "PIN_READ_RESP":   { "byte": "0x91", "description": "Response to one-shot PIN_READ." },
+      "I2C_READ_RESP":   { "byte": "0xA0", "description": "I2C read data payload." },
+      "SPI_XFER_RESP":   { "byte": "0xB0", "description": "SPI MISO data from transfer." },
+      "MOD_EVENT":       { "byte": "0xC0", "description": "Unsolicited event from a module." },
+      "MOD_RESP":        { "byte": "0xC1", "description": "Response to a MOD_CMD that returns data." },
+      "STREAM_DATA":     { "byte": "0xD0", "description": "Bulk analog sample batch." },
+      "DS_EVENT":        { "byte": "0xD1", "description": "Subscribed datastream value change." },
+      "DS_READ_RESP":    { "byte": "0xD2", "description": "Response to one-shot DS_READ." },
+      "LOG":             { "byte": "0xE0", "description": "Debug string from device (UTF-8)." },
+      "FATAL":           { "byte": "0xFF", "description": "Device panic. Always QoS 2 over MQTT." }
+    }
+  },
+
+  "errorCodes": {
+    "UNKNOWN_TYPE":         { "code": "0x01", "description": "Packet type byte not recognized" },
+    "CRC_MISMATCH":         { "code": "0x02", "description": "CRC8 validation failed" },
+    "PAYLOAD_TOO_LARGE":    { "code": "0x03", "description": "LEN exceeds device max_payload" },
+    "INVALID_PIN":          { "code": "0x04", "description": "Pin number out of range for this device" },
+    "PIN_MODE_UNSUPPORTED": { "code": "0x05", "description": "Requested mode not available on this pin" },
+    "I2C_NOT_AVAILABLE":    { "code": "0x06", "description": "Requested I2C bus does not exist" },
+    "I2C_NACK":             { "code": "0x07", "description": "I2C peripheral did not acknowledge" },
+    "MODULE_NOT_LOADED":    { "code": "0x08", "description": "module_id not registered on this device" },
+    "UNKNOWN_MODULE_CMD":   { "code": "0x09", "description": "Command code not handled by module" },
+    "MODULE_BUSY":          { "code": "0x0A", "description": "Module is executing a previous command" },
+    "SUB_LIMIT_REACHED":    { "code": "0x0B", "description": "Maximum active subscriptions exceeded" },
+    "OUT_OF_MEMORY":        { "code": "0x0C", "description": "Device heap exhausted" },
+    "UNKNOWN_DATASTREAM":   { "code": "0x0D", "description": "Datastream name/index not found" },
+    "DATASTREAM_READONLY":  { "code": "0x0E", "description": "DS_WRITE called on read-only datastream" },
+    "OTA_INVALID":          { "code": "0x0F", "description": "OTA sha256 mismatch or invalid chunk sequence" },
+    "VERSION_MISMATCH":     { "code": "0x10", "description": "Protocol VER byte does not match device expectation" }
+  },
+
+  "dataTypes": {
+    "BOOL":    { "code": "0x01", "size": 1, "description": "1 byte, 0 or 1" },
+    "INT8":    { "code": "0x02", "size": 1, "description": "1 byte signed" },
+    "UINT8":   { "code": "0x03", "size": 1, "description": "1 byte unsigned" },
+    "INT16":   { "code": "0x04", "size": 2, "description": "2 bytes, little-endian" },
+    "UINT16":  { "code": "0x05", "size": 2, "description": "2 bytes, little-endian" },
+    "INT32":   { "code": "0x06", "size": 4, "description": "4 bytes, little-endian" },
+    "FLOAT32": { "code": "0x07", "size": 4, "description": "4 bytes, IEEE 754" },
+    "STRING":  { "code": "0x08", "size": -1, "description": "uint16 length prefix + UTF-8 bytes" },
+    "BYTES":   { "code": "0x09", "size": -1, "description": "uint16 length prefix + raw bytes" }
+  },
+
+  "pinCapabilities": {
+    "DIGITAL_IN":  { "bit": 0, "description": "Digital input" },
+    "DIGITAL_OUT": { "bit": 1, "description": "Digital output" },
+    "PWM_OUT":     { "bit": 2, "description": "PWM output" },
+    "ANALOG_IN":   { "bit": 3, "description": "Analog input" },
+    "I2C_SDA":     { "bit": 4, "description": "I2C data line" },
+    "I2C_SCL":     { "bit": 5, "description": "I2C clock line" },
+    "SPI":         { "bit": 6, "description": "SPI capable" },
+    "INTERRUPT":   { "bit": 7, "description": "Hardware interrupt capable" }
+  },
+
+  "pinModes": {
+    "INPUT":        { "code": "0x00" },
+    "OUTPUT":       { "code": "0x01" },
+    "PWM":          { "code": "0x02" },
+    "ANALOG":       { "code": "0x03" },
+    "INPUT_PULLUP": { "code": "0x04" }
+  },
+
+  "subscribeModes": {
+    "CHANGE":      { "code": "0x01" },
+    "RISING":      { "code": "0x02" },
+    "FALLING":     { "code": "0x03" },
+    "ANALOG_POLL": { "code": "0x04" }
+  },
+
+  "header": {
+    "magicSize": 2,
+    "versionSize": 1,
+    "typeSize": 1,
+    "seqSize": 1,
+    "lenSize": 2,
+    "crcSize": 1,
+    "totalHeaderSize": 8,
+    "comment": "MAGIC(2) + VER(1) + TYPE(1) + SEQ(1) + LEN(2) + CRC8(1) = 8 bytes overhead"
+  }
+}

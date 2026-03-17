@@ -1,0 +1,23 @@
+name: Python SDK CI
+
+on:
+  push:
+    paths: ['sdk/python/**', 'protocol/**']
+  pull_request:
+    paths: ['sdk/python/**', 'protocol/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: cd sdk/python && pip install -e ".[all]" && pip install pytest
+      - name: Test
+        run: cd sdk/python && python -m pytest tests/ -v

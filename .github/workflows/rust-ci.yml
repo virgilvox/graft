@@ -1,0 +1,29 @@
+name: Rust CI
+
+on:
+  push:
+    paths: ['sdk/rust/**', 'protocol/**']
+  pull_request:
+    paths: ['sdk/rust/**', 'protocol/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain: [stable, nightly]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: clippy
+      - name: Test
+        working-directory: sdk/rust
+        run: cargo test
+      - name: Test no_std
+        working-directory: sdk/rust
+        run: cargo test --no-default-features
+      - name: Clippy
+        working-directory: sdk/rust
+        run: cargo clippy -- -D warnings

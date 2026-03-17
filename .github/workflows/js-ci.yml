@@ -1,0 +1,25 @@
+name: JS SDK CI
+
+on:
+  push:
+    paths: ['sdk/js/**', 'protocol/**']
+  pull_request:
+    paths: ['sdk/js/**', 'protocol/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install
+        run: cd sdk/js && npm ci
+      - name: Typecheck
+        run: cd sdk/js && npx tsc --noEmit
+      - name: Test
+        run: cd sdk/js && npx vitest run

@@ -1,0 +1,83 @@
+{
+  "name": "graft-js",
+  "version": "0.1.0",
+  "description": "GRAFT protocol SDK for JavaScript/TypeScript — host-side hardware control",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./transports/serial": {
+      "types": "./dist/transports/serial.d.ts",
+      "import": "./dist/transports/serial.js"
+    },
+    "./transports/web-serial": {
+      "types": "./dist/transports/web-serial.d.ts",
+      "import": "./dist/transports/web-serial.js"
+    },
+    "./transports/ble": {
+      "types": "./dist/transports/ble.d.ts",
+      "import": "./dist/transports/ble.js"
+    },
+    "./transports/mqtt": {
+      "types": "./dist/transports/mqtt.d.ts",
+      "import": "./dist/transports/mqtt.js"
+    },
+    "./transports/clasp": {
+      "types": "./dist/transports/clasp.d.ts",
+      "import": "./dist/transports/clasp.js"
+    },
+    "./transports/websocket": {
+      "types": "./dist/transports/websocket.d.ts",
+      "import": "./dist/transports/websocket.js"
+    },
+    "./transports/mock": {
+      "types": "./dist/transports/mock.d.ts",
+      "import": "./dist/transports/mock.js"
+    },
+    "./modules/servo": {
+      "types": "./dist/modules/servo.d.ts",
+      "import": "./dist/modules/servo.js"
+    },
+    "./modules/neopixel": {
+      "types": "./dist/modules/neopixel.d.ts",
+      "import": "./dist/modules/neopixel.js"
+    },
+    "./modules/encoder": {
+      "types": "./dist/modules/encoder.d.ts",
+      "import": "./dist/modules/encoder.js"
+    },
+    "./modules/oled": {
+      "types": "./dist/modules/oled.d.ts",
+      "import": "./dist/modules/oled.js"
+    },
+    "./modules/stepper": {
+      "types": "./dist/modules/stepper.d.ts",
+      "import": "./dist/modules/stepper.js"
+    },
+    "./modules/dht": {
+      "types": "./dist/modules/dht.d.ts",
+      "import": "./dist/modules/dht.js"
+    },
+    "./modules/pid": {
+      "types": "./dist/modules/pid.d.ts",
+      "import": "./dist/modules/pid.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

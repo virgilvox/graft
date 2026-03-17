@@ -1,0 +1,114 @@
+{
+  "description": "GRAFT wire format conformance vectors",
+  "version": 1,
+  "vectors": [
+    {
+      "name": "PING (no payload)",
+      "type": 1,
+      "seq": 0,
+      "payload_hex": ""
+    },
+    {
+      "name": "HELLO (no payload)",
+      "type": 2,
+      "seq": 1,
+      "payload_hex": ""
+    },
+    {
+      "name": "PIN_MODE: pin 13 output",
+      "type": 16,
+      "seq": 5,
+      "payload_hex": "0d01"
+    },
+    {
+      "name": "PIN_WRITE: pin 13 high",
+      "type": 17,
+      "seq": 10,
+      "payload_hex": "0d01"
+    },
+    {
+      "name": "PIN_READ: pin 0 analog",
+      "type": 18,
+      "seq": 15,
+      "payload_hex": "0003"
+    },
+    {
+      "name": "I2C_WRITE: addr 0x3C data",
+      "type": 32,
+      "seq": 20,
+      "payload_hex": "3c0102"
+    },
+    {
+      "name": "I2C_READ: addr 0x3C count 4",
+      "type": 33,
+      "seq": 21,
+      "payload_hex": "3c04"
+    },
+    {
+      "name": "SPI_XFER: cs pin 10, data",
+      "type": 48,
+      "seq": 30,
+      "payload_hex": "0aff00ff"
+    },
+    {
+      "name": "MOD_CMD: module 0 cmd 1 (servo attach)",
+      "type": 64,
+      "seq": 40,
+      "payload_hex": "000109"
+    },
+    {
+      "name": "DS_WRITE: index 0, float 22.5",
+      "type": 96,
+      "seq": 50,
+      "payload_hex": "000000b441"
+    },
+    {
+      "name": "RESET (no payload)",
+      "type": 240,
+      "seq": 255,
+      "payload_hex": ""
+    },
+    {
+      "name": "PONG event",
+      "type": 128,
+      "seq": 0,
+      "payload_hex": ""
+    },
+    {
+      "name": "ACK event",
+      "type": 130,
+      "seq": 5,
+      "payload_hex": ""
+    },
+    {
+      "name": "NAK with INVALID_PIN",
+      "type": 131,
+      "seq": 5,
+      "payload_hex": "04"
+    },
+    {
+      "name": "PIN_READ_RESP: pin 0, value 1023",
+      "type": 145,
+      "seq": 15,
+      "payload_hex": "00ff03"
+    },
+    {
+      "name": "MOD_RESP: module 0, data",
+      "type": 193,
+      "seq": 40,
+      "payload_hex": "002a000000"
+    },
+    {
+      "name": "Empty payload roundtrip",
+      "type": 1,
+      "seq": 127,
+      "payload_hex": ""
+    },
+    {
+      "name": "Max seq roundtrip",
+      "type": 130,
+      "seq": 255,
+      "payload_hex": ""
+    }
+  ]
+}
