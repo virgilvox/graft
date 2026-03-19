@@ -9,9 +9,9 @@ dependencies = []
 keywords = ["graft", "iot", "hardware", "serial", "mqtt", "microcontroller", "binary-protocol"]
 
 [project.urls]
-Homepage = "https://graft.io"
-Repository = "https://github.com/lumencanvas/graft"
-Issues = "https://github.com/lumencanvas/graft/issues"
+Homepage = "https://github.com/virgilvox/graft"
+Repository = "https://github.com/virgilvox/graft"
+Issues = "https://github.com/virgilvox/graft/issues"
 
 [project.optional-dependencies]
 serial = ["pyserial-asyncio>=0.6"]

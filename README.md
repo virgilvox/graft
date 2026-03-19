@@ -1,12 +1,12 @@
 # GRAFT
 
-[![Firmware CI](https://github.com/lumencanvas/graft/actions/workflows/firmware-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/firmware-ci.yml)
-[![JS CI](https://github.com/lumencanvas/graft/actions/workflows/js-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/js-ci.yml)
-[![Python CI](https://github.com/lumencanvas/graft/actions/workflows/py-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/py-ci.yml)
-[![Go CI](https://github.com/lumencanvas/graft/actions/workflows/go-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/go-ci.yml)
-[![Rust CI](https://github.com/lumencanvas/graft/actions/workflows/rust-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/rust-ci.yml)
-[![Swift CI](https://github.com/lumencanvas/graft/actions/workflows/swift-ci.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/swift-ci.yml)
-[![Conformance](https://github.com/lumencanvas/graft/actions/workflows/conformance.yml/badge.svg)](https://github.com/lumencanvas/graft/actions/workflows/conformance.yml)
+[![Firmware CI](https://github.com/virgilvox/graft/actions/workflows/firmware-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/firmware-ci.yml)
+[![JS CI](https://github.com/virgilvox/graft/actions/workflows/js-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/js-ci.yml)
+[![Python CI](https://github.com/virgilvox/graft/actions/workflows/py-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/py-ci.yml)
+[![Go CI](https://github.com/virgilvox/graft/actions/workflows/go-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/go-ci.yml)
+[![Rust CI](https://github.com/virgilvox/graft/actions/workflows/rust-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/rust-ci.yml)
+[![Swift CI](https://github.com/virgilvox/graft/actions/workflows/swift-ci.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/swift-ci.yml)
+[![Conformance](https://github.com/virgilvox/graft/actions/workflows/conformance.yml/badge.svg)](https://github.com/virgilvox/graft/actions/workflows/conformance.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Open binary protocol for host-to-device hardware control.
@@ -123,7 +123,7 @@ graft/
 
 ## Documentation
 
-Full documentation at [graft.io](https://graft.io).
+Full documentation at [github.com/virgilvox/graft](https://github.com/virgilvox/graft).
 
 ## Contributing
 

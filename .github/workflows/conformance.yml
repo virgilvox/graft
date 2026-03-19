@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: cd sdk/python && pip install -e .
+      - run: cd sdk/python && pip install -e ".[all]" pytest pytest-asyncio
       - run: cd sdk/python && python -m pytest tests/test_conformance.py -v
 
   go:

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "src/transports/ble.ts",
+    "src/transports/web-serial.ts",
+    "src/transports/serial.ts",
+    "src/transports/mqtt.ts"
+  ]
+}

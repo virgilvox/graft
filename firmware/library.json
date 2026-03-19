@@ -5,7 +5,7 @@
   "keywords": ["iot", "protocol", "hardware", "serial", "mqtt", "ble", "firmware"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lumencanvas/graft"
+    "url": "https://github.com/virgilvox/graft"
   },
   "authors": [
     {
@@ -14,7 +14,7 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://graft.io",
+  "homepage": "https://github.com/virgilvox/graft",
   "frameworks": ["arduino"],
   "platforms": "*",
   "build": {

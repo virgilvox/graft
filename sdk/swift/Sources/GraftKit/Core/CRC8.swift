@@ -1,3 +1,5 @@
+import Foundation
+
 /// CRC8 Dallas/Maxim (polynomial 0x31, init 0x00)
 public enum CRC8 {
     private static let table: [UInt8] = [

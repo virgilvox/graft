@@ -20,6 +20,6 @@ jobs:
       - name: Install
         run: cd sdk/js && npm ci
       - name: Typecheck
-        run: cd sdk/js && npx tsc --noEmit
+        run: cd sdk/js && npx tsc --noEmit -p tsconfig.check.json
       - name: Test
         run: cd sdk/js && npx vitest run

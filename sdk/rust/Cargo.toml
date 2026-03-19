@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 description = "GRAFT protocol SDK for Rust — host-side hardware control"
 license = "MIT"
-repository = "https://github.com/lumencanvas/graft"
-homepage = "https://graft.io"
+repository = "https://github.com/virgilvox/graft"
+homepage = "https://github.com/virgilvox/graft"
 keywords = ["iot", "hardware", "protocol", "serial", "embedded"]
 categories = ["embedded", "hardware-support", "network-programming"]
 
