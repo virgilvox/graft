@@ -1,0 +1,26 @@
+{
+  "name": "conduyt-wasm",
+  "version": "0.1.0",
+  "description": "CONDUYT protocol core compiled to WebAssembly",
+  "type": "module",
+  "main": "js/index.mjs",
+  "types": "js/index.d.ts",
+  "files": [
+    "pkg/",
+    "js/"
+  ],
+  "scripts": {
+    "build": "wasm-pack build --target web --release --out-dir pkg",
+    "test": "node --test tests/node.test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virgilvox/conduyt",
+    "directory": "sdk/wasm"
+  },
+  "keywords": ["conduyt", "wasm", "webassembly", "iot", "hardware", "binary-protocol"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

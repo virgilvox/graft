@@ -6,6 +6,7 @@
 [![Go CI](https://github.com/virgilvox/conduyt/actions/workflows/go-ci.yml/badge.svg)](https://github.com/virgilvox/conduyt/actions/workflows/go-ci.yml)
 [![Rust CI](https://github.com/virgilvox/conduyt/actions/workflows/rust-ci.yml/badge.svg)](https://github.com/virgilvox/conduyt/actions/workflows/rust-ci.yml)
 [![Swift CI](https://github.com/virgilvox/conduyt/actions/workflows/swift-ci.yml/badge.svg)](https://github.com/virgilvox/conduyt/actions/workflows/swift-ci.yml)
+[![WASM CI](https://github.com/virgilvox/conduyt/actions/workflows/wasm-ci.yml/badge.svg)](https://github.com/virgilvox/conduyt/actions/workflows/wasm-ci.yml)
 [![Conformance](https://github.com/virgilvox/conduyt/actions/workflows/conformance.yml/badge.svg)](https://github.com/virgilvox/conduyt/actions/workflows/conformance.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 

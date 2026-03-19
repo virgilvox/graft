@@ -18,5 +18,5 @@ pub mod device;
 pub mod modules;
 
 pub use crc8::crc8;
-pub use wire::{Packet, wire_encode, wire_decode, make_packet};
+pub use wire::{Packet, wire_encode, wire_decode, make_packet, wire_find_packet};
 pub use constants::*;

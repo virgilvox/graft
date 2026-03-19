@@ -1,0 +1,40 @@
+name: WASM CI
+
+on:
+  push:
+    paths: ['sdk/wasm/**', 'sdk/rust/**', 'protocol/**', '.github/workflows/wasm-ci.yml']
+  pull_request:
+    paths: ['sdk/wasm/**', 'sdk/rust/**', 'protocol/**', '.github/workflows/wasm-ci.yml']
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build
+        working-directory: sdk/wasm
+        run: wasm-pack build --target web --release --out-dir pkg
+      - name: Check WASM size
+        working-directory: sdk/wasm
+        run: |
+          SIZE=$(wc -c < pkg/conduyt_wasm_bg.wasm)
+          GZIP=$(gzip -c pkg/conduyt_wasm_bg.wasm | wc -c)
+          echo "Raw: ${SIZE} bytes, Gzipped: ${GZIP} bytes"
+          if [ "$GZIP" -gt 15360 ]; then
+            echo "::error::WASM exceeds 15KB gzipped limit (${GZIP} bytes)"
+            exit 1
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Node.js tests
+        working-directory: sdk/wasm
+        run: node --test tests/node.test.mjs
+      - name: Clippy
+        working-directory: sdk/wasm
+        run: cargo clippy --target wasm32-unknown-unknown -- -D warnings

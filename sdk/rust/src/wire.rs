@@ -113,6 +113,37 @@ pub fn make_packet(pkt_type: u8, seq: u8, payload: &[u8]) -> Packet {
     }
 }
 
+/// Scan a byte buffer for the first complete, valid CONDUYT packet.
+/// Returns `(decoded_packet, bytes_consumed)` or `None`.
+pub fn wire_find_packet(buf: &[u8]) -> Option<(Packet, usize)> {
+    let len = buf.len();
+    if len < HEADER_SIZE {
+        return None;
+    }
+
+    for i in 0..=len - HEADER_SIZE {
+        if buf[i] != MAGIC[0] || buf[i + 1] != MAGIC[1] {
+            continue;
+        }
+
+        if i + 7 > len {
+            return None;
+        }
+        let payload_len = u16::from_le_bytes([buf[i + 5], buf[i + 6]]) as usize;
+        let total = HEADER_SIZE + payload_len;
+
+        if i + total > len {
+            return None; // incomplete, need more data
+        }
+
+        match wire_decode(&buf[i..i + total]) {
+            Ok(pkt) => return Some((pkt, i + total)),
+            Err(_) => continue,
+        }
+    }
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -153,5 +184,41 @@ mod tests {
         let mut enc = wire_encode(&pkt);
         enc[7] ^= 0xFF;
         assert!(wire_decode(&enc).is_err());
+    }
+
+    #[test]
+    fn find_packet_at_start() {
+        let pkt = make_packet(0x01, 5, &[]);
+        let enc = wire_encode(&pkt);
+        let result = wire_find_packet(&enc).unwrap();
+        assert_eq!(result.0.pkt_type, 0x01);
+        assert_eq!(result.0.seq, 5);
+        assert_eq!(result.1, enc.len());
+    }
+
+    #[test]
+    fn find_packet_with_leading_garbage() {
+        let pkt = make_packet(0x01, 3, &[0xAA]);
+        let enc = wire_encode(&pkt);
+        let mut buf = vec![0xFF, 0xFE, 0xFD];
+        buf.extend_from_slice(&enc);
+        let result = wire_find_packet(&buf).unwrap();
+        assert_eq!(result.0.pkt_type, 0x01);
+        assert_eq!(result.0.seq, 3);
+        assert_eq!(result.0.payload, &[0xAA]);
+        assert_eq!(result.1, 3 + enc.len());
+    }
+
+    #[test]
+    fn find_packet_incomplete_returns_none() {
+        let pkt = make_packet(0x01, 0, &[1, 2, 3]);
+        let enc = wire_encode(&pkt);
+        // Truncate to simulate incomplete data
+        assert!(wire_find_packet(&enc[..enc.len() - 1]).is_none());
+    }
+
+    #[test]
+    fn find_packet_no_magic_returns_none() {
+        assert!(wire_find_packet(&[0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]).is_none());
     }
 }

@@ -15,3 +15,5 @@ build/
 .output/
 coverage/
 sdk/rust/target/
+sdk/wasm/target/
+sdk/wasm/pkg/
