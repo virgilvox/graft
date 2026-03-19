@@ -780,7 +780,7 @@ void ConduytDevice::buildHelloResp() {
             if (digitalPinHasPWM(p)) caps |= CONDUYT_PIN_CAP_PWM_OUT;
     #endif
     /* Mark interrupt-capable pins */
-    #if defined(digitalPinToInterrupt)
+    #if defined(digitalPinToInterrupt) && defined(NOT_AN_INTERRUPT)
             if (digitalPinToInterrupt(p) != NOT_AN_INTERRUPT) caps |= CONDUYT_PIN_CAP_INTERRUPT;
     #endif
 #endif
