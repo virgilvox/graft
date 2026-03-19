@@ -147,6 +147,8 @@ pub fn wire_find_packet(buf: &[u8]) -> Option<(Packet, usize)> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    extern crate alloc;
+    use alloc::vec;
 
     #[test]
     fn ping_roundtrip() {
