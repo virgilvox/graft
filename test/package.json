@@ -1,0 +1,15 @@
+{
+  "name": "conduyt-hardware-tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test-device.mjs",
+    "test:wasm": "node --test test-wasm-serial.mjs",
+    "test:all": "node --test test-device.mjs test-wasm-serial.mjs"
+  },
+  "dependencies": {
+    "serialport": "^12.0.0",
+    "conduyt-wasm": "^0.1.0"
+  }
+}

@@ -1,0 +1,110 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build-firmware:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - board: esp32dev
+            name: esp32
+          - board: uno
+            name: uno-r3
+          - board: uno_r4_minima
+            name: uno-r4-minima
+          - board: pico
+            name: pico
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-release-${{ matrix.board }}-${{ hashFiles('firmware/platformio.ini') }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install platformio
+      - name: Build ${{ matrix.name }}
+        working-directory: firmware
+        run: pio ci --board=${{ matrix.board }} examples/BasicBlink/BasicBlink.ino --lib=src --build-dir=.pio/ci-build
+      - name: Collect binaries
+        run: |
+          mkdir -p release-artifacts
+          # Find all firmware binaries and copy with board-prefixed names
+          find firmware/.pio/ci-build -name "firmware.*" | while read f; do
+            ext="${f##*.}"
+            cp "$f" "release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+          done
+          ls -la release-artifacts/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ matrix.name }}
+          path: release-artifacts/
+
+  build-library-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Arduino library zip
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p Conduyt
+          cp -r firmware/src firmware/examples firmware/library.properties firmware/library.json Conduyt/
+          zip -r "Conduyt-${VERSION}.zip" Conduyt/
+          echo "ZIP_NAME=Conduyt-${VERSION}.zip" >> $GITHUB_ENV
+      - uses: actions/upload-artifact@v4
+        with:
+          name: library-zip
+          path: "*.zip"
+
+  build-wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build WASM
+        working-directory: sdk/wasm
+        run: wasm-pack build --target web --release --out-dir pkg
+      - name: Publish conduyt-wasm to npm
+        working-directory: sdk/wasm/pkg
+        run: npm publish --access public || echo "Version already published"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  create-release:
+    needs: [build-firmware, build-library-zip]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: List artifacts
+        run: find artifacts -type f | sort
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+
+          # Collect all release files
+          mkdir -p release-files
+          find artifacts -type f \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.zip" \) -exec cp {} release-files/ \;
+          ls -la release-files/
+
+          # Create release with all files
+          gh release create "$VERSION" release-files/* \
+            --title "CONDUYT $VERSION" \
+            --generate-notes
