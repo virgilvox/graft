@@ -1,5 +1,7 @@
 # conduyt-js
 
+[![npm](https://img.shields.io/npm/v/conduyt-js)](https://www.npmjs.com/package/conduyt-js)
+
 CONDUYT protocol SDK for JavaScript and TypeScript. Host-side hardware control over Serial, BLE, MQTT, WebSocket, or TCP.
 
 ## Install

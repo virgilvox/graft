@@ -81,10 +81,10 @@ await device.disconnect()
 
 | Language | Package | Install | Status |
 |----------|---------|---------|--------|
-| JavaScript/TypeScript | `conduyt-js` | `npm install conduyt-js` | v0.1.0 |
-| Python | `conduyt-py` | `pip install conduyt-py` | v0.1.0 |
-| Go | `conduyt-go` | `go get github.com/conduyt-io/conduyt-go` | v0.1.0 |
-| Rust | `conduyt` | `cargo add conduyt` | v0.1.0 |
+| JavaScript/TypeScript | [`conduyt-js`](https://www.npmjs.com/package/conduyt-js) | `npm install conduyt-js` | v0.1.0 |
+| Python | [`conduyt-py`](https://pypi.org/project/conduyt-py/) | `pip install conduyt-py` | v0.1.0 |
+| Go | [`conduyt/sdk/go`](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | `go get github.com/virgilvox/conduyt/sdk/go` | v0.1.0 |
+| Rust | [`conduyt`](https://crates.io/crates/conduyt) | `cargo add conduyt` | v0.1.0 |
 | Swift | `ConduytKit` | Swift Package Manager | v0.1.0 |
 
 ## Wire Format

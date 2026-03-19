@@ -56,8 +56,8 @@ await device.pin(13).write(1)  // LED on
 | SDK | Language | Install |
 |---|---|---|
 | conduyt-firmware | Arduino / C++ | `#include <Conduyt.h>` |
-| conduyt-js | JavaScript / TypeScript | `npm install conduyt-js` |
-| conduyt-py | Python 3.10+ | `pip install conduyt-py` |
-| conduyt-go | Go | `go get github.com/conduyt-io/conduyt-go` |
-| conduyt-rs | Rust | `cargo add conduyt` |
-| ConduytKit | Swift | `.package(url: "github.com/conduyt-io/ConduytKit")` |
+| [conduyt-js](https://www.npmjs.com/package/conduyt-js) | JavaScript / TypeScript | `npm install conduyt-js` |
+| [conduyt-py](https://pypi.org/project/conduyt-py/) | Python 3.10+ | `pip install conduyt-py` |
+| [conduyt/sdk/go](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | Go | `go get github.com/virgilvox/conduyt/sdk/go` |
+| [conduyt](https://crates.io/crates/conduyt) | Rust | `cargo add conduyt` |
+| ConduytKit | Swift | `.package(url: "https://github.com/virgilvox/conduyt")` |

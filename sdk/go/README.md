@@ -5,7 +5,7 @@ CONDUYT protocol SDK for Go. Host-side hardware control with goroutine-based rec
 ## Install
 
 ```bash
-go get github.com/conduyt-io/conduyt-go
+go get github.com/virgilvox/conduyt/sdk/go
 ```
 
 ## Quick Start
@@ -17,8 +17,8 @@ import (
     "context"
     "fmt"
 
-    conduyt "github.com/conduyt-io/conduyt-go"
-    "github.com/conduyt-io/conduyt-go/transports"
+    conduyt "github.com/virgilvox/conduyt/sdk/go"
+    "github.com/virgilvox/conduyt/sdk/go/transports"
 )
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 ### Module Usage
 
 ```go
-import "github.com/conduyt-io/conduyt-go/modules/servo"
+import "github.com/virgilvox/conduyt/sdk/go/modules/servo"
 
 s := servo.New(device)
 s.Attach(ctx, 9)

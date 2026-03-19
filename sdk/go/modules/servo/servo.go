@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/binary"
 
-	conduyt "github.com/conduyt-io/conduyt-go"
+	conduyt "github.com/virgilvox/conduyt/sdk/go"
 )
 
 // Servo provides typed control of a servo module.

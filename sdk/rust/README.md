@@ -1,5 +1,7 @@
 # conduyt
 
+[![crates.io](https://img.shields.io/crates/v/conduyt)](https://crates.io/crates/conduyt)
+
 CONDUYT protocol SDK for Rust. `no_std` core with optional `std` device client.
 
 ## Install

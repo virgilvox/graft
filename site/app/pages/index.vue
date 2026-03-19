@@ -218,7 +218,7 @@ print(f"sensor: {value}")`,
   {
     name: 'Go',
     langId: 'go',
-    pkg: 'go get github.com/conduyt-io/conduyt-go',
+    pkg: 'go get github.com/virgilvox/conduyt/sdk/go',
     code: `device := conduyt.NewDevice(transport)
 hello, _ := device.Connect(ctx)
 
@@ -247,7 +247,7 @@ const sdks = [
   { name: 'conduyt-firmware', lang: 'Arduino / C++', install: '#include <Conduyt.h>', link: '/docs/getting-started/quick-start-arduino' },
   { name: 'conduyt-js', lang: 'JavaScript / TypeScript', install: 'npm install conduyt-js', link: '/docs/getting-started/quick-start-js' },
   { name: 'conduyt-py', lang: 'Python 3.10+', install: 'pip install conduyt-py', link: '/docs/getting-started/quick-start-python' },
-  { name: 'conduyt-go', lang: 'Go', install: 'go get github.com/conduyt-io/conduyt-go', link: '/docs/sdk-guides/javascript' },
+  { name: 'conduyt-go', lang: 'Go', install: 'go get github.com/virgilvox/conduyt/sdk/go', link: '/docs/sdk-guides/javascript' },
   { name: 'conduyt', lang: 'Rust (no_std core)', install: 'cargo add conduyt', link: '/docs/sdk-guides/javascript' },
   { name: 'ConduytKit', lang: 'Swift (iOS / macOS)', install: 'Swift Package Manager', link: '/docs/sdk-guides/javascript' },
 ]

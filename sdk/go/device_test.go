@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/conduyt-io/conduyt-go/transports"
+	"github.com/virgilvox/conduyt/sdk/go/transports"
 )
 
 // makeHelloRespPayload builds a binary HELLO_RESP payload for testing.

@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/conduyt-io/conduyt-go/transports"
+	"github.com/virgilvox/conduyt/sdk/go/transports"
 )
 
 // Device is a high-level CONDUYT device client.

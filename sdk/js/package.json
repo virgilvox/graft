@@ -86,7 +86,9 @@
       "import": "./dist/modules/pid.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
@@ -95,6 +97,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/w3c-web-serial": "^1.0.8",
     "@types/web-bluetooth": "^0.0.21",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"

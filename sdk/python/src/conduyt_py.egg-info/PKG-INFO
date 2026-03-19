@@ -1,6 +1,23 @@
-# conduyt-py
+Metadata-Version: 2.4
+Name: conduyt-py
+Version: 0.1.0
+Summary: CONDUYT protocol SDK for Python — host-side hardware control
+License: MIT
+Project-URL: Homepage, https://github.com/virgilvox/conduyt
+Project-URL: Repository, https://github.com/virgilvox/conduyt
+Project-URL: Issues, https://github.com/virgilvox/conduyt/issues
+Keywords: conduyt,iot,hardware,serial,mqtt,microcontroller,binary-protocol
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Provides-Extra: serial
+Requires-Dist: pyserial-asyncio>=0.6; extra == "serial"
+Provides-Extra: mqtt
+Requires-Dist: aiomqtt>=2.0; extra == "mqtt"
+Provides-Extra: all
+Requires-Dist: pyserial-asyncio>=0.6; extra == "all"
+Requires-Dist: aiomqtt>=2.0; extra == "all"
 
-[![PyPI](https://img.shields.io/pypi/v/conduyt-py)](https://pypi.org/project/conduyt-py/)
+# conduyt-py
 
 CONDUYT protocol SDK for Python. Async and sync APIs for host-side hardware control.
 
