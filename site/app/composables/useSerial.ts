@@ -24,8 +24,9 @@ export function useSerial() {
 
   async function loadWasm() {
     if (wasm) return wasm
-    wasm = await import('conduyt-wasm')
-    await wasm.ensureInit()
+    const mod = await import('conduyt-wasm')
+    await mod.default()
+    wasm = mod
     return wasm
   }
 

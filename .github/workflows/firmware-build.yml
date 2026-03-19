@@ -1,0 +1,39 @@
+name: Firmware Build
+
+on:
+  push:
+    branches: [main]
+    paths: ['firmware/**']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - env: esp32dev
+            name: ESP32
+          - env: uno
+            name: Arduino Uno
+          - env: pico
+            name: Raspberry Pi Pico
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ matrix.env }}-${{ hashFiles('firmware/platformio.ini') }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install platformio
+      - name: Build ${{ matrix.name }}
+        working-directory: firmware
+        run: pio run -e ${{ matrix.env }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ matrix.env }}
+          path: firmware/.pio/build/${{ matrix.env }}/*.bin
+          if-no-files-found: warn
