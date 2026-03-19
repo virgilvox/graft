@@ -2,9 +2,9 @@ name: Rust CI
 
 on:
   push:
-    paths: ['sdk/rust/**', 'protocol/**']
+    paths: ['sdk/rust/**', 'protocol/**', '.github/workflows/rust-ci.yml']
   pull_request:
-    paths: ['sdk/rust/**', 'protocol/**']
+    paths: ['sdk/rust/**', 'protocol/**', '.github/workflows/rust-ci.yml']
 
 jobs:
   test:

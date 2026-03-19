@@ -2,9 +2,9 @@ name: JS SDK CI
 
 on:
   push:
-    paths: ['sdk/js/**', 'protocol/**']
+    paths: ['sdk/js/**', 'protocol/**', '.github/workflows/js-ci.yml']
   pull_request:
-    paths: ['sdk/js/**', 'protocol/**']
+    paths: ['sdk/js/**', 'protocol/**', '.github/workflows/js-ci.yml']
 
 jobs:
   test:

@@ -2,9 +2,9 @@ name: Firmware CI
 
 on:
   push:
-    paths: ['firmware/**', 'protocol/**']
+    paths: ['firmware/**', 'protocol/**', '.github/workflows/firmware-ci.yml']
   pull_request:
-    paths: ['firmware/**', 'protocol/**']
+    paths: ['firmware/**', 'protocol/**', '.github/workflows/firmware-ci.yml']
 
 jobs:
   desktop-tests:

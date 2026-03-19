@@ -2,9 +2,9 @@ name: Conformance
 
 on:
   push:
-    paths: ['protocol/**', 'conformance/**', 'sdk/**']
+    paths: ['protocol/**', 'conformance/**', 'sdk/**', '.github/workflows/conformance.yml']
   pull_request:
-    paths: ['protocol/**', 'conformance/**', 'sdk/**']
+    paths: ['protocol/**', 'conformance/**', 'sdk/**', '.github/workflows/conformance.yml']
 
 jobs:
   js:

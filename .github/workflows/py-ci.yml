@@ -2,9 +2,9 @@ name: Python SDK CI
 
 on:
   push:
-    paths: ['sdk/python/**', 'protocol/**']
+    paths: ['sdk/python/**', 'protocol/**', '.github/workflows/py-ci.yml']
   pull_request:
-    paths: ['sdk/python/**', 'protocol/**']
+    paths: ['sdk/python/**', 'protocol/**', '.github/workflows/py-ci.yml']
 
 jobs:
   test:

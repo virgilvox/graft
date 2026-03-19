@@ -2,9 +2,9 @@ name: Swift CI
 
 on:
   push:
-    paths: ['sdk/swift/**', 'protocol/**']
+    paths: ['sdk/swift/**', 'protocol/**', '.github/workflows/swift-ci.yml']
   pull_request:
-    paths: ['sdk/swift/**', 'protocol/**']
+    paths: ['sdk/swift/**', 'protocol/**', '.github/workflows/swift-ci.yml']
 
 jobs:
   test:

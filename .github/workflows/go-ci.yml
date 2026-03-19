@@ -2,9 +2,9 @@ name: Go CI
 
 on:
   push:
-    paths: ['sdk/go/**', 'protocol/**']
+    paths: ['sdk/go/**', 'protocol/**', '.github/workflows/go-ci.yml']
   pull_request:
-    paths: ['sdk/go/**', 'protocol/**']
+    paths: ['sdk/go/**', 'protocol/**', '.github/workflows/go-ci.yml']
 
 jobs:
   test:
