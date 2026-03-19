@@ -47,45 +47,43 @@ const mobileNav = useMobileNav()
 
 const navGroups = [
   {
-    title: 'Getting Started',
+    title: 'Tutorials',
     items: [
-      { path: '/docs/getting-started/introduction', title: 'Introduction' },
-      { path: '/docs/getting-started/quick-start-arduino', title: 'Quick Start: Arduino' },
-      { path: '/docs/getting-started/quick-start-js', title: 'Quick Start: JavaScript' },
-      { path: '/docs/getting-started/quick-start-python', title: 'Quick Start: Python' },
+      { path: '/docs/tutorials/what-is-conduyt', title: 'What is Conduyt?' },
+      { path: '/docs/tutorials/first-blink', title: 'First Blink' },
+      { path: '/docs/tutorials/sensor-dashboard', title: 'Sensor Dashboard' },
     ],
   },
   {
-    title: 'Protocol',
+    title: 'How-To Guides',
     items: [
-      { path: '/docs/protocol/packet-structure', title: 'Packet Structure' },
-      { path: '/docs/protocol/packet-types', title: 'Packet Types' },
-      { path: '/docs/protocol/hello-resp', title: 'HELLO_RESP' },
-      { path: '/docs/protocol/datastreams', title: 'Datastreams' },
-      { path: '/docs/protocol/error-codes', title: 'Error Codes' },
+      { path: '/docs/how-to/connect-serial', title: 'Connect over Serial' },
+      { path: '/docs/how-to/connect-mqtt', title: 'Connect over MQTT' },
+      { path: '/docs/how-to/connect-ble', title: 'Connect over BLE' },
+      { path: '/docs/how-to/add-module', title: 'Add a Firmware Module' },
+      { path: '/docs/how-to/use-datastreams', title: 'Use Datastreams' },
+      { path: '/docs/how-to/broker-setup', title: 'Set Up MQTT Broker' },
     ],
   },
   {
-    title: 'Firmware',
+    title: 'Reference',
     items: [
-      { path: '/docs/firmware/device-setup', title: 'Device Setup' },
-      { path: '/docs/firmware/transport-adapters', title: 'Transport Adapters' },
-      { path: '/docs/firmware/module-system', title: 'Module System' },
-      { path: '/docs/firmware/built-in-modules', title: 'Built-in Modules' },
+      { path: '/docs/reference/packet-structure', title: 'Packet Structure' },
+      { path: '/docs/reference/packet-types', title: 'Packet Types' },
+      { path: '/docs/reference/hello-resp', title: 'HELLO_RESP' },
+      { path: '/docs/reference/error-codes', title: 'Error Codes' },
+      { path: '/docs/reference/datastream-types', title: 'Datastream Types' },
+      { path: '/docs/reference/firmware-api', title: 'Firmware API' },
+      { path: '/docs/reference/js-api', title: 'JavaScript API' },
+      { path: '/docs/reference/python-api', title: 'Python API' },
     ],
   },
   {
-    title: 'SDK Guides',
+    title: 'Concepts',
     items: [
-      { path: '/docs/sdk-guides/javascript', title: 'JavaScript / TypeScript' },
-      { path: '/docs/sdk-guides/python', title: 'Python' },
-    ],
-  },
-  {
-    title: 'IoT',
-    items: [
-      { path: '/docs/iot/mqtt-schema', title: 'MQTT Schema' },
-      { path: '/docs/iot/broker-setup', title: 'Broker Setup' },
+      { path: '/docs/concepts/why-binary', title: 'Why Binary' },
+      { path: '/docs/concepts/transport-architecture', title: 'Transport Architecture' },
+      { path: '/docs/concepts/capability-model', title: 'The Capability Model' },
     ],
   },
 ]

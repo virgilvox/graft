@@ -8,7 +8,7 @@
           <h1 class="hero-title">CONDUYT</h1>
           <p class="hero-sub">Control any microcontroller from any language. One protocol, every transport.</p>
           <div class="hero-cta">
-            <a href="/docs/getting-started/introduction" class="btn-primary">Get Started</a>
+            <a href="/docs/tutorials/what-is-conduyt" class="btn-primary">Get Started</a>
             <a href="https://github.com/virgilvox/conduyt" class="btn-secondary">GitHub</a>
           </div>
         </div>
@@ -133,9 +133,9 @@
           <div class="footer-meta">MIT License / LumenCanvas</div>
         </div>
         <div class="footer-links">
-          <a href="/docs/getting-started/introduction">Docs</a>
-          <a href="/docs/protocol/packet-structure">Protocol</a>
-          <a href="/docs/firmware/module-system">Modules</a>
+          <a href="/docs/tutorials/first-blink">Docs</a>
+          <a href="/docs/reference/packet-structure">Protocol</a>
+          <a href="/docs/reference/firmware-api">Firmware</a>
           <a href="https://github.com/virgilvox/conduyt">GitHub</a>
         </div>
       </div>
@@ -244,12 +244,12 @@ println!("sensor: {}", value);`,
 ]
 
 const sdks = [
-  { name: 'conduyt-firmware', lang: 'Arduino / C++', install: '#include <Conduyt.h>', link: '/docs/getting-started/quick-start-arduino' },
-  { name: 'conduyt-js', lang: 'JavaScript / TypeScript', install: 'npm install conduyt-js', link: '/docs/getting-started/quick-start-js' },
-  { name: 'conduyt-py', lang: 'Python 3.10+', install: 'pip install conduyt-py', link: '/docs/getting-started/quick-start-python' },
-  { name: 'conduyt-go', lang: 'Go', install: 'go get github.com/virgilvox/conduyt/sdk/go', link: '/docs/sdk-guides/javascript' },
-  { name: 'conduyt', lang: 'Rust (no_std core)', install: 'cargo add conduyt', link: '/docs/sdk-guides/javascript' },
-  { name: 'ConduytKit', lang: 'Swift (iOS / macOS)', install: 'Swift Package Manager', link: '/docs/sdk-guides/javascript' },
+  { name: 'conduyt-firmware', lang: 'Arduino / C++', install: '#include <Conduyt.h>', link: '/docs/reference/firmware-api' },
+  { name: 'conduyt-js', lang: 'JavaScript / TypeScript', install: 'npm install conduyt-js', link: '/docs/reference/js-api' },
+  { name: 'conduyt-py', lang: 'Python 3.10+', install: 'pip install conduyt-py', link: '/docs/reference/python-api' },
+  { name: 'conduyt-go', lang: 'Go', install: 'go get github.com/virgilvox/conduyt/sdk/go', link: '/docs/tutorials/first-blink' },
+  { name: 'conduyt', lang: 'Rust (no_std core)', install: 'cargo add conduyt', link: '/docs/tutorials/first-blink' },
+  { name: 'ConduytKit', lang: 'Swift (iOS / macOS)', install: 'Swift Package Manager', link: '/docs/tutorials/first-blink' },
 ]
 </script>
 
