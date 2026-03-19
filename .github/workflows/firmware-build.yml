@@ -16,7 +16,9 @@ jobs:
           - board: esp32dev
             name: ESP32
           - board: uno
-            name: Arduino Uno
+            name: Arduino Uno R3
+          - board: uno_r4_minima
+            name: Arduino Uno R4 Minima
           - board: pico
             name: Raspberry Pi Pico
     steps:

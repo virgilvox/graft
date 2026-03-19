@@ -32,6 +32,7 @@
       </div>
 
       <div class="flash-action">
+        <!-- ESP32: esp-web-tools -->
         <div v-if="selectedBoard === 'esp32'" class="esp-flash">
           <ClientOnly>
             <esp-web-install-button
@@ -56,16 +57,34 @@
           </ClientOnly>
         </div>
 
-        <div v-else-if="selectedBoard === 'uno'" class="avr-flash">
-          <button class="flash-btn" @click="flashArduino" :disabled="flashing">
-            {{ flashing ? 'Flashing...' : 'Flash Arduino Uno' }}
+        <!-- Uno R4: WebUSB DFU -->
+        <div v-else-if="selectedBoard === 'uno_r4'" class="dfu-flash">
+          <button class="flash-btn" @click="flashDFU" :disabled="flashing">
+            {{ flashStatus }}
           </button>
           <p class="flash-note">
-            Arduino flashing uses WebSerial (alpha support).
+            <strong>Double-tap RESET</strong> on your Uno R4 to enter DFU mode
+            (the "L" LED will pulse), then click Flash.
+            Uses WebUSB — Chrome or Edge required.
+          </p>
+          <div v-if="flashProgress > 0 && flashing" class="flash-progress">
+            <div class="flash-progress-bar" :style="{ width: flashProgress + '%' }" />
+            <span class="flash-progress-text">{{ flashProgress }}%</span>
+          </div>
+        </div>
+
+        <!-- Classic Uno R3: WebSerial STK500 -->
+        <div v-else-if="selectedBoard === 'uno_r3'" class="avr-flash">
+          <button class="flash-btn" @click="flashArduino" :disabled="flashing">
+            {{ flashing ? 'Flashing...' : 'Flash Arduino Uno R3' }}
+          </button>
+          <p class="flash-note">
+            Arduino Uno R3 flashing uses WebSerial (alpha support).
             The board may need to be in bootloader mode.
           </p>
         </div>
 
+        <!-- Pico: WebUSB PICOBOOT -->
         <div v-else-if="selectedBoard === 'pico'" class="pico-flash">
           <button class="flash-btn" @click="flashPico" :disabled="flashing">
             {{ flashing ? 'Flashing...' : 'Flash Raspberry Pi Pico' }}
@@ -92,23 +111,99 @@ const selectedBoard = ref('esp32')
 const flashing = ref(false)
 const flashError = ref('')
 const flashSuccess = ref(false)
+const flashProgress = ref(0)
 
 const manifestUrl = '/firmware/manifest.json'
 
 const boards = [
   { id: 'esp32', name: 'ESP32', chip: 'Xtensa LX6' },
-  { id: 'uno', name: 'Arduino Uno', chip: 'ATmega328P' },
+  { id: 'uno_r4', name: 'Arduino Uno R4', chip: 'Renesas RA4M1' },
+  { id: 'uno_r3', name: 'Arduino Uno R3', chip: 'ATmega328P' },
   { id: 'pico', name: 'Raspberry Pi Pico', chip: 'RP2040' },
 ]
+
+const flashStatus = computed(() => {
+  if (!flashing.value) return 'Flash Arduino Uno R4'
+  if (flashProgress.value > 0) return `Flashing... ${flashProgress.value}%`
+  return 'Connecting...'
+})
+
+// Arduino Uno R4 — WebUSB DFU flashing
+const UNO_R4_DFU_VENDOR_ID = 0x2341
+const UNO_R4_DFU_PRODUCT_ID = 0x0369
+
+async function flashDFU() {
+  flashing.value = true
+  flashError.value = ''
+  flashSuccess.value = false
+  flashProgress.value = 0
+
+  try {
+    // Check WebUSB support
+    if (!('usb' in navigator)) {
+      throw new Error('WebUSB not supported. Use Chrome or Edge on desktop.')
+    }
+
+    // Request the DFU device
+    const device = await navigator.usb.requestDevice({
+      filters: [
+        { vendorId: UNO_R4_DFU_VENDOR_ID, productId: UNO_R4_DFU_PRODUCT_ID },
+        { vendorId: UNO_R4_DFU_VENDOR_ID }, // fallback: any Arduino device in DFU
+      ],
+    })
+
+    // Load WebDFU
+    const { WebDFU } = await import('dfu')
+
+    const dfu = new WebDFU(device, { forceInterfacesName: true })
+    await dfu.init()
+
+    if (dfu.interfaces.length === 0) {
+      throw new Error('No DFU interfaces found. Make sure the board is in DFU mode (double-tap RESET).')
+    }
+
+    // Connect to first DFU interface
+    await dfu.connect(0)
+
+    // Fetch firmware binary
+    const firmwareUrl = '/firmware/uno_r4_minima.bin'
+    const resp = await fetch(firmwareUrl)
+    if (!resp.ok) {
+      throw new Error(`Firmware binary not available yet (${firmwareUrl}). Run the firmware build CI first.`)
+    }
+    const firmwareData = await resp.arrayBuffer()
+
+    // Write firmware
+    const process = dfu.write(
+      dfu.properties?.TransferSize || 1024,
+      new DataView(firmwareData),
+      true,
+    )
+
+    process.events.on('progress', (progress: number) => {
+      flashProgress.value = Math.round(progress)
+    })
+
+    await process
+
+    flashSuccess.value = true
+  } catch (e: any) {
+    if (e.name === 'NotFoundError') {
+      flashError.value = 'No DFU device found. Double-tap RESET on your Uno R4 to enter DFU mode, then try again.'
+    } else {
+      flashError.value = e.message || 'Flash failed'
+    }
+  } finally {
+    flashing.value = false
+  }
+}
 
 async function flashArduino() {
   flashing.value = true
   flashError.value = ''
   flashSuccess.value = false
   try {
-    // avrgirl-arduino integration placeholder
-    // const Avrgirl = (await import('avrgirl-arduino')).default
-    flashError.value = 'Arduino flashing coming soon — firmware binary not yet available.'
+    flashError.value = 'Arduino Uno R3 flashing coming soon — firmware binary not yet available.'
   } catch (e: any) {
     flashError.value = e.message || 'Flash failed'
   } finally {
@@ -121,7 +216,6 @@ async function flashPico() {
   flashError.value = ''
   flashSuccess.value = false
   try {
-    // picoflash integration placeholder
     flashError.value = 'Pico flashing coming soon — firmware binary not yet available.'
   } catch (e: any) {
     flashError.value = e.message || 'Flash failed'
@@ -172,9 +266,10 @@ async function flashPico() {
 .flash-body {
   flex: 1;
   padding: 24px;
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
   overflow-y: auto;
+  width: 100%;
 }
 
 .flash-intro {
@@ -194,13 +289,13 @@ async function flashPico() {
 }
 
 .board-options {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 8px;
   margin-bottom: 24px;
 }
 
 .board-option {
-  flex: 1;
   padding: 12px;
   border: 1px solid var(--border-bright);
   border-radius: var(--radius);
@@ -251,6 +346,38 @@ async function flashPico() {
   margin-top: 8px;
   font-size: 12px;
   color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.flash-progress {
+  margin-top: 12px;
+  height: 20px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.flash-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s;
+  border-radius: 4px;
+}
+
+.flash-progress-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-bright);
 }
 
 .flash-unsupported {
@@ -277,6 +404,6 @@ async function flashPico() {
 }
 
 @media (max-width: 600px) {
-  .board-options { flex-direction: column; }
+  .board-options { grid-template-columns: 1fr; }
 }
 </style>

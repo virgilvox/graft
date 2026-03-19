@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        board: [uno, esp32dev, nodemcuv2, nrf52840_dk, pico, teensy41]
+        board: [uno, uno_r4_minima, esp32dev, nodemcuv2, nrf52840_dk, pico, teensy41]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
