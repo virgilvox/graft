@@ -1,0 +1,78 @@
+name: Bug Report
+description: Report a bug in GRAFT firmware or an SDK
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Firmware (C++)
+        - SDK - JavaScript/TypeScript
+        - SDK - Python
+        - SDK - Go
+        - SDK - Rust
+        - SDK - Swift
+        - Broker
+        - Conformance
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Package version or git commit hash
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: board
+    attributes:
+      label: Board / Platform
+      description: If firmware-related, which board?
+      placeholder: "ESP32 DevKit v1"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Minimal steps to trigger the bug
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Error Output
+      description: Paste any relevant logs or error messages
+      render: shell

@@ -362,16 +362,30 @@ void GraftDevice::handlePinRead(const GraftPacket &pkt) {
 
 void GraftDevice::handlePinSubscribe(const GraftPacket &pkt) {
     if (pkt.payload_len < 5) { sendNak(pkt.seq, GRAFT_ERR_INVALID_PIN); return; }
-    if (_subCount >= GRAFT_MAX_SUBSCRIPTIONS) {
-        sendNak(pkt.seq, GRAFT_ERR_SUB_LIMIT_REACHED);
-        return;
-    }
 
     GraftPayloadReader r(pkt.payload, pkt.payload_len);
     uint8_t pin = r.readUInt8();
     uint8_t mode = r.readUInt8();
     uint16_t intervalMs = r.readUInt16();
     uint16_t threshold = (pkt.payload_len >= 7) ? r.readUInt16() : 0;
+
+    /* Check for existing subscription on this pin and update in place */
+    for (uint8_t i = 0; i < _subCount; i++) {
+        if (_subs[i].pin == pin && _subs[i].active) {
+            _subs[i].mode = mode;
+            _subs[i].intervalMs = intervalMs ? intervalMs : 100;
+            _subs[i].threshold = threshold;
+            _subs[i].lastValue = 0;
+            _subs[i].lastReportMs = millis();
+            sendAck(pkt.seq);
+            return;
+        }
+    }
+
+    if (_subCount >= GRAFT_MAX_SUBSCRIPTIONS) {
+        sendNak(pkt.seq, GRAFT_ERR_SUB_LIMIT_REACHED);
+        return;
+    }
 
     GraftSubscriptionEntry &sub = _subs[_subCount];
     sub.pin = pin;
@@ -475,6 +489,7 @@ void GraftDevice::handleI2CWrite(const GraftPacket &pkt) {
     if (pkt.payload_len < 2) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     GraftPayloadReader r(pkt.payload, pkt.payload_len);
     uint8_t addr = r.readUInt8();
+    if (addr < 0x08 || addr > 0x77) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     size_t dataLen = pkt.payload_len - 1;
 
     Wire.beginTransmission(addr);
@@ -497,6 +512,7 @@ void GraftDevice::handleI2CRead(const GraftPacket &pkt) {
     if (pkt.payload_len < 2) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     GraftPayloadReader r(pkt.payload, pkt.payload_len);
     uint8_t addr = r.readUInt8();
+    if (addr < 0x08 || addr > 0x77) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     uint8_t count = r.readUInt8();
 
     uint8_t respBuf[GRAFT_PACKET_BUF_SIZE];
@@ -517,6 +533,7 @@ void GraftDevice::handleI2CReadReg(const GraftPacket &pkt) {
     if (pkt.payload_len < 3) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     GraftPayloadReader r(pkt.payload, pkt.payload_len);
     uint8_t addr = r.readUInt8();
+    if (addr < 0x08 || addr > 0x77) { sendNak(pkt.seq, GRAFT_ERR_I2C_NOT_AVAILABLE); return; }
     uint8_t reg = r.readUInt8();
     uint8_t count = r.readUInt8();
 

@@ -4,6 +4,26 @@
   "description": "GRAFT protocol SDK for JavaScript/TypeScript — host-side hardware control",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lumencanvas/graft",
+    "directory": "sdk/js"
+  },
+  "homepage": "https://graft.io",
+  "bugs": {
+    "url": "https://github.com/lumencanvas/graft/issues"
+  },
+  "keywords": [
+    "graft",
+    "iot",
+    "hardware",
+    "serial",
+    "mqtt",
+    "ble",
+    "arduino",
+    "microcontroller",
+    "binary-protocol"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
