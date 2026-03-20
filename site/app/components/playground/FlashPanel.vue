@@ -113,6 +113,7 @@ const flashError = ref('')
 const flashSuccess = ref(false)
 const flashProgress = ref(0)
 
+const RELEASE_BASE = 'https://github.com/virgilvox/conduyt/releases/latest/download'
 const manifestUrl = '/firmware/manifest.json'
 
 const boards = [
@@ -165,11 +166,11 @@ async function flashDFU() {
     // Connect to first DFU interface
     await dfu.connect(0)
 
-    // Fetch firmware binary
-    const firmwareUrl = '/firmware/uno_r4_minima.bin'
+    // Fetch firmware binary from GitHub release
+    const firmwareUrl = `${RELEASE_BASE}/conduyt-uno-r4-minima.bin`
     const resp = await fetch(firmwareUrl)
     if (!resp.ok) {
-      throw new Error(`Firmware binary not available yet (${firmwareUrl}). Run the firmware build CI first.`)
+      throw new Error(`Firmware binary not available yet. Create a release with firmware builds first.`)
     }
     const firmwareData = await resp.arrayBuffer()
 
