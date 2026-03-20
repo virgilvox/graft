@@ -39,24 +39,27 @@ jobs:
           python-version: '3.12'
       - run: pip install platformio
       - name: Build ${{ matrix.name }}
-        working-directory: firmware
-        run: pio ci --board=${{ matrix.board }} examples/BasicBlink/BasicBlink.ino --lib=src --build-dir=.pio/ci-build
-      - name: Collect binaries
-        working-directory: firmware
         run: |
-          mkdir -p ../release-artifacts
-          find .pio -name "firmware.*" -not -name "*.o" -not -name "*.d" | while read f; do
+          cd firmware
+          pio ci --board=${{ matrix.board }} examples/BasicBlink/BasicBlink.ino --lib=src
+          mkdir -p $GITHUB_WORKSPACE/release-artifacts
+          find /tmp -name "firmware.*" \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.uf2" \) 2>/dev/null | while read f; do
             ext="${f##*.}"
-            cp "$f" "../release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+            cp "$f" "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}.${ext}"
           done
-          # Also grab ESP32 bootloader/partitions if present
-          find .pio -name "bootloader.bin" -exec cp {} "../release-artifacts/conduyt-${{ matrix.name }}-bootloader.bin" \; 2>/dev/null || true
-          find .pio -name "partitions.bin" -exec cp {} "../release-artifacts/conduyt-${{ matrix.name }}-partitions.bin" \; 2>/dev/null || true
-          ls -la ../release-artifacts/
+          find /tmp -name "bootloader.bin" -exec cp {} "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}-bootloader.bin" \; 2>/dev/null || true
+          find /tmp -name "partitions.bin" -exec cp {} "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}-partitions.bin" \; 2>/dev/null || true
+          # Also check the default ci build location
+          find . -path "*/.pio/build/*/firmware.*" \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.uf2" \) 2>/dev/null | while read f; do
+            ext="${f##*.}"
+            cp "$f" "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+          done
+          echo "=== Artifacts ==="
+          ls -la $GITHUB_WORKSPACE/release-artifacts/
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-${{ matrix.name }}
-          path: release-artifacts/
+          path: ${{ github.workspace }}/release-artifacts/
           if-no-files-found: warn
 
   build-library-zip:
