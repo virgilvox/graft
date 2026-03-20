@@ -96,11 +96,11 @@
     "typecheck": "tsc --noEmit -p tsconfig.check.json"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.5.0",
     "@types/w3c-web-serial": "^1.0.8",
     "@types/web-bluetooth": "^0.0.21",
     "typescript": "^5.7.0",
-    "vitest": "^3.0.0"
+    "vitest": "^4.1.0"
   },
   "engines": {
     "node": ">=18.0.0"
