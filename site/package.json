@@ -8,6 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@guolao/vue-monaco-editor": "^1.6.0",
     "@nuxt/content": "^3.12.0",
