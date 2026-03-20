@@ -15,7 +15,7 @@
           </svg>
           <span>CONDUYT</span>
         </NuxtLink>
-        <div class="sidebar-version">v0.1</div>
+        <div class="sidebar-version">v0.2</div>
       </div>
 
       <nav class="sidebar-nav">
@@ -47,11 +47,44 @@ const mobileNav = useMobileNav()
 
 const navGroups = [
   {
-    title: 'Tutorials',
+    title: 'Getting Started',
     items: [
       { path: '/docs/tutorials/what-is-conduyt', title: 'What is Conduyt?' },
-      { path: '/docs/tutorials/first-blink', title: 'First Blink' },
+      { path: '/docs/getting-started/quickstart-arduino-ide', title: 'Quick Start: Arduino IDE' },
+      { path: '/docs/tutorials/first-blink', title: 'Quick Start: PlatformIO' },
+      { path: '/docs/getting-started/quickstart-playground', title: 'Quick Start: Playground' },
+    ],
+  },
+  {
+    title: 'Tutorials',
+    items: [
       { path: '/docs/tutorials/sensor-dashboard', title: 'Sensor Dashboard' },
+    ],
+  },
+  {
+    title: 'Boards',
+    items: [
+      { path: '/docs/boards/esp32', title: 'ESP32' },
+      { path: '/docs/boards/arduino-uno-r4', title: 'Arduino Uno R4' },
+      { path: '/docs/boards/arduino-uno-r3', title: 'Arduino Uno R3' },
+      { path: '/docs/boards/rp2040-pico', title: 'Raspberry Pi Pico' },
+    ],
+  },
+  {
+    title: 'Modules',
+    items: [
+      { path: '/docs/modules/servo', title: 'Servo' },
+      { path: '/docs/modules/neopixel', title: 'NeoPixel' },
+      { path: '/docs/modules/dht', title: 'DHT (Temperature)' },
+    ],
+  },
+  {
+    title: 'SDKs',
+    items: [
+      { path: '/docs/reference/js-api', title: 'JavaScript' },
+      { path: '/docs/reference/python-api', title: 'Python' },
+      { path: '/docs/sdks/wasm', title: 'WASM (Browser)' },
+      { path: '/docs/reference/firmware-api', title: 'Firmware (C++)' },
     ],
   },
   {
@@ -63,6 +96,7 @@ const navGroups = [
       { path: '/docs/how-to/add-module', title: 'Add a Firmware Module' },
       { path: '/docs/how-to/use-datastreams', title: 'Use Datastreams' },
       { path: '/docs/how-to/broker-setup', title: 'Set Up MQTT Broker' },
+      { path: '/docs/how-to/troubleshooting', title: 'Troubleshooting' },
     ],
   },
   {
@@ -73,9 +107,6 @@ const navGroups = [
       { path: '/docs/reference/hello-resp', title: 'HELLO_RESP' },
       { path: '/docs/reference/error-codes', title: 'Error Codes' },
       { path: '/docs/reference/datastream-types', title: 'Datastream Types' },
-      { path: '/docs/reference/firmware-api', title: 'Firmware API' },
-      { path: '/docs/reference/js-api', title: 'JavaScript API' },
-      { path: '/docs/reference/python-api', title: 'Python API' },
     ],
   },
   {

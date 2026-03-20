@@ -69,24 +69,32 @@ await device.disconnect()
 
 ## Supported Hardware
 
-| Board | Platform | OTA |
-|-------|----------|-----|
-| Arduino Uno | AVR (ATmega328P) | No |
-| ESP32 DevKit | Espressif32 | Yes |
-| NodeMCU v2 | ESP8266 | No |
-| nRF52840 DK | Nordic nRF52 | No |
-| Raspberry Pi Pico | RP2040 | No |
-| Teensy 4.1 | Teensy | No |
+| Board | Platform | OTA | Browser Flash |
+|-------|----------|-----|---------------|
+| Arduino Uno R3 | AVR (ATmega328P) | No | No |
+| Arduino Uno R4 Minima | Renesas RA4M1 | No | Yes (WebUSB DFU) |
+| ESP32 DevKit | Espressif32 | Yes | Yes (esp-web-tools) |
+| NodeMCU v2 | ESP8266 | No | No |
+| nRF52840 DK | Nordic nRF52 | No | No |
+| Raspberry Pi Pico | RP2040 | No | Yes (WebUSB) |
+| Teensy 4.1 | Teensy | No | No |
 
 ## SDKs
 
 | Language | Package | Install | Status |
 |----------|---------|---------|--------|
-| JavaScript/TypeScript | [`conduyt-js`](https://www.npmjs.com/package/conduyt-js) | `npm install conduyt-js` | v0.1.0 |
-| Python | [`conduyt-py`](https://pypi.org/project/conduyt-py/) | `pip install conduyt-py` | v0.1.0 |
-| Go | [`conduyt/sdk/go`](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | `go get github.com/virgilvox/conduyt/sdk/go` | v0.1.0 |
-| Rust | [`conduyt`](https://crates.io/crates/conduyt) | `cargo add conduyt` | v0.1.0 |
-| Swift | `ConduytKit` | Swift Package Manager | v0.1.0 |
+| JavaScript/TypeScript | [`conduyt-js`](https://www.npmjs.com/package/conduyt-js) | `npm install conduyt-js` | v0.2.0 |
+| Python | [`conduyt-py`](https://pypi.org/project/conduyt-py/) | `pip install conduyt-py` | v0.2.0 |
+| Go | [`conduyt/sdk/go`](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | `go get github.com/virgilvox/conduyt/sdk/go` | v0.2.0 |
+| Rust | [`conduyt`](https://crates.io/crates/conduyt) | `cargo add conduyt` | v0.2.0 |
+| Swift | `ConduytKit` | Swift Package Manager | v0.2.0 |
+| WASM (Browser) | [`conduyt-wasm`](https://www.npmjs.com/package/conduyt-wasm) | `npm install conduyt-wasm` | v0.2.0 |
+
+## Playground
+
+Try CONDUYT in the browser — no installs needed. Flash firmware, write code, control hardware.
+
+**[conduyt.io/playground](https://conduyt.io/playground)**
 
 ## Wire Format
 

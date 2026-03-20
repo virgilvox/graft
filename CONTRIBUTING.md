@@ -56,6 +56,22 @@ cd sdk/swift
 swift test
 ```
 
+### WASM SDK
+
+```bash
+cd sdk/wasm
+wasm-pack build --target web --release --out-dir pkg
+node --test tests/node.test.mjs
+```
+
+### Hardware Tests (requires connected board)
+
+```bash
+cd test
+npm install
+CONDUYT_PORT=/dev/cu.usbmodem101 npm test
+```
+
 ### Broker
 
 ```bash
@@ -75,6 +91,8 @@ Every SDK has its own test suite. Run them before submitting a PR.
 | Go | `go test ./...` | `sdk/go/` |
 | Rust | `cargo test` | `sdk/rust/` |
 | Swift | `swift test` | `sdk/swift/` |
+| WASM | `node --test tests/node.test.mjs` | `sdk/wasm/` |
+| Hardware | `npm test` | `test/` |
 | Conformance | `npx tsx runner.ts` | `conformance/` |
 
 ## Conformance Testing
