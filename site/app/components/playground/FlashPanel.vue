@@ -174,18 +174,42 @@ async function flashDFU() {
     }
     const firmwareData = await resp.arrayBuffer()
 
-    // Write firmware
-    const process = dfu.write(
-      dfu.properties?.TransferSize || 1024,
-      new DataView(firmwareData),
-      true,
-    )
+    // Write firmware — WebDFUProcessWrite is event-based, not a Promise
+    const transferSize = dfu.properties?.TransferSize || 1024
+    const firmwareView = new DataView(firmwareData)
+    const totalSize = firmwareData.byteLength
 
-    process.events.on('progress', (progress: number) => {
-      flashProgress.value = Math.round(progress)
+    await new Promise<void>((resolve, reject) => {
+      const process = dfu.write(transferSize, firmwareView, true)
+
+      process.events.on('erase/start', () => {
+        flashProgress.value = 0
+      })
+
+      process.events.on('erase/process', (bytesSent: number, total: number) => {
+        flashProgress.value = Math.round((bytesSent / total) * 30) // erase = 0-30%
+      })
+
+      process.events.on('write/start', () => {
+        flashProgress.value = 30
+      })
+
+      process.events.on('write/process', (bytesSent: number, expectedSize: number) => {
+        flashProgress.value = 30 + Math.round((bytesSent / expectedSize) * 65) // write = 30-95%
+      })
+
+      process.events.on('write/end', () => {
+        flashProgress.value = 100
+        resolve()
+      })
+
+      process.events.on('error', (err: any) => {
+        reject(new Error(err?.message || 'DFU write failed'))
+      })
+
+      // Safety timeout (2 minutes)
+      setTimeout(() => reject(new Error('DFU flash timed out after 2 minutes')), 120000)
     })
-
-    await process
 
     flashSuccess.value = true
   } catch (e: any) {
