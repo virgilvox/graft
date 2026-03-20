@@ -39,27 +39,32 @@ jobs:
           python-version: '3.12'
       - run: pip install platformio
       - name: Build ${{ matrix.name }}
+        working-directory: firmware
         run: |
-          cd firmware
-          pio ci --board=${{ matrix.board }} examples/BasicBlink/BasicBlink.ino --lib=src
-          mkdir -p $GITHUB_WORKSPACE/release-artifacts
-          find /tmp -name "firmware.*" \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.uf2" \) 2>/dev/null | while read f; do
-            ext="${f##*.}"
-            cp "$f" "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+          # Copy example sketch into src so pio run can find it
+          cp examples/BasicBlink/BasicBlink.ino src/main.cpp
+          pio run -e ${{ matrix.board }}
+          rm src/main.cpp
+      - name: Collect binaries
+        run: |
+          mkdir -p release-artifacts
+          for ext in bin hex elf uf2; do
+            if [ -f "firmware/.pio/build/${{ matrix.board }}/firmware.${ext}" ]; then
+              cp "firmware/.pio/build/${{ matrix.board }}/firmware.${ext}" "release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+            fi
           done
-          find /tmp -name "bootloader.bin" -exec cp {} "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}-bootloader.bin" \; 2>/dev/null || true
-          find /tmp -name "partitions.bin" -exec cp {} "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}-partitions.bin" \; 2>/dev/null || true
-          # Also check the default ci build location
-          find . -path "*/.pio/build/*/firmware.*" \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.uf2" \) 2>/dev/null | while read f; do
-            ext="${f##*.}"
-            cp "$f" "$GITHUB_WORKSPACE/release-artifacts/conduyt-${{ matrix.name }}.${ext}"
+          # ESP32 bootloader + partitions
+          for f in bootloader.bin partitions.bin; do
+            if [ -f "firmware/.pio/build/${{ matrix.board }}/${f}" ]; then
+              cp "firmware/.pio/build/${{ matrix.board }}/${f}" "release-artifacts/conduyt-${{ matrix.name }}-${f}"
+            fi
           done
-          echo "=== Artifacts ==="
-          ls -la $GITHUB_WORKSPACE/release-artifacts/
+          echo "=== Release artifacts ==="
+          ls -la release-artifacts/
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-${{ matrix.name }}
-          path: ${{ github.workspace }}/release-artifacts/
+          path: release-artifacts/
           if-no-files-found: warn
 
   build-library-zip:
@@ -75,7 +80,6 @@ jobs:
           cp LICENSE Conduyt/ 2>/dev/null || true
           cp README.md Conduyt/ 2>/dev/null || true
           zip -r "Conduyt-${VERSION}.zip" Conduyt/
-          echo "ZIP_NAME=Conduyt-${VERSION}.zip" >> $GITHUB_ENV
       - uses: actions/upload-artifact@v4
         with:
           name: library-zip
@@ -106,7 +110,8 @@ jobs:
 
           # Collect all release files
           mkdir -p release-files
-          find artifacts -type f \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.zip" \) -exec cp {} release-files/ \;
+          find artifacts -type f \( -name "*.bin" -o -name "*.hex" -o -name "*.elf" -o -name "*.uf2" -o -name "*.zip" \) -exec cp {} release-files/ \;
+          echo "=== Release files ==="
           ls -la release-files/
 
           # Create release with all files
