@@ -595,6 +595,8 @@ function selectFamily(id: string) {
   if (family && family.variants.length > 0) {
     selectedVariant.value = family.variants[0].id
   }
+  flashError.value = ''
+  flashSuccess.value = false
 }
 
 const dfuStatus = computed(() => {

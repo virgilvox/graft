@@ -46,7 +46,7 @@ export function parseIntelHex(hex: string): Uint8Array {
 
 function hexDecode(s: string): Uint8Array {
   const out = new Uint8Array(s.length >> 1)
-  for (let i = 0; i < out.length; i++) out[i] = parseInt(s.substr(i * 2, 2), 16)
+  for (let i = 0; i < out.length; i++) out[i] = parseInt(s.substring(i * 2, i * 2 + 2), 16)
   return out
 }
 
@@ -111,12 +111,25 @@ function sleep(ms: number) {
 // ── DTR reset ─────────────────────────────────────────────────────
 
 async function resetBoard(port: SerialPort) {
-  await port.setSignals({ dataTerminalReady: false, requestToSend: false })
-  await sleep(50)
-  await port.setSignals({ dataTerminalReady: true, requestToSend: true })
-  await sleep(50)
-  await port.setSignals({ dataTerminalReady: false, requestToSend: false })
-  await sleep(250)
+  // Matches avrdude's reset sequence: falling edge on DTR triggers reset
+  // via the 100nF cap on Arduino boards. Open port typically asserts DTR,
+  // so deassert first to create the falling edge.
+  try {
+    await port.setSignals({ dataTerminalReady: false, requestToSend: false })
+    await sleep(250)
+    await port.setSignals({ dataTerminalReady: true, requestToSend: true })
+    await sleep(50)
+  } catch (e: any) {
+    // Chrome 139 regression: setSignals fails with "Bad address" on macOS/Linux.
+    // Update Chrome to 141+ or launch with --disable-features=SerialSplitDtrAndRts
+    if (e.message?.includes('Bad address') || e.message?.includes('system error')) {
+      throw new Error(
+        'Serial signal control failed (known Chrome 139 bug). ' +
+        'Update Chrome to 141+ or restart with --disable-features=SerialSplitDtrAndRts'
+      )
+    }
+    throw e
+  }
 }
 
 // ── STK500v1 ──────────────────────────────────────────────────────
@@ -133,9 +146,9 @@ const STK = {
   OK: 0x10,
 } as const
 
-async function stkCommand(io: SerialIO, cmd: Uint8Array, responseBytes = 2): Promise<Uint8Array> {
+async function stkCommand(io: SerialIO, cmd: Uint8Array, responseBytes = 2, timeout = 2000): Promise<Uint8Array> {
   await io.write(cmd)
-  const resp = await io.read(responseBytes)
+  const resp = await io.read(responseBytes, timeout)
   if (resp[0] !== STK.INSYNC) throw new Error(`STK not in sync (got 0x${resp[0].toString(16)})`)
   if (resp[resp.length - 1] !== STK.OK) throw new Error('STK command failed')
   return resp
@@ -166,14 +179,14 @@ export async function flashSTK500v1(
     // Sync
     onProgress({ phase: 'Connecting to bootloader...', percent: 2 })
     let synced = false
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       io.flush()
       try {
-        await stkCommand(io, new Uint8Array([STK.GET_SYNC, STK.CRC_EOP]), 2)
+        await stkCommand(io, new Uint8Array([STK.GET_SYNC, STK.CRC_EOP]), 2, 500)
         synced = true
         break
       } catch {
-        await sleep(80)
+        await sleep(30)
       }
     }
     if (!synced) throw new Error('Cannot sync with bootloader. Is the board connected and in reset?')
@@ -304,7 +317,7 @@ export async function flashSTK500v2(
     // Sign on
     onProgress({ phase: 'Connecting to bootloader...', percent: 2 })
     let signed = false
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       io.flush()
       try {
         const resp = await stk2Command(io, new Uint8Array([STK2.CMD_SIGN_ON]))
@@ -313,7 +326,7 @@ export async function flashSTK500v2(
           break
         }
       } catch {
-        await sleep(80)
+        await sleep(30)
       }
     }
     if (!signed) throw new Error('Cannot connect to STK500v2 bootloader. Is the board in reset?')
@@ -339,11 +352,12 @@ export async function flashSTK500v2(
     for (let p = 0; p < totalPages; p++) {
       const byteAddr = p * pageSize
 
-      // Load address (4-byte big-endian, bit 31 set for extended addresses >128KB)
+      // Load address (4-byte big-endian word address, bit 31 always set for
+      // devices with extended addressing like ATmega2560 — matches avrdude behavior)
       const wordAddr = byteAddr >> 1
       const addrCmd = new Uint8Array([
         STK2.CMD_LOAD_ADDRESS,
-        (wordAddr >> 24) & 0xff | (wordAddr > 0xffff ? 0x80 : 0),
+        ((wordAddr >> 24) & 0xff) | 0x80,
         (wordAddr >> 16) & 0xff,
         (wordAddr >> 8) & 0xff,
         wordAddr & 0xff,
