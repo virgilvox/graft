@@ -143,6 +143,9 @@
 <script setup lang="ts">
 defineEmits<{ close: [] }>()
 
+// Register esp-web-install-button custom element (client-side only)
+onMounted(() => import('esp-web-tools'))
+
 const selectedFamily = ref<string | null>('esp32')
 const selectedVariant = ref<string>('esp32')
 const flashing = ref(false)

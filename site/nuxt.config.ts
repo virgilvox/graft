@@ -37,6 +37,12 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/conduyt-theme.css'],
 
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag: string) => tag === 'esp-web-install-button',
+    },
+  },
+
   vite: {
     optimizeDeps: {
       exclude: ['conduyt-wasm'],
