@@ -13,32 +13,37 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # ESP32 family
+          # ESP32 family (PlatformIO board IDs)
           - board: esp32dev
             name: ESP32
-          - board: esp32s2
+            flags: -DCONDUYT_OTA
+          - board: esp32-s2-saola-1
             name: ESP32-S2
-          - board: esp32s3
+            flags: -DCONDUYT_OTA
+          - board: esp32-s3-devkitc-1
             name: ESP32-S3
-          - board: esp32c3
+            flags: -DCONDUYT_OTA
+          - board: esp32-c3-devkitm-1
             name: ESP32-C3
+            flags: -DCONDUYT_OTA
           # ESP8266
           - board: nodemcuv2
             name: NodeMCU v2
           # Arduino AVR
           - board: uno
             name: Arduino Uno R3
-          - board: mega2560
+          - board: megaatmega2560
             name: Arduino Mega 2560
-          - board: nano
+          - board: nanoatmega328
             name: Arduino Nano
           - board: leonardo
             name: Arduino Leonardo
           # Arduino modern
           - board: nano_every
             name: Arduino Nano Every
-          - board: nano_esp32
+          - board: arduino_nano_esp32
             name: Arduino Nano ESP32
+            flags: -DCONDUYT_OTA
           - board: uno_r4_minima
             name: Arduino Uno R4 Minima
           - board: uno_r4_wifi
@@ -68,11 +73,17 @@ jobs:
       - run: pip install platformio
       - name: Build ${{ matrix.name }}
         working-directory: firmware
-        run: pio run -e ${{ matrix.board }}
+        env:
+          PLATFORMIO_BUILD_FLAGS: ${{ matrix.flags || '' }}
+        run: |
+          pio ci --board=${{ matrix.board }} \
+            examples/BasicBlink/BasicBlink.ino \
+            --lib=src \
+            --build-dir=.pio/ci-build
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: firmware-${{ matrix.board }}
           path: |
-            firmware/.pio/build/${{ matrix.board }}/firmware.*
+            firmware/.pio/ci-build/.pio/build/*/firmware.*
           if-no-files-found: warn
