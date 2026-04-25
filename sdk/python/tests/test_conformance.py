@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from conduyt.core.wire import wire_encode, wire_decode, make_packet
+from conduyt.core.constants import PROTOCOL_VERSION
 
 
 def load_vectors():
@@ -34,6 +35,6 @@ class TestWireConformance:
 
             # Verify structure
             assert encoded[0] == 0x43 and encoded[1] == 0x44, f'{v["name"]}: bad magic'
-            assert encoded[2] == 0x01, f'{v["name"]}: bad version'
+            assert encoded[2] == PROTOCOL_VERSION, f'{v["name"]}: bad version'
             assert encoded[3] == v["type"], f'{v["name"]}: bad type byte'
             assert encoded[4] == v["seq"], f'{v["name"]}: bad seq byte'

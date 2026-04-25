@@ -237,7 +237,7 @@ describe('constants', () => {
   });
 
   it('PROTOCOL_VERSION and HEADER_SIZE', () => {
-    assert.equal(wasm.PROTOCOL_VERSION(), 0x01);
+    assert.equal(wasm.PROTOCOL_VERSION(), 0x02);
     assert.equal(wasm.HEADER_SIZE(), 8);
   });
 });
