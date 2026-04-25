@@ -92,7 +92,12 @@ public:
     }
 
     uint8_t pinCount() override { return _attached ? 2 : 0; }
-    const uint8_t* pins() override { return _attached ? _pins : nullptr; }
+    const uint8_t* pins() override {
+        if (!_attached) return nullptr;
+        _pins[0] = _pinA;
+        _pins[1] = _pinB;
+        return _pins;
+    }
 
 private:
     uint8_t _pinA = 0, _pinB = 0;
