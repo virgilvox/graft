@@ -825,8 +825,15 @@ void ConduytDevice::buildHelloResp() {
     conduyt_mcu_id_get(mcuId, CONDUYT_MCU_ID_LEN);
     w.writeBytes(mcuId, CONDUYT_MCU_ID_LEN);
 
-    /* ota_capable: 1 byte */
-    w.writeUInt8(0x00); /* TODO: detect OTA capability */
+    /* ota_capable: 1 byte. Honestly reflects the build config: if the
+     * sketch was compiled with -DCONDUYT_OTA, ConduytOTA was linked in
+     * and the host can attempt an OTA flash. Otherwise the OTA_BEGIN
+     * handler NAKs immediately so we report 0 here to save the round trip. */
+#ifdef CONDUYT_OTA
+    w.writeUInt8(0x01);
+#else
+    w.writeUInt8(0x00);
+#endif
 
     /* pin_count + per-pin capability bitmask.
      * Source priority:
