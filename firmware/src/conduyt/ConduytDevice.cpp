@@ -590,7 +590,8 @@ void ConduytDevice::handleI2CRead(const ConduytPacket &pkt) {
     uint8_t respBuf[CONDUYT_PACKET_BUF_SIZE];
     ConduytPayloadWriter w(respBuf, sizeof(respBuf));
 
-    uint8_t received = Wire.requestFrom(addr, count);
+    /* Cast to (uint8_t, size_t) to disambiguate the megaAVR Wire.h overloads. */
+    uint8_t received = (uint8_t)Wire.requestFrom((uint8_t)addr, (size_t)count);
     for (uint8_t i = 0; i < received; i++) {
         w.writeUInt8(Wire.read());
     }
@@ -620,7 +621,8 @@ void ConduytDevice::handleI2CReadReg(const ConduytPacket &pkt) {
     uint8_t respBuf[CONDUYT_PACKET_BUF_SIZE];
     ConduytPayloadWriter w(respBuf, sizeof(respBuf));
 
-    uint8_t received = Wire.requestFrom(addr, count);
+    /* Cast to (uint8_t, size_t) to disambiguate the megaAVR Wire.h overloads. */
+    uint8_t received = (uint8_t)Wire.requestFrom((uint8_t)addr, (size_t)count);
     for (uint8_t i = 0; i < received; i++) {
         w.writeUInt8(Wire.read());
     }

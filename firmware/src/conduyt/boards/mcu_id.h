@@ -20,6 +20,37 @@
 #include <Arduino.h>
 #endif
 
+/* ── Per-MCU vendor headers (file-scope, never inside the function body) ── */
+
+#if defined(CONDUYT_MCU_ID_SOURCE_RA4M1) && __has_include(<bsp_api.h>)
+  #include <bsp_api.h>
+  #define CONDUYT_MCU_ID_HAVE_RA4M1 1
+#endif
+
+#if defined(CONDUYT_MCU_ID_SOURCE_RP2040) && __has_include(<pico/unique_id.h>)
+  #include <pico/unique_id.h>
+  #define CONDUYT_MCU_ID_HAVE_RP2040 1
+#endif
+
+#if (defined(CONDUYT_MCU_ID_SOURCE_ESP32) || defined(CONDUYT_MCU_ID_SOURCE_ESP8266)) && __has_include(<Esp.h>)
+  #include <Esp.h>
+  #define CONDUYT_MCU_ID_HAVE_ESP 1
+#endif
+
+#if defined(CONDUYT_MCU_ID_SOURCE_NRF52) && __has_include(<nrf.h>)
+  #include <nrf.h>
+  #define CONDUYT_MCU_ID_HAVE_NRF52 1
+#endif
+
+#if defined(CONDUYT_MCU_ID_SOURCE_AVR_SIGNATURE) && __has_include(<avr/eeprom.h>)
+  #include <avr/eeprom.h>
+  #define CONDUYT_MCU_ID_HAVE_AVR_EEPROM 1
+  #if defined(SIGRD) && __has_include(<avr/boot.h>)
+    #include <avr/boot.h>
+    #define CONDUYT_MCU_ID_HAVE_AVR_BOOT 1
+  #endif
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -33,96 +64,71 @@ static inline void conduyt_mcu_id_get(uint8_t *out, uint8_t len) {
     if (out == NULL || len == 0) return;
     memset(out, 0, len);
 
-#if defined(CONDUYT_MCU_ID_SOURCE_RA4M1)
-    /* Renesas RA4M1 (Uno R4 family).
-     * 16-byte unique ID via R_BSP_UniqueIdGet() (FSP).
-     * Reference: ra/fsp/src/bsp/mcu/all/bsp_common.h. */
-    #if __has_include(<bsp_api.h>)
-        #include <bsp_api.h>
-        bsp_unique_id_t const *uid = R_BSP_UniqueIdGet();
-        uint8_t n = len < 16 ? len : 16;
-        memcpy(out, uid->unique_id_bytes, n);
-    #endif
+#if defined(CONDUYT_MCU_ID_HAVE_RA4M1)
+    /* Renesas RA4M1 (Uno R4 family) — 16-byte unique ID via FSP. */
+    bsp_unique_id_t const *uid = R_BSP_UniqueIdGet();
+    uint8_t n = len < 16 ? len : 16;
+    memcpy(out, uid->unique_id_bytes, n);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_RP2040)
-    /* Raspberry Pi RP2040.
-     * 8-byte unique ID from external flash JEDEC RUID. */
-    #if __has_include(<pico/unique_id.h>)
-        #include <pico/unique_id.h>
-        pico_unique_board_id_t id;
-        pico_get_unique_board_id(&id);
-        uint8_t n = len < 8 ? len : 8;
-        memcpy(out, id.id, n);
-    #endif
+#elif defined(CONDUYT_MCU_ID_HAVE_RP2040)
+    /* RP2040 — 8-byte ID from the external flash JEDEC RUID. */
+    pico_unique_board_id_t id;
+    pico_get_unique_board_id(&id);
+    uint8_t n = len < 8 ? len : 8;
+    memcpy(out, id.id, n);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_ESP32)
+#elif defined(CONDUYT_MCU_ID_SOURCE_ESP32) && defined(CONDUYT_MCU_ID_HAVE_ESP)
     /* ESP32 family — eFuse MAC (6 bytes). */
-    #if __has_include(<Esp.h>)
-        #include <Esp.h>
-        uint64_t mac = ESP.getEfuseMac();
-        uint8_t n = len < 6 ? len : 6;
-        memcpy(out, &mac, n);
-    #endif
+    uint64_t mac = ESP.getEfuseMac();
+    uint8_t n = len < 6 ? len : 6;
+    memcpy(out, &mac, n);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_NRF52)
+#elif defined(CONDUYT_MCU_ID_SOURCE_ESP8266) && defined(CONDUYT_MCU_ID_HAVE_ESP)
+    /* ESP8266 — 24-bit chip ID, padded. */
+    uint32_t id = ESP.getChipId();
+    if (len >= 4) memcpy(out, &id, 4);
+
+#elif defined(CONDUYT_MCU_ID_HAVE_NRF52)
     /* nRF52 — FICR DEVICEID (8 bytes). */
-    #if __has_include(<nrf.h>)
-        #include <nrf.h>
-        uint32_t lo = NRF_FICR->DEVICEID[0];
-        uint32_t hi = NRF_FICR->DEVICEID[1];
-        if (len >= 4) memcpy(out, &lo, 4);
-        if (len >= 8) memcpy(out + 4, &hi, 4);
-    #endif
+    uint32_t lo = NRF_FICR->DEVICEID[0];
+    uint32_t hi = NRF_FICR->DEVICEID[1];
+    if (len >= 4) memcpy(out, &lo, 4);
+    if (len >= 8) memcpy(out + 4, &hi, 4);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_TEENSY3)
-    /* Kinetis K20/K66 — SIM_UIDH/MH/ML/L (128-bit total, take 64). */
-    #if defined(SIM_UIDMH) && defined(SIM_UIDL)
-        uint32_t hi = SIM_UIDMH;
-        uint32_t lo = SIM_UIDL;
-        if (len >= 4) memcpy(out, &hi, 4);
-        if (len >= 8) memcpy(out + 4, &lo, 4);
-    #endif
+#elif defined(CONDUYT_MCU_ID_SOURCE_TEENSY3) && defined(SIM_UIDMH) && defined(SIM_UIDL)
+    /* Kinetis K20/K66 — SIM_UID 128-bit, take upper 64. */
+    uint32_t hi = SIM_UIDMH;
+    uint32_t lo = SIM_UIDL;
+    if (len >= 4) memcpy(out, &hi, 4);
+    if (len >= 8) memcpy(out + 4, &lo, 4);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_TEENSY4)
-    /* i.MX RT1062 — OCOTP CFG0/CFG1 (64-bit unique ID). */
-    #if defined(HW_OCOTP_CFG0) && defined(HW_OCOTP_CFG1)
-        uint32_t lo = HW_OCOTP_CFG0;
-        uint32_t hi = HW_OCOTP_CFG1;
-        if (len >= 4) memcpy(out, &lo, 4);
-        if (len >= 8) memcpy(out + 4, &hi, 4);
-    #endif
+#elif defined(CONDUYT_MCU_ID_SOURCE_TEENSY4) && defined(HW_OCOTP_CFG0) && defined(HW_OCOTP_CFG1)
+    /* i.MX RT1062 — OCOTP CFG0/CFG1 (64-bit). */
+    uint32_t lo = HW_OCOTP_CFG0;
+    uint32_t hi = HW_OCOTP_CFG1;
+    if (len >= 4) memcpy(out, &lo, 4);
+    if (len >= 8) memcpy(out + 4, &hi, 4);
 
-#elif defined(CONDUYT_MCU_ID_SOURCE_ESP8266)
-    /* ESP8266 — chip ID (24-bit, padded). */
-    #if __has_include(<Esp.h>)
-        #include <Esp.h>
-        uint32_t id = ESP.getChipId();
-        if (len >= 4) memcpy(out, &id, 4);
-    #endif
-
-#elif defined(CONDUYT_MCU_ID_SOURCE_AVR_SIGNATURE)
-    /* Classic AVR — no factory unique ID. Read the 3-byte device signature
-     * from the boot section as a stable (but not chip-unique) identifier.
-     * On boards with EEPROM, an installer could write a per-device serial
-     * starting at EEPROM address 0; if found there (first byte non-0xFF),
-     * that is preferred. */
-    #if __has_include(<avr/boot.h>) && __has_include(<avr/eeprom.h>)
-        #include <avr/boot.h>
-        #include <avr/eeprom.h>
-        uint8_t e0 = eeprom_read_byte((const uint8_t *)0);
-        if (e0 != 0xFF) {
-            for (uint8_t i = 0; i < len && i < 8; i++) {
-                out[i] = eeprom_read_byte((const uint8_t *)(uintptr_t)i);
-            }
-        } else {
-            if (len >= 1) out[0] = boot_signature_byte_get(0x0000);
-            if (len >= 2) out[1] = boot_signature_byte_get(0x0002);
-            if (len >= 3) out[2] = boot_signature_byte_get(0x0004);
+#elif defined(CONDUYT_MCU_ID_HAVE_AVR_EEPROM)
+    /* AVR — no factory unique ID. Prefer EEPROM-provisioned serial.
+     * Fall back to the device signature on classic AVR (megaAVR/4809
+     * doesn't define SIGRD; we just zero-fill there). */
+    uint8_t e0 = eeprom_read_byte((const uint8_t *)0);
+    if (e0 != 0xFF) {
+        for (uint8_t i = 0; i < len && i < 8; i++) {
+            out[i] = eeprom_read_byte((const uint8_t *)(uintptr_t)i);
         }
+    }
+    #if defined(CONDUYT_MCU_ID_HAVE_AVR_BOOT)
+    else {
+        if (len >= 1) out[0] = boot_signature_byte_get(0x0000);
+        if (len >= 2) out[1] = boot_signature_byte_get(0x0002);
+        if (len >= 3) out[2] = boot_signature_byte_get(0x0004);
+    }
     #endif
 
 #endif
-    /* CONDUYT_MCU_ID_SOURCE_NONE / unknown → already zero-filled. */
+    /* No source matched → already zero-filled by memset above. */
 }
 
 #ifdef __cplusplus

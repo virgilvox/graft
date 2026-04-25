@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.3.1 — Build fixes + always-latest firmware delivery
+
+The 0.3.0 firmware-build CI failed on the megaAVR (Nano Every) target
+because `mcu_id.h` referenced `SIGRD` (only defined on classic AVR) and
+included `<avr/eeprom.h>` inside a function body, plus the Nano Every's
+megaAVR `Wire.h` flagged `Wire.requestFrom(addr, count)` as ambiguous
+between two overloads. The 0.3.0 release.yml run failed for the same
+reason, so no GitHub release exists for 0.3.0 — 0.3.1 is the first
+shippable build of the v0.3 protocol.
+
+Fixes:
+- Restructured `firmware/src/conduyt/boards/mcu_id.h` so all vendor
+  headers (`avr/eeprom.h`, `avr/boot.h`, `bsp_api.h`, `pico/unique_id.h`,
+  `Esp.h`, `nrf.h`) are included at file scope behind `__has_include`
+  guards, and the function body just uses the symbols. The classic-AVR
+  boot-signature path is now gated on `defined(SIGRD)`; megaAVR falls
+  through to zero-fill (or EEPROM-provisioned ID if present), which
+  matches the documented behavior on chips without a factory unique ID.
+- `Wire.requestFrom(addr, count)` in `ConduytDevice.cpp` is now cast
+  explicitly to `(uint8_t, size_t)` so the megaAVR Wire library doesn't
+  flag it as ambiguous against its `(int, int)` overload.
+
+Always-latest firmware delivery:
+- The playground's `FlashPanel` now points `FIRMWARE_BASE` at
+  `https://github.com/virgilvox/conduyt/releases/latest/download` and
+  the ESP32 manifests use absolute GitHub-release URLs for each part.
+  GitHub's `/releases/latest/download/...` URL pattern always redirects
+  to the newest published release, so the playground stays in sync with
+  the most recent firmware build with no site re-deploy and no
+  committed binaries.
+- Committed firmware blobs in `site/public/firmware/` removed; only the
+  three manifest JSON files remain (esp-web-tools needs them
+  same-origin to start the multi-file flash).
+
+Site:
+- DO build green path restored after the failed `vite-plugin-wasm`
+  install + esbuild downgrade rollout from 0.3.0. `vite.build.target`
+  and `vite.esbuild.target` set to `esnext`. `useSerial.loadWasm()`
+  defensively skips `mod.default()` when the plugin already
+  initialized the wasm at import time.
+
 ## 0.3.0 — Capability model rebuild
 
 ### ⚠️ Breaking — protocol version bumped 1 → 2

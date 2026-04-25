@@ -160,7 +160,15 @@ const flashSuccess = ref(false)
 const flashProgress = ref(0)
 const flashPhase = ref('Flashing...')
 
-const FIRMWARE_BASE = '/firmware'
+// Firmware artifacts now ship with each GitHub release. The
+// /releases/latest/download/ path always resolves to the latest
+// published release's asset, so the playground is automatically
+// in sync with the most recent firmware build without re-deploying
+// the site or committing binaries to the repo.
+const FIRMWARE_BASE = 'https://github.com/virgilvox/conduyt/releases/latest/download'
+// ESP32 manifests still need to be served same-origin so esp-web-tools
+// can fetch the bootloader/partitions/firmware bundle without CORS issues.
+// We commit the manifests but the binaries they reference are now GitHub URLs.
 const manifestUrl = '/firmware/manifest.json'
 
 
