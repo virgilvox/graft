@@ -1,0 +1,35 @@
+# ESP32-C3 DevKitM-1
+# Source: espressif/arduino-esp32 variants/esp32c3/pins_arduino.h
+# SOC_GPIO_PIN_COUNT=22. GPIO 11-17 wired to internal flash.
+# Default I2C0: SDA=8, SCL=9. Default SPI: CS=7, MOSI=6, MISO=5, SCK=4.
+name: "ESP32-C3 DevKitM-1"
+mcu: esp32c3
+arduino_macro: ARDUINO_ESP32C3_DEV
+platformio_id: esp32-c3-devkitm-1
+pin_count: 22
+i2c_buses: 1
+spi_buses: 1
+uart_count: 2
+pins:
+  - { name: GPIO0,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 0 }
+  - { name: GPIO1,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 1 }
+  - { name: GPIO2,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 2 }
+  - { name: GPIO3,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 3 }
+  - { name: GPIO4,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, spi], adc_channel: 4, spi_bus: 0, spi_role: sck }
+  - { name: GPIO5,  caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: GPIO6,  caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: GPIO7,  caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: GPIO8,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_sda], i2c_bus: 0 }
+  - { name: GPIO9,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_scl], i2c_bus: 0 }
+  - { name: GPIO10, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO11, caps: [] }
+  - { name: GPIO12, caps: [] }
+  - { name: GPIO13, caps: [] }
+  - { name: GPIO14, caps: [] }
+  - { name: GPIO15, caps: [] }
+  - { name: GPIO16, caps: [] }
+  - { name: GPIO17, caps: [] }
+  - { name: GPIO18, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO19, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO20, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO21, caps: [digital_in, digital_out, pwm_out, interrupt] }

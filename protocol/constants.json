@@ -1,10 +1,14 @@
 {
   "protocol": {
     "name": "CONDUYT",
-    "version": 1,
+    "version": 2,
     "magic": [67, 68],
     "magicHex": ["0x43", "0x44"],
-    "license": "CC BY 4.0"
+    "license": "CC BY 4.0",
+    "versionHistory": {
+      "1": "Initial release. Used a corrupted CRC8 lookup table at indices 0xE0..0xFF (every entry XOR'd with 0x20 vs canonical poly 0x31). Internally consistent across CONDUYT firmware + SDKs but non-interoperable with stock CRC-8 libraries.",
+      "2": "Canonical CRC-8 poly 0x31 table. Generated from the polynomial at codegen time. v2 hosts must NAK packets bearing v1 in the VER byte with VERSION_MISMATCH so the user knows to re-flash."
+    }
   },
 
   "packetTypes": {

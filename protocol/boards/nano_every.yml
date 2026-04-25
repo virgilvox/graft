@@ -1,0 +1,36 @@
+# Arduino Nano Every (ATmega4809)
+# Source: ArduinoCore-megaavr/variants/nona4809/pins_arduino.h
+# megaAVR-0 supports edge interrupts on every pin via PORTx.PINnCTRL.
+# PWM only on D3, D5, D6, D9, D10 (not D11, despite being a Nano-shape board).
+# SPI: SS=D8 (different from classic Nano).
+name: "Arduino Nano Every"
+mcu: atmega4809
+arduino_macro: ARDUINO_AVR_NANO_EVERY
+platformio_id: nano_every
+pin_count: 22
+i2c_buses: 1
+spi_buses: 1
+uart_count: 1
+pins:
+  - { name: D0,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D1,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D2,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D4,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D7,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D8,  caps: [digital_in, digital_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D11, caps: [digital_in, digital_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, interrupt, spi], spi_bus: 0, spi_role: sck }
+  - { name: A0,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 3 }
+  - { name: A1,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 2 }
+  - { name: A2,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 1 }
+  - { name: A3,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 0 }
+  - { name: A4,  caps: [digital_in, digital_out, analog_in, interrupt, i2c_sda], adc_channel: 12, i2c_bus: 0 }
+  - { name: A5,  caps: [digital_in, digital_out, analog_in, interrupt, i2c_scl], adc_channel: 13, i2c_bus: 0 }
+  - { name: A6,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 4 }
+  - { name: A7,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 5 }

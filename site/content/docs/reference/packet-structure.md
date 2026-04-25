@@ -11,7 +11,7 @@ Every CONDUYT packet follows a fixed 8-byte header plus variable-length payload.
 
 ```
 [0-1]   MAGIC   0x43 0x44
-[2]     VER     0x01
+[2]     VER     0x02
 [3]     TYPE    command or event byte
 [4]     SEQ     0-255 rolling
 [5-6]   LEN     payload length, little-endian uint16
@@ -41,7 +41,7 @@ All multi-byte integers are transmitted least-significant byte first (little-end
 | Field | Size | Description |
 |---|---|---|
 | MAGIC | 2 bytes | `0x43 0x44` ("CD"). Catches misaligned reads on serial streams. |
-| VER | 1 byte | Protocol version. Currently `0x01`. |
+| VER | 1 byte | Protocol version. Currently `0x02`. v0.1 (`0x01`) shipped a corrupted CRC8 lookup table at indices `0xE0..0xFF`; v0.2 ships the canonical table generated from the polynomial. v0.2 hosts must reject v0.1 packets — re-flash old firmware. |
 | TYPE | 1 byte | Command (host to device) or event (device to host) type. See [Packet Types](/docs/reference/packet-types). |
 | SEQ | 1 byte | Rolling sequence 0 to 255. Host increments per command. Device echoes in response. |
 | LEN | 2 bytes | Payload length, little-endian uint16. Max capped at device's `max_payload`. |
@@ -53,7 +53,7 @@ All multi-byte integers are transmitted least-significant byte first (little-end
 A PIN_WRITE packet (type `0x11`) that sets pin 13 to HIGH:
 
 ```
-43 44 01 11 01 02 00 0D 01 XX
+43 44 02 11 01 02 00 0D 01 XX
 ```
 
 Byte-by-byte breakdown:
@@ -61,13 +61,13 @@ Byte-by-byte breakdown:
 | Offset | Bytes | Field | Value |
 |---|---|---|---|
 | 0-1 | `43 44` | MAGIC | "CD" |
-| 2 | `01` | VER | Protocol version 1 |
+| 2 | `02` | VER | Protocol version 2 |
 | 3 | `11` | TYPE | PIN_WRITE (0x11) |
 | 4 | `01` | SEQ | Sequence number 1 |
 | 5-6 | `02 00` | LEN | 2 bytes payload (little-endian) |
 | 7 | `0D` | PAYLOAD[0] | Pin 13 |
 | 8 | `01` | PAYLOAD[1] | Value 1 (HIGH) |
-| 9 | `XX` | CRC8 | CRC8 over bytes 2-8: `[01 11 01 02 00 0D 01]` |
+| 9 | `XX` | CRC8 | CRC8 over bytes 2-8: `[02 11 01 02 00 0D 01]` |
 
 The CRC8 is computed using Dallas/Maxim polynomial `0x31` over VER through end of PAYLOAD (7 bytes in this case). `XX` represents the computed checksum.
 

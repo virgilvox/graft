@@ -1,0 +1,44 @@
+# Raspberry Pi Pico (RP2040)
+# Source: earlephilhower/arduino-pico variants/rpipico/pins_arduino.h
+# Every GPIO 0-29 is PWM- and interrupt-capable on RP2040.
+# GPIO 23/24/29 are reserved for board functions (SMPS, VBUS sense, VSYS sense).
+# GPIO 25 drives the on-board LED but is otherwise a normal GPIO.
+name: "Raspberry Pi Pico"
+mcu: rp2040
+arduino_macro: ARDUINO_RASPBERRY_PI_PICO
+platformio_id: pico
+pin_count: 30
+i2c_buses: 2
+spi_buses: 2
+uart_count: 2
+pins:
+  - { name: GP0,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP1,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP2,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP4,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_sda], i2c_bus: 0 }
+  - { name: GP5,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_scl], i2c_bus: 0 }
+  - { name: GP6,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP7,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP8,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP9,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP10, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP11, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP12, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: cipo }
+  - { name: GP13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: cs }
+  - { name: GP14, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: sck }
+  - { name: GP15, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: copi }
+  - { name: GP16, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: GP17, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: GP18, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }
+  - { name: GP19, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: GP20, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP21, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP22, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP23, caps: [] }
+  - { name: GP24, caps: [] }
+  - { name: GP25, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GP26, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, i2c_sda], adc_channel: 0, i2c_bus: 1 }
+  - { name: GP27, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, i2c_scl], adc_channel: 1, i2c_bus: 1 }
+  - { name: GP28, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 2 }
+  - { name: GP29, caps: [] }

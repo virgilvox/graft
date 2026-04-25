@@ -24,3 +24,13 @@ test/node_modules/
 test/package-lock.json
 *.zip
 site/package-lock.json
+firmware/ci-build/
+firmware/test/node_modules/
+firmware/test/package-lock.json
+protocol/node_modules/
+protocol/package-lock.json
+.claude/
+site/dist/
+site/.data/
+**/conduyt_py.egg-info/
+

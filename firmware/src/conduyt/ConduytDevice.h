@@ -87,6 +87,35 @@ public:
     void onDatastreamWrite(const char *name,
                            void (*callback)(ConduytPayloadReader &payload, ConduytContext &ctx));
 
+    /**
+     * Override the per-pin capability bitmask advertised in HELLO_RESP.
+     * Useful when the board profile is incomplete or when a sketch wires
+     * custom hardware to a pin (e.g. an external interrupt on a GPIO that
+     * the canonical profile says is interrupt-only via attachInterrupt).
+     *
+     * Capability bits: CONDUYT_PIN_CAP_DIGITAL_IN | _DIGITAL_OUT | _PWM_OUT |
+     * _ANALOG_IN | _I2C_SDA | _I2C_SCL | _SPI | _INTERRUPT.
+     *
+     * Call before begin(). Has no effect on unknown-board fallback profiles.
+     */
+    void declarePinCaps(uint8_t pin, uint8_t caps);
+
+    /**
+     * Override the SDA/SCL pin assignment for an I2C bus number, and mark
+     * the bus as advertised. Useful for boards with an extra Qwiic header
+     * or for ESP32 where Wire1 has no default pin macros.
+     *
+     * Sets the I2C_SDA bit on `sda` and the I2C_SCL bit on `scl`. If `bus`
+     * exceeds the firmware's default i2cBuses count, increments it.
+     */
+    void declareI2cBus(uint8_t bus, uint8_t sda, uint8_t scl);
+
+    /**
+     * Override the SPI bus pin assignment for a bus number.
+     * Sets the SPI bit on each of the four pins.
+     */
+    void declareSpiBus(uint8_t bus, uint8_t cs, uint8_t copi, uint8_t cipo, uint8_t sck);
+
     /** Initialize the device. Call once in setup() after all modules/datastreams are added. */
     void begin();
 
@@ -137,6 +166,16 @@ private:
 
     /* ── Pin mode tracking (for reads without explicit mode) ──── */
     uint8_t _pinModes[70]; /* up to 70 pins — covers Mega 2560's 54 digital + 16 analog */
+
+    /* ── Per-pin capability overrides (sketch-level declarePinCaps) ──── */
+    /* 0 = no override; otherwise replaces the generated profile entry.
+     *    Note: declarePinCaps with caps=0 is treated as "no override" since
+     *    a pin with zero caps is meaningless. */
+    uint8_t _capOverrides[70];
+
+    /* ── Bus override count: HELLO_RESP advertises max(profile, declared) ──── */
+    uint8_t _i2cBusOverride;
+    uint8_t _spiBusOverride;
 
     /* ── Buffers ──── */
     uint8_t _rxBuf[CONDUYT_PACKET_BUF_SIZE + CONDUYT_HEADER_SIZE];

@@ -1,0 +1,6 @@
+name: "Atmel ATmega328P"
+arduino_arch_macro: ARDUINO_ARCH_AVR
+mcu_id_source: avr_signature
+adc_resolution_bits: 10
+pwm_resolution_bits: 8
+notes: "Used by Arduino Uno R3 and Arduino Nano. No factory unique-ID register; mcu_id is zero-filled on this family."

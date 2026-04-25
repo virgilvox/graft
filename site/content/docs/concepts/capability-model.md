@@ -28,6 +28,22 @@ The host SDK parses HELLO_RESP into a structured capabilities object. All subseq
 
 This is a deliberate design choice. Sending an invalid command to a constrained microcontroller wastes time on the serial link, consumes firmware cycles to reject it, and produces an error response that the host must then parse and handle. Catching the error in the host SDK is faster and produces better diagnostics.
 
+The firmware backstops the host: if a sketch override or a stale SDK lets a bad command through, the firmware also validates against its own canonical board profile and replies with a `PIN_MODE_UNSUPPORTED` NAK rather than touching unsafe hardware (e.g. calling `analogRead` on a non-ADC pin, which on some MCU families would block forever).
+
+## Where the per-board capability data comes from
+
+Each supported board has a profile in `protocol/boards/<id>.yml` that names every pin and lists its capabilities, ADC channel, and bus assignments. Each silicon family has a profile in `protocol/mcus/<family>.yml` describing the chip itself (resolution, MCU-ID source). At firmware build time, the codegen turns these into a single `board_profiles_generated.h` that the firmware library compiles against. Adding a new board is one YAML file — no firmware code change.
+
+Sketches that run on hardware the library doesn't ship a profile for, or that wire custom shields that change a pin's role, can override individual pins before `device.begin()`:
+
+```cpp
+device.declarePinCaps(8, CONDUYT_PIN_CAP_DIGITAL_OUT | CONDUYT_PIN_CAP_PWM_OUT);
+device.declareI2cBus(1, /*sda*/ 27, /*scl*/ 26);   // Qwiic header on R4 WiFi, etc.
+device.declareSpiBus(0, /*cs*/ 10, /*copi*/ 11, /*cipo*/ 12, /*sck*/ 13);
+```
+
+These overrides are merged into HELLO_RESP at handshake time, so the host SDK sees them like any other profile data.
+
 ## Contrast with Firmata
 
 Firmata defines a CAPABILITY_QUERY message that serves a similar purpose. In practice, most Firmata host libraries hardcode the Arduino Uno pin map. When you connect a different board (a Mega, an ESP32, a Teensy), the host library guesses wrong. Pins are mapped incorrectly, capabilities are assumed rather than queried, and debugging requires cross-referencing datasheets with library source code.

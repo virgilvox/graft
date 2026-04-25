@@ -83,12 +83,12 @@ await device.disconnect()
 
 | Language | Package | Install | Status |
 |----------|---------|---------|--------|
-| JavaScript/TypeScript | [`conduyt-js`](https://www.npmjs.com/package/conduyt-js) | `npm install conduyt-js` | v0.2.0 |
-| Python | [`conduyt-py`](https://pypi.org/project/conduyt-py/) | `pip install conduyt-py` | v0.2.0 |
-| Go | [`conduyt/sdk/go`](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | `go get github.com/virgilvox/conduyt/sdk/go` | v0.2.0 |
-| Rust | [`conduyt`](https://crates.io/crates/conduyt) | `cargo add conduyt` | v0.2.0 |
-| Swift | `ConduytKit` | Swift Package Manager | v0.2.0 |
-| WASM (Browser) | [`conduyt-wasm`](https://www.npmjs.com/package/conduyt-wasm) | `npm install conduyt-wasm` | v0.2.0 |
+| JavaScript/TypeScript | [`conduyt-js`](https://www.npmjs.com/package/conduyt-js) | `npm install conduyt-js` | v0.3.0 |
+| Python | [`conduyt-py`](https://pypi.org/project/conduyt-py/) | `pip install conduyt-py` | v0.3.0 |
+| Go | [`conduyt/sdk/go`](https://github.com/virgilvox/conduyt/tree/main/sdk/go) | `go get github.com/virgilvox/conduyt/sdk/go` | v0.3.0 |
+| Rust | [`conduyt`](https://crates.io/crates/conduyt) | `cargo add conduyt` | v0.3.0 |
+| Swift | `ConduytKit` | Swift Package Manager | v0.3.0 |
+| WASM (Browser) | [`conduyt-wasm`](https://www.npmjs.com/package/conduyt-wasm) | `npm install conduyt-wasm` | v0.3.0 |
 
 ## Playground
 

@@ -1,0 +1,6 @@
+name: "Atmel ATmega32U4"
+arduino_arch_macro: ARDUINO_ARCH_AVR
+mcu_id_source: avr_signature
+adc_resolution_bits: 10
+pwm_resolution_bits: 8
+notes: "Used by Arduino Leonardo and Micro. Native USB-CDC. No factory unique-ID."

@@ -1,0 +1,10 @@
+name: "Espressif ESP8266"
+arduino_arch_macro: ARDUINO_ARCH_ESP8266
+mcu_id_source: esp8266
+adc_resolution_bits: 10
+pwm_resolution_bits: 10
+notes: |
+  ESP8266 (Tensilica L106, WiFi only).
+  Single ADC pin (A0 = TOUT, GPIO17 internal). PWM is software (1kHz default).
+  GPIO numbering on most NodeMCU boards: D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15.
+  GPIO 6-11 reserved for flash. mcu_id source: ESP.getChipId() (24-bit, padded).

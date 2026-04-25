@@ -1,0 +1,33 @@
+# Arduino Uno R4 WiFi
+# Source: ArduinoCore-renesas/variants/UNOWIFIR4/{pins_arduino.h,variant.cpp,pinmux.inc}
+# Same MCU as Minima but different P-pin bindings → different IRQ/PWM map.
+# Adds Wire1 on the Qwiic header (internal pins outside the public 0..19 range).
+name: "Arduino Uno R4 WiFi"
+mcu: ra4m1
+arduino_macro: ARDUINO_UNOR4_WIFI
+platformio_id: uno_r4_wifi
+pin_count: 20
+i2c_buses: 2
+spi_buses: 1
+uart_count: 1
+pins:
+  - { name: D0,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D1,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D2,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D4,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D7,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D8,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: cs }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out, spi, interrupt], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, pwm_out, spi, interrupt], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: sck }
+  - { name: A0,  caps: [digital_in, digital_out, analog_in], adc_channel: 9, dac: true }
+  - { name: A1,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 0 }
+  - { name: A2,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 1 }
+  - { name: A3,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 2 }
+  - { name: A4,  caps: [digital_in, digital_out, pwm_out, analog_in, i2c_sda, interrupt], adc_channel: 22, i2c_bus: 0 }
+  - { name: A5,  caps: [digital_in, digital_out, pwm_out, analog_in, i2c_scl, interrupt], adc_channel: 21, i2c_bus: 0 }

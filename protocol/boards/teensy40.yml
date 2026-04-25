@@ -1,0 +1,82 @@
+# Teensy 4.0 (NXP i.MX RT1062, Cortex-M7 @ 600 MHz)
+#
+# Source of pin map: PaulStoffregen/cores/teensy4/{core_pins.h,pins_arduino.h,pwm.c}
+# plus PJRC SPI/Wire libraries (default LPI2C/LPSPI pin assignments).
+# Verified at https://github.com/PaulStoffregen/cores (master).
+#
+# 40 user pins (0-39), all GPIOs are interrupt-capable.
+#
+# PWM-capable pins (31 total, from pwm_pin_info[] in pwm.c, ARDUINO_TEENSY40 branch):
+#   FlexPWM: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 22, 23, 24, 25, 28, 29, 33,
+#            34, 35, 36, 37, 38, 39
+#   QuadTimer: 10, 11, 12, 13, 14, 15, 18, 19
+#   Non-PWM: 16, 17, 20, 21, 26, 27, 30, 31, 32
+#
+# Analog inputs (14 total, from pins_arduino.h):
+#   A0..A9   = pins 14..23
+#   A10..A13 = pins 24..27
+#   ADC channels per pin come from analog.c (ADC1/ADC2; channel encoded as raw HW
+#   channel number — no high-bit ADC selector needed since both ADCs use the
+#   same channel numbering scheme on the i.MX RT1062).
+#
+# I2C buses (3 LPI2C peripherals, default pins):
+#   Wire  (LPI2C1): SDA=18, SCL=19
+#   Wire1 (LPI2C3): SDA=17, SCL=16
+#   Wire2 (LPI2C4): SDA=25, SCL=24
+#
+# SPI buses (3 LPSPI peripherals, default pins):
+#   SPI  (LPSPI4): MOSI=11, MISO=12, SCK=13, CS=10
+#   SPI1 (LPSPI3): MOSI=26, MISO=1,  SCK=27, CS=0
+#   SPI2 (LPSPI1): MOSI=35, MISO=34, SCK=37, CS=36   (uses SD-card pins on T4.0)
+
+name: "Teensy 4.0"
+mcu: imxrt1062
+arduino_macro: ARDUINO_TEENSY40
+platformio_id: teensy40
+
+pin_count: 40
+i2c_buses: 3
+spi_buses: 3
+uart_count: 7
+
+pins:
+  - { name: D0,  caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: cs }     # RX1, CS1
+  - { name: D1,  caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 1, spi_role: cipo }   # TX1, MISO1
+  - { name: D2,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D4,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D7,  caps: [digital_in, digital_out, pwm_out, interrupt] }                                    # RX2
+  - { name: D8,  caps: [digital_in, digital_out, pwm_out, interrupt] }                                    # TX2
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }    # LED
+  - { name: D14, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 7 }         # A0, TX3
+  - { name: D15, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 8 }         # A1, RX3
+  - { name: D16, caps: [digital_in, digital_out, analog_in, interrupt, i2c_scl], adc_channel: 12, i2c_bus: 1 }  # A2, SCL1, RX4
+  - { name: D17, caps: [digital_in, digital_out, analog_in, interrupt, i2c_sda], adc_channel: 11, i2c_bus: 1 }  # A3, SDA1, TX4
+  - { name: D18, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt, i2c_sda], adc_channel: 6, i2c_bus: 0 }  # A4, SDA0
+  - { name: D19, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt, i2c_scl], adc_channel: 5, i2c_bus: 0 }  # A5, SCL0
+  - { name: D20, caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 4 }                  # A6, TX5
+  - { name: D21, caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 3 }                  # A7, RX5
+  - { name: D22, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 8 }         # A8 (ADC2)
+  - { name: D23, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 9 }         # A9 (ADC2)
+  - { name: D24, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt, i2c_scl], adc_channel: 1, i2c_bus: 2 }  # A10, SCL2, TX6
+  - { name: D25, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt, i2c_sda], adc_channel: 2, i2c_bus: 2 }  # A11, SDA2, RX6
+  - { name: D26, caps: [digital_in, digital_out, analog_in, interrupt, spi], adc_channel: 131, spi_bus: 1, spi_role: copi }  # A12, MOSI1
+  - { name: D27, caps: [digital_in, digital_out, analog_in, interrupt, spi], adc_channel: 132, spi_bus: 1, spi_role: sck }   # A13, SCK1
+  - { name: D28, caps: [digital_in, digital_out, pwm_out, interrupt] }                                    # RX7
+  - { name: D29, caps: [digital_in, digital_out, pwm_out, interrupt] }                                    # TX7
+  - { name: D30, caps: [digital_in, digital_out, interrupt] }
+  - { name: D31, caps: [digital_in, digital_out, interrupt] }
+  - { name: D32, caps: [digital_in, digital_out, interrupt] }
+  - { name: D33, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D34, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 2, spi_role: cipo }   # MISO2
+  - { name: D35, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 2, spi_role: copi }   # MOSI2
+  - { name: D36, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 2, spi_role: cs }     # CS2
+  - { name: D37, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 2, spi_role: sck }    # SCK2
+  - { name: D38, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D39, caps: [digital_in, digital_out, pwm_out, interrupt] }

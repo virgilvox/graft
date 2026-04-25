@@ -1,0 +1,6 @@
+name: "Atmel ATmega2560"
+arduino_arch_macro: ARDUINO_ARCH_AVR
+mcu_id_source: avr_signature
+adc_resolution_bits: 10
+pwm_resolution_bits: 8
+notes: "Used by Arduino Mega 2560. No factory unique-ID register."

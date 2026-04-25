@@ -1,0 +1,9 @@
+name: "Espressif ESP32-C3"
+arduino_arch_macro: ARDUINO_ARCH_ESP32
+mcu_id_source: esp32
+adc_resolution_bits: 12
+pwm_resolution_bits: 8
+notes: |
+  ESP32-C3 (RISC-V single-core, WiFi+BLE 5.0).
+  ADC on GPIO 0-4 (5 channels total). One I2C peripheral.
+  No native USB OTG (USB Serial/JTAG only).

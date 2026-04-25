@@ -1,0 +1,21 @@
+# Renesas RA4M1 — Cortex-M4 used by Arduino Uno R4 family.
+#
+# Used by: uno_r4_minima, uno_r4_wifi
+#
+# Capability strategy on this MCU family:
+#  - PWM:        runtime via `digitalPinHasPWM(p)` (variant pinmux table truth)
+#  - INTERRUPT:  static (digitalPinToInterrupt is a function not a macro;
+#                NOT_AN_INTERRUPT is undefined in core headers)
+#  - ANALOG:     static (channel mapping per pin)
+#  - I2C/SPI:    static (no runtime helper exposed by the core)
+
+name: "Renesas RA4M1"
+arduino_arch_macro: ARDUINO_ARCH_RENESAS_UNO
+
+# Source for the 8-byte mcu_id field in HELLO_RESP.
+# Selects firmware/src/conduyt/boards/mcu_id_<source>.cpp
+mcu_id_source: ra4m1
+
+# ADC and PWM resolution defaults (boards may override).
+adc_resolution_bits: 14
+pwm_resolution_bits: 8

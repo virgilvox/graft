@@ -1,0 +1,9 @@
+name: "Nordic nRF52840"
+arduino_arch_macro: ARDUINO_ARCH_NRF52
+mcu_id_source: nrf52
+adc_resolution_bits: 12
+pwm_resolution_bits: 8
+notes: |
+  nRF52840 (Cortex-M4F, BLE 5.0 + Thread + Zigbee). 48 GPIOs across two ports (P0, P1).
+  6 ADC channels. Every GPIO supports interrupts via GPIOTE.
+  mcu_id source: NRF_FICR->DEVICEID[0..1] (64-bit factory ID).

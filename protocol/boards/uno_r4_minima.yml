@@ -1,0 +1,48 @@
+# Arduino Uno R4 Minima
+#
+# Source of pin map: ArduinoCore-renesas/variants/MINIMA/{pins_arduino.h,variant.cpp,pinmux.inc}
+# Verified at https://github.com/arduino/ArduinoCore-renesas (main).
+#
+# Pin numbering matches the Arduino digital-pin convention (0..19).
+# A0..A5 are pins 14..19. SDA/SCL are aliased to A4/A5 (classic Uno mapping).
+
+name: "Arduino Uno R4 Minima"
+mcu: ra4m1
+arduino_macro: ARDUINO_UNOR4_MINIMA
+platformio_id: uno_r4_minima
+
+pin_count: 20
+i2c_buses: 1
+spi_buses: 1
+uart_count: 1
+
+# Capability flags per pin: digital_in, digital_out, pwm_out, analog_in,
+# i2c_sda, i2c_scl, spi, interrupt.
+#
+# Optional fields:
+#   adc_channel  — integer ADC channel index for analogRead routing.
+#   i2c_bus      — bus number (0-based) this SDA/SCL pin belongs to.
+#   spi_bus      — bus number (0-based) this SPI pin belongs to.
+#   spi_role     — one of: cs, copi, cipo, sck.
+#   dac          — true if this pin is also DAC-capable.
+pins:
+  - { name: D0,  caps: [digital_in, digital_out, interrupt] }                  # P301 RX
+  - { name: D1,  caps: [digital_in, digital_out, interrupt] }                  # P302 TX
+  - { name: D2,  caps: [digital_in, digital_out, interrupt] }                  # P105
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }         # P104
+  - { name: D4,  caps: [digital_in, digital_out] }                             # P103
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out] }                    # P102
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out] }                    # P106
+  - { name: D7,  caps: [digital_in, digital_out] }                             # P107
+  - { name: D8,  caps: [digital_in, digital_out, interrupt] }                  # P304
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out] }                    # P303
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: cs }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, pwm_out, spi, interrupt], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, pwm_out, spi, interrupt], spi_bus: 0, spi_role: sck }
+  - { name: A0,  caps: [digital_in, digital_out, analog_in], adc_channel: 9, dac: true }   # P014
+  - { name: A1,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 0 }   # P000
+  - { name: A2,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 1 }   # P001
+  - { name: A3,  caps: [digital_in, digital_out, analog_in, interrupt], adc_channel: 2 }   # P002
+  - { name: A4,  caps: [digital_in, digital_out, analog_in, i2c_sda, interrupt], adc_channel: 22, i2c_bus: 0 }
+  - { name: A5,  caps: [digital_in, digital_out, analog_in, i2c_scl, interrupt], adc_channel: 21, i2c_bus: 0 }

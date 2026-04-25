@@ -1,0 +1,6 @@
+name: "Atmel ATmega4809 (megaAVR)"
+arduino_arch_macro: ARDUINO_ARCH_MEGAAVR
+mcu_id_source: avr_signature
+adc_resolution_bits: 10
+pwm_resolution_bits: 8
+notes: "Used by Arduino Nano Every. megaAVR core (different from classic AVR). Every GPIO supports edge interrupts."

@@ -1,0 +1,38 @@
+# Arduino Nano ESP32 (NORA-W106-10B / ESP32-S3)
+# Source: espressif/arduino-esp32 variants/arduino_nano_nora/pins_arduino.h
+# BOARD_HAS_PIN_REMAP — Arduino API uses pin numbers 0..24 mapping to S3 GPIOs.
+# A0..A3 are ADC1; A4-A7 share ADC2 channels (WiFi conflict — analog_in omitted).
+name: "Arduino Nano ESP32"
+mcu: esp32s3
+arduino_macro: ARDUINO_NANO_ESP32
+platformio_id: arduino_nano_esp32
+pin_count: 25
+i2c_buses: 2
+spi_buses: 2
+uart_count: 3
+pins:
+  - { name: D0,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D1,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D2,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 4 }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 5 }
+  - { name: D4,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 6 }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 7 }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 8 }
+  - { name: D7,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 9 }
+  - { name: D8,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }
+  - { name: LED_RED,   caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: LED_GREEN, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: LED_BLUE,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: A0, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 0 }
+  - { name: A1, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 1 }
+  - { name: A2, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 2 }
+  - { name: A3, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 3 }
+  - { name: A4, caps: [digital_in, digital_out, pwm_out, interrupt, i2c_sda], i2c_bus: 0 }
+  - { name: A5, caps: [digital_in, digital_out, pwm_out, interrupt, i2c_scl], i2c_bus: 0 }
+  - { name: A6, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: A7, caps: [digital_in, digital_out, pwm_out, interrupt] }

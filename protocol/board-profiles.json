@@ -1,0 +1,6835 @@
+{
+  "generated": "protocol/generate.ts",
+  "protocolVersion": 2,
+  "mcus": {
+    "atmega2560": {
+      "name": "Atmel ATmega2560",
+      "arduino_arch_macro": "ARDUINO_ARCH_AVR",
+      "mcu_id_source": "avr_signature",
+      "adc_resolution_bits": 10,
+      "pwm_resolution_bits": 8,
+      "notes": "Used by Arduino Mega 2560. No factory unique-ID register.",
+      "id": "atmega2560"
+    },
+    "atmega328p": {
+      "name": "Atmel ATmega328P",
+      "arduino_arch_macro": "ARDUINO_ARCH_AVR",
+      "mcu_id_source": "avr_signature",
+      "adc_resolution_bits": 10,
+      "pwm_resolution_bits": 8,
+      "notes": "Used by Arduino Uno R3 and Arduino Nano. No factory unique-ID register; mcu_id is zero-filled on this family.",
+      "id": "atmega328p"
+    },
+    "atmega32u4": {
+      "name": "Atmel ATmega32U4",
+      "arduino_arch_macro": "ARDUINO_ARCH_AVR",
+      "mcu_id_source": "avr_signature",
+      "adc_resolution_bits": 10,
+      "pwm_resolution_bits": 8,
+      "notes": "Used by Arduino Leonardo and Micro. Native USB-CDC. No factory unique-ID.",
+      "id": "atmega32u4"
+    },
+    "atmega4809": {
+      "name": "Atmel ATmega4809 (megaAVR)",
+      "arduino_arch_macro": "ARDUINO_ARCH_MEGAAVR",
+      "mcu_id_source": "avr_signature",
+      "adc_resolution_bits": 10,
+      "pwm_resolution_bits": 8,
+      "notes": "Used by Arduino Nano Every. megaAVR core (different from classic AVR). Every GPIO supports edge interrupts.",
+      "id": "atmega4809"
+    },
+    "esp32": {
+      "name": "Espressif ESP32 (classic)",
+      "arduino_arch_macro": "ARDUINO_ARCH_ESP32",
+      "mcu_id_source": "esp32",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 8,
+      "notes": "Classic ESP32 (Tensilica Xtensa LX6 dual-core, WiFi+BLE).\nADC1 on GPIO 32-39 (always usable). ADC2 on GPIO 0,2,4,12-15,25-27 (conflicts with WiFi when WiFi is active —\nconservatively excluded from analog_in declarations).\nGPIO 6-11 are reserved for SPI flash (board-dependent — not user-accessible on most modules).\nGPIO 34-39 are input-only (no DIGITAL_OUT capability).\nPWM via LEDC peripheral works on any output-capable GPIO.\nmcu_id source: ESP.getEfuseMac() (factory MAC, 48 bits).\n",
+      "id": "esp32"
+    },
+    "esp32c3": {
+      "name": "Espressif ESP32-C3",
+      "arduino_arch_macro": "ARDUINO_ARCH_ESP32",
+      "mcu_id_source": "esp32",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 8,
+      "notes": "ESP32-C3 (RISC-V single-core, WiFi+BLE 5.0).\nADC on GPIO 0-4 (5 channels total). One I2C peripheral.\nNo native USB OTG (USB Serial/JTAG only).\n",
+      "id": "esp32c3"
+    },
+    "esp32s2": {
+      "name": "Espressif ESP32-S2",
+      "arduino_arch_macro": "ARDUINO_ARCH_ESP32",
+      "mcu_id_source": "esp32",
+      "adc_resolution_bits": 13,
+      "pwm_resolution_bits": 8,
+      "notes": "ESP32-S2 (Tensilica Xtensa LX7 single-core, WiFi only — no BLE).\nADC1 on GPIO 1-10, ADC2 on GPIO 11-20.\nNative USB OTG. No DAC.\n",
+      "id": "esp32s2"
+    },
+    "esp32s3": {
+      "name": "Espressif ESP32-S3",
+      "arduino_arch_macro": "ARDUINO_ARCH_ESP32",
+      "mcu_id_source": "esp32",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 8,
+      "notes": "ESP32-S3 (Tensilica Xtensa LX7 dual-core, WiFi+BLE 5.0).\nADC1 on GPIO 1-10, ADC2 on GPIO 11-20.\nNative USB OTG. Supports vector instructions for ML.\n",
+      "id": "esp32s3"
+    },
+    "esp8266": {
+      "name": "Espressif ESP8266",
+      "arduino_arch_macro": "ARDUINO_ARCH_ESP8266",
+      "mcu_id_source": "esp8266",
+      "adc_resolution_bits": 10,
+      "pwm_resolution_bits": 10,
+      "notes": "ESP8266 (Tensilica L106, WiFi only).\nSingle ADC pin (A0 = TOUT, GPIO17 internal). PWM is software (1kHz default).\nGPIO numbering on most NodeMCU boards: D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15.\nGPIO 6-11 reserved for flash. mcu_id source: ESP.getChipId() (24-bit, padded).\n",
+      "id": "esp8266"
+    },
+    "imxrt1062": {
+      "name": "NXP i.MX RT1062",
+      "arduino_arch_macro": "TEENSYDUINO",
+      "mcu_id_source": "teensy4",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 16,
+      "notes": "i.MX RT1062 (Cortex-M7 @ 600 MHz, Teensy 4.0/4.1).\nCrossbar ADC on selected GPIOs. Every pin can interrupt.\nmcu_id source: HW_OCOTP_CFG0/CFG1 (NXP OCOTP fuses, 64-bit unique ID).\n",
+      "id": "imxrt1062"
+    },
+    "kinetis_k66": {
+      "name": "NXP Kinetis K66 (MK66FX1M0)",
+      "arduino_arch_macro": "TEENSYDUINO",
+      "mcu_id_source": "teensy3",
+      "adc_resolution_bits": 16,
+      "pwm_resolution_bits": 16,
+      "notes": "Kinetis K66 (Cortex-M4F @ 180 MHz, Teensy 3.6).\n21 ADC channels. Every GPIO can interrupt.\nmcu_id source: SIM_UIDH/MH/ML/L (Kinetis 128-bit unique-ID; we use upper 64 bits).\n",
+      "id": "kinetis_k66"
+    },
+    "nrf52840": {
+      "name": "Nordic nRF52840",
+      "arduino_arch_macro": "ARDUINO_ARCH_NRF52",
+      "mcu_id_source": "nrf52",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 8,
+      "notes": "nRF52840 (Cortex-M4F, BLE 5.0 + Thread + Zigbee). 48 GPIOs across two ports (P0, P1).\n6 ADC channels. Every GPIO supports interrupts via GPIOTE.\nmcu_id source: NRF_FICR->DEVICEID[0..1] (64-bit factory ID).\n",
+      "id": "nrf52840"
+    },
+    "ra4m1": {
+      "name": "Renesas RA4M1",
+      "arduino_arch_macro": "ARDUINO_ARCH_RENESAS_UNO",
+      "mcu_id_source": "ra4m1",
+      "adc_resolution_bits": 14,
+      "pwm_resolution_bits": 8,
+      "id": "ra4m1"
+    },
+    "rp2040": {
+      "name": "Raspberry Pi RP2040",
+      "arduino_arch_macro": "ARDUINO_ARCH_RP2040",
+      "mcu_id_source": "rp2040",
+      "adc_resolution_bits": 12,
+      "pwm_resolution_bits": 16,
+      "notes": "RP2040 has 30 GPIO, 4 ADC channels (GPIO 26-29; A0-A3), 8 PWM slices x 2 channels routable to any GPIO.\nEvery GPIO can serve as I2C SDA/SCL or SPI MOSI/MISO/SCK via the GPIO mux. Every GPIO supports interrupts.\nmcu_id source is the external flash chip's JEDEC RUID via pico_get_unique_board_id().\n",
+      "id": "rp2040"
+    }
+  },
+  "boards": [
+    {
+      "name": "Arduino Nano ESP32",
+      "mcu": "esp32s3",
+      "arduino_macro": "ARDUINO_NANO_ESP32",
+      "platformio_id": "arduino_nano_esp32",
+      "pin_count": 25,
+      "i2c_buses": 2,
+      "spi_buses": 2,
+      "uart_count": 3,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "LED_RED",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "LED_GREEN",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "LED_BLUE",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "A6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "A7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "arduino_nano_esp32",
+      "pinCaps": [
+        135,
+        135,
+        143,
+        143,
+        143,
+        143,
+        143,
+        143,
+        135,
+        135,
+        199,
+        199,
+        199,
+        199,
+        135,
+        135,
+        135,
+        143,
+        143,
+        143,
+        143,
+        151,
+        167,
+        135,
+        135
+      ]
+    },
+    {
+      "name": "ESP32-C3 DevKitM-1",
+      "mcu": "esp32c3",
+      "arduino_macro": "ARDUINO_ESP32C3_DEV",
+      "platformio_id": "esp32-c3-devkitm-1",
+      "pin_count": 22,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 2,
+      "pins": [
+        {
+          "name": "GPIO0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "GPIO1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "GPIO2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "GPIO3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "GPIO4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "spi"
+          ],
+          "adc_channel": 4,
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GPIO5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GPIO6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GPIO7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GPIO8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO11",
+          "caps": []
+        },
+        {
+          "name": "GPIO12",
+          "caps": []
+        },
+        {
+          "name": "GPIO13",
+          "caps": []
+        },
+        {
+          "name": "GPIO14",
+          "caps": []
+        },
+        {
+          "name": "GPIO15",
+          "caps": []
+        },
+        {
+          "name": "GPIO16",
+          "caps": []
+        },
+        {
+          "name": "GPIO17",
+          "caps": []
+        },
+        {
+          "name": "GPIO18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "esp32-c3-devkitm-1",
+      "pinCaps": [
+        143,
+        143,
+        143,
+        143,
+        207,
+        199,
+        199,
+        199,
+        151,
+        167,
+        135,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        135,
+        135,
+        135
+      ]
+    },
+    {
+      "name": "ESP32-S2 Saola-1",
+      "mcu": "esp32s2",
+      "arduino_macro": "ARDUINO_ESP32S2_DEV",
+      "platformio_id": "esp32-s2-saola-1",
+      "pin_count": 47,
+      "i2c_buses": 2,
+      "spi_buses": 2,
+      "uart_count": 2,
+      "pins": [
+        {
+          "name": "GPIO0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "GPIO2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "GPIO3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "GPIO4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "GPIO5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "GPIO6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "GPIO7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "GPIO8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_sda"
+          ],
+          "adc_channel": 7,
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_scl"
+          ],
+          "adc_channel": 8,
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "GPIO11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO22",
+          "caps": []
+        },
+        {
+          "name": "GPIO23",
+          "caps": []
+        },
+        {
+          "name": "GPIO24",
+          "caps": []
+        },
+        {
+          "name": "GPIO25",
+          "caps": []
+        },
+        {
+          "name": "GPIO26",
+          "caps": []
+        },
+        {
+          "name": "GPIO27",
+          "caps": []
+        },
+        {
+          "name": "GPIO28",
+          "caps": []
+        },
+        {
+          "name": "GPIO29",
+          "caps": []
+        },
+        {
+          "name": "GPIO30",
+          "caps": []
+        },
+        {
+          "name": "GPIO31",
+          "caps": []
+        },
+        {
+          "name": "GPIO32",
+          "caps": []
+        },
+        {
+          "name": "GPIO33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO34",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GPIO35",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GPIO36",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GPIO37",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GPIO38",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO39",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO40",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO41",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO42",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO43",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO44",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO45",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO46",
+          "caps": [
+            "digital_in",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "esp32-s2-saola-1",
+      "pinCaps": [
+        135,
+        143,
+        143,
+        143,
+        143,
+        143,
+        143,
+        143,
+        159,
+        175,
+        143,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        199,
+        199,
+        199,
+        199,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        129
+      ]
+    },
+    {
+      "name": "ESP32-S3 DevKitC-1",
+      "mcu": "esp32s3",
+      "arduino_macro": "ARDUINO_ESP32S3_DEV",
+      "platformio_id": "esp32-s3-devkitc-1",
+      "pin_count": 49,
+      "i2c_buses": 2,
+      "spi_buses": 2,
+      "uart_count": 3,
+      "pins": [
+        {
+          "name": "GPIO0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "GPIO2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "GPIO3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "GPIO4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "GPIO5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "GPIO6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "GPIO7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "GPIO8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_sda"
+          ],
+          "adc_channel": 7,
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_scl"
+          ],
+          "adc_channel": 8,
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "spi"
+          ],
+          "adc_channel": 9,
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GPIO11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GPIO12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GPIO13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GPIO14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO22",
+          "caps": []
+        },
+        {
+          "name": "GPIO23",
+          "caps": []
+        },
+        {
+          "name": "GPIO24",
+          "caps": []
+        },
+        {
+          "name": "GPIO25",
+          "caps": []
+        },
+        {
+          "name": "GPIO26",
+          "caps": []
+        },
+        {
+          "name": "GPIO27",
+          "caps": []
+        },
+        {
+          "name": "GPIO28",
+          "caps": []
+        },
+        {
+          "name": "GPIO29",
+          "caps": []
+        },
+        {
+          "name": "GPIO30",
+          "caps": []
+        },
+        {
+          "name": "GPIO31",
+          "caps": []
+        },
+        {
+          "name": "GPIO32",
+          "caps": []
+        },
+        {
+          "name": "GPIO33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO34",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO35",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO36",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO37",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO38",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO39",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO40",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO41",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO42",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO43",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO44",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO45",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO46",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO47",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO48",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "esp32-s3-devkitc-1",
+      "pinCaps": [
+        135,
+        143,
+        143,
+        143,
+        143,
+        143,
+        143,
+        143,
+        159,
+        175,
+        207,
+        199,
+        199,
+        199,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135
+      ]
+    },
+    {
+      "name": "ESP32 DevKit",
+      "mcu": "esp32",
+      "arduino_macro": "ARDUINO_ESP32_DEV",
+      "platformio_id": "esp32dev",
+      "pin_count": 40,
+      "i2c_buses": 2,
+      "spi_buses": 2,
+      "uart_count": 3,
+      "pins": [
+        {
+          "name": "GPIO0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GPIO6",
+          "caps": []
+        },
+        {
+          "name": "GPIO7",
+          "caps": []
+        },
+        {
+          "name": "GPIO8",
+          "caps": []
+        },
+        {
+          "name": "GPIO9",
+          "caps": []
+        },
+        {
+          "name": "GPIO10",
+          "caps": []
+        },
+        {
+          "name": "GPIO11",
+          "caps": []
+        },
+        {
+          "name": "GPIO12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GPIO19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GPIO20",
+          "caps": []
+        },
+        {
+          "name": "GPIO21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO22",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO23",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GPIO24",
+          "caps": []
+        },
+        {
+          "name": "GPIO25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO28",
+          "caps": []
+        },
+        {
+          "name": "GPIO29",
+          "caps": []
+        },
+        {
+          "name": "GPIO30",
+          "caps": []
+        },
+        {
+          "name": "GPIO31",
+          "caps": []
+        },
+        {
+          "name": "GPIO32",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "GPIO33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "GPIO34",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "GPIO35",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "GPIO36",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "GPIO37",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "GPIO38",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "GPIO39",
+          "caps": [
+            "digital_in",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        }
+      ],
+      "id": "esp32dev",
+      "pinCaps": [
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        199,
+        0,
+        151,
+        167,
+        199,
+        0,
+        135,
+        135,
+        135,
+        0,
+        0,
+        0,
+        0,
+        143,
+        143,
+        137,
+        137,
+        137,
+        137,
+        137,
+        137
+      ]
+    },
+    {
+      "name": "Arduino Leonardo",
+      "mcu": "atmega32u4",
+      "arduino_macro": "ARDUINO_AVR_LEONARDO",
+      "platformio_id": "leonardo",
+      "pin_count": 30,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in"
+          ],
+          "adc_channel": 10
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 11
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in"
+          ],
+          "adc_channel": 12
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in"
+          ],
+          "adc_channel": 13
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A6",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "A7",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 10
+        },
+        {
+          "name": "A8",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 11
+        },
+        {
+          "name": "A9",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 12
+        },
+        {
+          "name": "A10",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 13
+        },
+        {
+          "name": "A11",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 9
+        }
+      ],
+      "id": "leonardo",
+      "pinCaps": [
+        131,
+        131,
+        147,
+        167,
+        11,
+        7,
+        15,
+        131,
+        11,
+        15,
+        15,
+        7,
+        11,
+        7,
+        67,
+        67,
+        67,
+        67,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Arduino Mega 2560",
+      "mcu": "atmega2560",
+      "arduino_macro": "ARDUINO_AVR_MEGA2560",
+      "platformio_id": "megaatmega2560",
+      "pin_count": 70,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 4,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D14",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D15",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D16",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D17",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "D21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "D22",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D23",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D24",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D25",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D26",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D27",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D28",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D29",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D30",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D31",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D32",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D33",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D34",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D35",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D36",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D37",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D38",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D39",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D40",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D41",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D42",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D43",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D44",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D45",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D46",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D47",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D48",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D49",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D50",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D51",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D52",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D53",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "A6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "A7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "A8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "A9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "A10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 10
+        },
+        {
+          "name": "A11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 11
+        },
+        {
+          "name": "A12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 12
+        },
+        {
+          "name": "A13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 13
+        },
+        {
+          "name": "A14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 14
+        },
+        {
+          "name": "A15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 15
+        }
+      ],
+      "id": "mega2560",
+      "pinCaps": [
+        3,
+        3,
+        135,
+        135,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        3,
+        131,
+        131,
+        147,
+        163,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        7,
+        7,
+        7,
+        3,
+        3,
+        3,
+        67,
+        67,
+        67,
+        67,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11
+      ]
+    },
+    {
+      "name": "Arduino Nano",
+      "mcu": "atmega328p",
+      "arduino_macro": "ARDUINO_AVR_NANO",
+      "platformio_id": "nanoatmega328",
+      "pin_count": 22,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_sda"
+          ],
+          "adc_channel": 4,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_scl"
+          ],
+          "adc_channel": 5,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A6",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "A7",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 7
+        }
+      ],
+      "id": "nano",
+      "pinCaps": [
+        3,
+        3,
+        131,
+        135,
+        3,
+        7,
+        7,
+        3,
+        3,
+        7,
+        71,
+        71,
+        67,
+        67,
+        11,
+        11,
+        11,
+        11,
+        27,
+        43,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Arduino Nano Every",
+      "mcu": "atmega4809",
+      "arduino_macro": "ARDUINO_AVR_NANO_EVERY",
+      "platformio_id": "nano_every",
+      "pin_count": 22,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 12,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 13,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "A7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 5
+        }
+      ],
+      "id": "nano_every",
+      "pinCaps": [
+        131,
+        131,
+        131,
+        135,
+        131,
+        135,
+        135,
+        131,
+        195,
+        135,
+        135,
+        195,
+        195,
+        195,
+        139,
+        139,
+        139,
+        139,
+        155,
+        171,
+        139,
+        139
+      ]
+    },
+    {
+      "name": "NodeMCU 1.0 (ESP-12E)",
+      "mcu": "esp8266",
+      "arduino_macro": "ARDUINO_ESP8266_NODEMCU_ESP12E",
+      "platformio_id": "nodemcuv2",
+      "pin_count": 18,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 2,
+      "pins": [
+        {
+          "name": "GPIO0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GPIO4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GPIO6",
+          "caps": []
+        },
+        {
+          "name": "GPIO7",
+          "caps": []
+        },
+        {
+          "name": "GPIO8",
+          "caps": []
+        },
+        {
+          "name": "GPIO9",
+          "caps": []
+        },
+        {
+          "name": "GPIO10",
+          "caps": []
+        },
+        {
+          "name": "GPIO11",
+          "caps": []
+        },
+        {
+          "name": "GPIO12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GPIO13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GPIO14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GPIO15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GPIO16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "analog_in"
+          ],
+          "adc_channel": 0
+        }
+      ],
+      "id": "nodemcuv2",
+      "pinCaps": [
+        135,
+        135,
+        135,
+        135,
+        151,
+        167,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        199,
+        199,
+        199,
+        199,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "nRF52840 DK (PCA10056)",
+      "mcu": "nrf52840",
+      "arduino_macro": "ARDUINO_NRF52840_PCA10056",
+      "platformio_id": "nrf52840_dk",
+      "pin_count": 48,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 2,
+      "pins": [
+        {
+          "name": "P0_00",
+          "caps": []
+        },
+        {
+          "name": "P0_01",
+          "caps": []
+        },
+        {
+          "name": "P0_02",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "P0_03",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "P0_04",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "P0_05",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "P0_06",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_07",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_08",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_09",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_17",
+          "caps": []
+        },
+        {
+          "name": "P0_18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_19",
+          "caps": []
+        },
+        {
+          "name": "P0_20",
+          "caps": []
+        },
+        {
+          "name": "P0_21",
+          "caps": []
+        },
+        {
+          "name": "P0_22",
+          "caps": []
+        },
+        {
+          "name": "P0_23",
+          "caps": []
+        },
+        {
+          "name": "P0_24",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P0_26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "P0_27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "P0_28",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "P0_29",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "P0_30",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "P0_31",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "P1_00",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_01",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_02",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_03",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_04",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_05",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_06",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_07",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_08",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_09",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "P1_13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "P1_14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "P1_15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        }
+      ],
+      "id": "nrf52840_dk",
+      "pinCaps": [
+        0,
+        0,
+        143,
+        143,
+        143,
+        143,
+        135,
+        135,
+        135,
+        131,
+        131,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        0,
+        135,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        135,
+        151,
+        167,
+        143,
+        143,
+        143,
+        143,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        199,
+        199
+      ]
+    },
+    {
+      "name": "Raspberry Pi Pico",
+      "mcu": "rp2040",
+      "arduino_macro": "ARDUINO_RASPBERRY_PI_PICO",
+      "platformio_id": "pico",
+      "pin_count": 30,
+      "i2c_buses": 2,
+      "spi_buses": 2,
+      "uart_count": 2,
+      "pins": [
+        {
+          "name": "GP0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GP5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 0
+        },
+        {
+          "name": "GP6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GP13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GP14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GP15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GP16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "GP17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "GP18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "GP19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "GP20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP22",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP23",
+          "caps": []
+        },
+        {
+          "name": "GP24",
+          "caps": []
+        },
+        {
+          "name": "GP25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "GP26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_sda"
+          ],
+          "adc_channel": 0,
+          "i2c_bus": 1
+        },
+        {
+          "name": "GP27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in",
+            "i2c_scl"
+          ],
+          "adc_channel": 1,
+          "i2c_bus": 1
+        },
+        {
+          "name": "GP28",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "GP29",
+          "caps": []
+        }
+      ],
+      "id": "pico",
+      "pinCaps": [
+        135,
+        135,
+        135,
+        135,
+        151,
+        167,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        199,
+        199,
+        199,
+        199,
+        199,
+        199,
+        199,
+        135,
+        135,
+        135,
+        0,
+        0,
+        135,
+        159,
+        175,
+        143,
+        0
+      ]
+    },
+    {
+      "name": "Teensy 3.6",
+      "mcu": "kinetis_k66",
+      "arduino_macro": "__MK66FX1M0__",
+      "platformio_id": "teensy36",
+      "pin_count": 58,
+      "i2c_buses": 3,
+      "spi_buses": 3,
+      "uart_count": 6,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "i2c_bus": 2
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "i2c_bus": 2
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 5
+        },
+        {
+          "name": "D15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 14
+        },
+        {
+          "name": "D16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "D18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 13,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 12,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 6
+        },
+        {
+          "name": "D21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "D22",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 15
+        },
+        {
+          "name": "D23",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "D24",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D28",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D29",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D30",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D31",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 17
+        },
+        {
+          "name": "D32",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "spi"
+          ],
+          "adc_channel": 18,
+          "spi_bus": 1,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 132
+        },
+        {
+          "name": "D34",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 133
+        },
+        {
+          "name": "D35",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 134
+        },
+        {
+          "name": "D36",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 135
+        },
+        {
+          "name": "D37",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 145
+        },
+        {
+          "name": "D38",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 17
+        },
+        {
+          "name": "D39",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 18
+        },
+        {
+          "name": "D40",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D41",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D42",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D43",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D44",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D45",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D46",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D47",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D48",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D49",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 138
+        },
+        {
+          "name": "D50",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 139
+        },
+        {
+          "name": "D51",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D52",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D53",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D54",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D55",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D56",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D57",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "teensy36",
+      "pinCaps": [
+        195,
+        195,
+        135,
+        167,
+        151,
+        135,
+        199,
+        135,
+        135,
+        135,
+        199,
+        195,
+        195,
+        195,
+        143,
+        139,
+        143,
+        143,
+        155,
+        171,
+        143,
+        143,
+        143,
+        143,
+        131,
+        131,
+        131,
+        131,
+        131,
+        135,
+        135,
+        139,
+        203,
+        139,
+        139,
+        143,
+        143,
+        143,
+        143,
+        139,
+        131,
+        131,
+        131,
+        195,
+        195,
+        195,
+        195,
+        131,
+        131,
+        139,
+        139,
+        131,
+        131,
+        131,
+        131,
+        131,
+        131,
+        131
+      ]
+    },
+    {
+      "name": "Teensy 4.0",
+      "mcu": "imxrt1062",
+      "arduino_macro": "ARDUINO_TEENSY40",
+      "platformio_id": "teensy40",
+      "pin_count": 40,
+      "i2c_buses": 3,
+      "spi_buses": 3,
+      "uart_count": 7,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "D15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 12,
+          "i2c_bus": 1
+        },
+        {
+          "name": "D17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 11,
+          "i2c_bus": 1
+        },
+        {
+          "name": "D18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 6,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 5,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "D21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "D22",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D23",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "D24",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 1,
+          "i2c_bus": 2
+        },
+        {
+          "name": "D25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 2,
+          "i2c_bus": 2
+        },
+        {
+          "name": "D26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "spi"
+          ],
+          "adc_channel": 131,
+          "spi_bus": 1,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "spi"
+          ],
+          "adc_channel": 132,
+          "spi_bus": 1,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D28",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D29",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D30",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D31",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D32",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D34",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D35",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D36",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D37",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D38",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D39",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        }
+      ],
+      "id": "teensy40",
+      "pinCaps": [
+        199,
+        199,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        199,
+        199,
+        199,
+        143,
+        143,
+        171,
+        155,
+        159,
+        175,
+        139,
+        139,
+        143,
+        143,
+        175,
+        159,
+        203,
+        203,
+        135,
+        135,
+        131,
+        131,
+        131,
+        135,
+        199,
+        199,
+        199,
+        199,
+        135,
+        135
+      ]
+    },
+    {
+      "name": "Teensy 4.1",
+      "mcu": "imxrt1062",
+      "arduino_macro": "ARDUINO_TEENSY41",
+      "platformio_id": "teensy41",
+      "pin_count": 55,
+      "i2c_buses": 3,
+      "spi_buses": 3,
+      "uart_count": 8,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 1,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D14",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 7
+        },
+        {
+          "name": "D15",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D16",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 12,
+          "i2c_bus": 1
+        },
+        {
+          "name": "D17",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 11,
+          "i2c_bus": 1
+        },
+        {
+          "name": "D18",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 6,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D19",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 5,
+          "i2c_bus": 0
+        },
+        {
+          "name": "D20",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 4
+        },
+        {
+          "name": "D21",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "D22",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 8
+        },
+        {
+          "name": "D23",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 9
+        },
+        {
+          "name": "D24",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_scl"
+          ],
+          "adc_channel": 1,
+          "i2c_bus": 2
+        },
+        {
+          "name": "D25",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "interrupt",
+            "i2c_sda"
+          ],
+          "adc_channel": 2,
+          "i2c_bus": 2
+        },
+        {
+          "name": "D26",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "spi"
+          ],
+          "adc_channel": 131,
+          "spi_bus": 1,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D27",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt",
+            "spi"
+          ],
+          "adc_channel": 132,
+          "spi_bus": 1,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D28",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D29",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D30",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D31",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D32",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D33",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D34",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D35",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D36",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D37",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D38",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 17
+        },
+        {
+          "name": "D39",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 18
+        },
+        {
+          "name": "D40",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 137
+        },
+        {
+          "name": "D41",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 138
+        },
+        {
+          "name": "D42",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D43",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D44",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D45",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D46",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D47",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D48",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D49",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "sck"
+        },
+        {
+          "name": "D50",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D51",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D52",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D53",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D54",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt",
+            "spi"
+          ],
+          "spi_bus": 2,
+          "spi_role": "cipo"
+        }
+      ],
+      "id": "teensy41",
+      "pinCaps": [
+        199,
+        199,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        135,
+        199,
+        199,
+        199,
+        199,
+        143,
+        143,
+        171,
+        155,
+        159,
+        175,
+        139,
+        139,
+        143,
+        143,
+        175,
+        159,
+        203,
+        203,
+        135,
+        135,
+        131,
+        131,
+        131,
+        135,
+        131,
+        131,
+        135,
+        135,
+        139,
+        139,
+        139,
+        139,
+        135,
+        199,
+        135,
+        135,
+        135,
+        135,
+        131,
+        195,
+        195,
+        135,
+        131,
+        131,
+        199
+      ]
+    },
+    {
+      "name": "Arduino Uno R3",
+      "mcu": "atmega328p",
+      "arduino_macro": "ARDUINO_AVR_UNO",
+      "platformio_id": "uno",
+      "pin_count": 20,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 3
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_sda"
+          ],
+          "adc_channel": 4,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_scl"
+          ],
+          "adc_channel": 5,
+          "i2c_bus": 0
+        }
+      ],
+      "id": "uno",
+      "pinCaps": [
+        3,
+        3,
+        131,
+        135,
+        3,
+        7,
+        7,
+        3,
+        3,
+        7,
+        71,
+        71,
+        67,
+        67,
+        11,
+        11,
+        11,
+        11,
+        27,
+        43
+      ]
+    },
+    {
+      "name": "Arduino Uno R4 Minima",
+      "mcu": "ra4m1",
+      "arduino_macro": "ARDUINO_UNOR4_MINIMA",
+      "platformio_id": "uno_r4_minima",
+      "pin_count": 20,
+      "i2c_buses": 1,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi",
+            "interrupt"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi",
+            "interrupt"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 9,
+          "dac": true
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_sda",
+            "interrupt"
+          ],
+          "adc_channel": 22,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "i2c_scl",
+            "interrupt"
+          ],
+          "adc_channel": 21,
+          "i2c_bus": 0
+        }
+      ],
+      "id": "uno_r4_minima",
+      "pinCaps": [
+        131,
+        131,
+        131,
+        135,
+        3,
+        7,
+        7,
+        3,
+        131,
+        7,
+        71,
+        71,
+        199,
+        199,
+        11,
+        139,
+        139,
+        139,
+        155,
+        171
+      ]
+    },
+    {
+      "name": "Arduino Uno R4 WiFi",
+      "mcu": "ra4m1",
+      "arduino_macro": "ARDUINO_UNOR4_WIFI",
+      "platformio_id": "uno_r4_wifi",
+      "pin_count": 20,
+      "i2c_buses": 2,
+      "spi_buses": 1,
+      "uart_count": 1,
+      "pins": [
+        {
+          "name": "D0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D6",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D7",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D8",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "interrupt"
+          ]
+        },
+        {
+          "name": "D9",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out"
+          ]
+        },
+        {
+          "name": "D10",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cs"
+        },
+        {
+          "name": "D11",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi",
+            "interrupt"
+          ],
+          "spi_bus": 0,
+          "spi_role": "copi"
+        },
+        {
+          "name": "D12",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi",
+            "interrupt"
+          ],
+          "spi_bus": 0,
+          "spi_role": "cipo"
+        },
+        {
+          "name": "D13",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "spi"
+          ],
+          "spi_bus": 0,
+          "spi_role": "sck"
+        },
+        {
+          "name": "A0",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in"
+          ],
+          "adc_channel": 9,
+          "dac": true
+        },
+        {
+          "name": "A1",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 0
+        },
+        {
+          "name": "A2",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 1
+        },
+        {
+          "name": "A3",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "analog_in",
+            "interrupt"
+          ],
+          "adc_channel": 2
+        },
+        {
+          "name": "A4",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "i2c_sda",
+            "interrupt"
+          ],
+          "adc_channel": 22,
+          "i2c_bus": 0
+        },
+        {
+          "name": "A5",
+          "caps": [
+            "digital_in",
+            "digital_out",
+            "pwm_out",
+            "analog_in",
+            "i2c_scl",
+            "interrupt"
+          ],
+          "adc_channel": 21,
+          "i2c_bus": 0
+        }
+      ],
+      "id": "uno_r4_wifi",
+      "pinCaps": [
+        135,
+        135,
+        135,
+        135,
+        7,
+        7,
+        135,
+        7,
+        135,
+        7,
+        71,
+        199,
+        199,
+        71,
+        11,
+        139,
+        139,
+        139,
+        159,
+        175
+      ]
+    }
+  ]
+}

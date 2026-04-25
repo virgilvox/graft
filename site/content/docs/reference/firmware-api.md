@@ -61,6 +61,9 @@ ConduytDevice(const char *name, const char *version, ConduytTransport &transport
 | `void addModule(ConduytModuleBase *module)` | Register a module. Call before `begin()`. |
 | `void addDatastream(name, type, unit, writable)` | Declare a datastream. Call before `begin()`. |
 | `void onDatastreamWrite(name, callback)` | Register write handler for a writable datastream. |
+| `void declarePinCaps(uint8_t pin, uint8_t caps)` | Override the per-pin capability bitmask advertised in HELLO_RESP. Call before `begin()`. |
+| `void declareI2cBus(uint8_t bus, uint8_t sda, uint8_t scl)` | Mark `sda`/`scl` as I2C pins on `bus` and bump `i2c_buses` if needed. |
+| `void declareSpiBus(uint8_t bus, uint8_t cs, uint8_t copi, uint8_t cipo, uint8_t sck)` | Mark the four pins as SPI on `bus` and bump `spi_buses` if needed. |
 | `void writeDatastream(name, float value)` | Push a FLOAT32 value to the host. |
 | `void writeDatastream(name, int32_t value)` | Push an INT32 value to the host. |
 | `void writeDatastream(name, bool value)` | Push a BOOL value to the host. |

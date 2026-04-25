@@ -1,0 +1,38 @@
+# NodeMCU 1.0 (ESP-12E module, ESP8266)
+# Source: esp8266/Arduino variants/nodemcu/pins_arduino.h + variants/generic/common.h
+#
+# Pin numbering uses GPIO indices (the firmware addresses pins by GPIO number,
+# not the board silkscreen D0..D10 labels). Mapping table:
+#   D0=GPIO16, D1=GPIO5, D2=GPIO4, D3=GPIO0, D4=GPIO2,
+#   D5=GPIO14, D6=GPIO12, D7=GPIO13, D8=GPIO15,
+#   D9=GPIO3 (RX), D10=GPIO1 (TX), A0=GPIO17 (TOUT, internal).
+#
+# GPIO 6-11 are wired to internal SPI flash and are not safely usable.
+# GPIO 16 supports PWM (software) but NOT attachInterrupt().
+name: "NodeMCU 1.0 (ESP-12E)"
+mcu: esp8266
+arduino_macro: ARDUINO_ESP8266_NODEMCU_ESP12E
+platformio_id: nodemcuv2
+pin_count: 18
+i2c_buses: 1
+spi_buses: 1
+uart_count: 2
+pins:
+  - { name: GPIO0,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO1,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO2,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO4,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_sda], i2c_bus: 0 }
+  - { name: GPIO5,  caps: [digital_in, digital_out, pwm_out, interrupt, i2c_scl], i2c_bus: 0 }
+  - { name: GPIO6,  caps: [] }
+  - { name: GPIO7,  caps: [] }
+  - { name: GPIO8,  caps: [] }
+  - { name: GPIO9,  caps: [] }
+  - { name: GPIO10, caps: [] }
+  - { name: GPIO11, caps: [] }
+  - { name: GPIO12, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: GPIO13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: GPIO14, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }
+  - { name: GPIO15, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cs }
+  - { name: GPIO16, caps: [digital_in, digital_out, pwm_out] }
+  - { name: A0,     caps: [analog_in], adc_channel: 0 }

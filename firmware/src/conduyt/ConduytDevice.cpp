@@ -3,6 +3,8 @@
  */
 
 #include "ConduytDevice.h"
+#include "boards/board_profiles_generated.h"
+#include "boards/mcu_id.h"
 
 #ifdef ARDUINO
 #include <Arduino.h>
@@ -20,7 +22,8 @@ static uint32_t millis() {
 
 ConduytDevice::ConduytDevice(const char *name, const char *version, ConduytTransport &transport)
     : _transport(transport), _moduleCount(0), _dsCount(0), _subCount(0),
-      _rxLen(0), _helloLen(0)
+      _rxLen(0), _helloLen(0),
+      _i2cBusOverride(0), _spiBusOverride(0)
 {
     memset(_name, 0, sizeof(_name));
     strncpy(_name, name, CONDUYT_FIRMWARE_NAME_LEN);
@@ -29,6 +32,40 @@ ConduytDevice::ConduytDevice(const char *name, const char *version, ConduytTrans
     memset(_datastreams, 0, sizeof(_datastreams));
     memset(_subs, 0, sizeof(_subs));
     memset(_pinModes, CONDUYT_PIN_MODE_INPUT, sizeof(_pinModes));
+    memset(_capOverrides, 0, sizeof(_capOverrides));
+}
+
+/* ── Pin / Bus declaration overrides ──────────────────── */
+
+void ConduytDevice::declarePinCaps(uint8_t pin, uint8_t caps) {
+    if (pin < sizeof(_capOverrides)) _capOverrides[pin] = caps;
+}
+
+void ConduytDevice::declareI2cBus(uint8_t bus, uint8_t sda, uint8_t scl) {
+    if (sda < sizeof(_capOverrides)) {
+        uint8_t c = _capOverrides[sda];
+        if (c == 0) c = CONDUYT_PIN_CAP_DIGITAL_IN | CONDUYT_PIN_CAP_DIGITAL_OUT;
+        _capOverrides[sda] = c | CONDUYT_PIN_CAP_I2C_SDA;
+    }
+    if (scl < sizeof(_capOverrides)) {
+        uint8_t c = _capOverrides[scl];
+        if (c == 0) c = CONDUYT_PIN_CAP_DIGITAL_IN | CONDUYT_PIN_CAP_DIGITAL_OUT;
+        _capOverrides[scl] = c | CONDUYT_PIN_CAP_I2C_SCL;
+    }
+    if (bus + 1 > _i2cBusOverride) _i2cBusOverride = bus + 1;
+}
+
+void ConduytDevice::declareSpiBus(uint8_t bus, uint8_t cs, uint8_t copi, uint8_t cipo, uint8_t sck) {
+    const uint8_t pins[4] = { cs, copi, cipo, sck };
+    for (uint8_t i = 0; i < 4; i++) {
+        uint8_t p = pins[i];
+        if (p < sizeof(_capOverrides)) {
+            uint8_t c = _capOverrides[p];
+            if (c == 0) c = CONDUYT_PIN_CAP_DIGITAL_IN | CONDUYT_PIN_CAP_DIGITAL_OUT;
+            _capOverrides[p] = c | CONDUYT_PIN_CAP_SPI;
+        }
+    }
+    if (bus + 1 > _spiBusOverride) _spiBusOverride = bus + 1;
 }
 
 void ConduytDevice::parseVersion(const char *version) {
@@ -352,6 +389,30 @@ void ConduytDevice::handlePinRead(const ConduytPacket &pkt) {
         mode = _pinModes[pin];
     } else {
         mode = CONDUYT_PIN_MODE_INPUT;
+    }
+
+    /* Analog guard: on Renesas RA (Uno R4), analogRead(non-ADC pin) blocks
+     * the firmware indefinitely waiting on an ADC conversion that never
+     * completes. NAK with PIN_MODE_UNSUPPORTED before calling analogRead.
+     * Honors sketch override + generated profile + (when neither is present)
+     * trusts the host as a last-resort fallback. */
+    if (mode == CONDUYT_PIN_MODE_ANALOG) {
+        bool analogOk = true;
+        uint8_t override = (pin < sizeof(_capOverrides)) ? _capOverrides[pin] : 0;
+        if (override != 0) {
+            analogOk = (override & CONDUYT_PIN_CAP_ANALOG_IN) != 0;
+        }
+#if CONDUYT_BOARD_PROFILE_KNOWN
+        else if (pin < CONDUYT_BOARD_PIN_COUNT) {
+            analogOk = (conduyt_board_pin_caps[pin] & CONDUYT_PIN_CAP_ANALOG_IN) != 0;
+        } else {
+            analogOk = false;
+        }
+#endif
+        if (!analogOk) {
+            sendNak(pkt.seq, CONDUYT_ERR_PIN_MODE_UNSUPPORTED);
+            return;
+        }
     }
 
     uint8_t respBuf[4];
@@ -756,64 +817,64 @@ void ConduytDevice::buildHelloResp() {
     w.writeUInt8(_verMinor);
     w.writeUInt8(_verPatch);
 
-    /* mcu_id: 8 bytes (zeros for now — platform-specific) */
+    /* mcu_id: 8 bytes — populated by per-MCU implementation in boards/mcu_id.h.
+     * Falls back to zero-fill on chips without a unique ID source. */
     uint8_t mcuId[CONDUYT_MCU_ID_LEN] = {0};
+    conduyt_mcu_id_get(mcuId, CONDUYT_MCU_ID_LEN);
     w.writeBytes(mcuId, CONDUYT_MCU_ID_LEN);
 
     /* ota_capable: 1 byte */
     w.writeUInt8(0x00); /* TODO: detect OTA capability */
 
-    /* pin_count + per-pin capability bitmask */
-#ifdef ARDUINO
-    #ifdef NUM_DIGITAL_PINS
-        uint8_t pinCount = NUM_DIGITAL_PINS;
-    #else
-        uint8_t pinCount = 20;
-    #endif
-#else
-    uint8_t pinCount = 20; /* desktop stub */
-#endif
+    /* pin_count + per-pin capability bitmask.
+     * Source priority:
+     *   1. Sketch-level override via declarePinCaps() (highest)
+     *   2. Generated board profile (if CONDUYT_BOARD_PROFILE_KNOWN)
+     *   3. Runtime probing via Arduino-core helpers (fallback for unknown boards)
+     */
+    uint8_t pinCount = CONDUYT_BOARD_PIN_COUNT;
     w.writeUInt8(pinCount);
 
     for (uint8_t p = 0; p < pinCount; p++) {
-        uint8_t caps = CONDUYT_PIN_CAP_DIGITAL_IN | CONDUYT_PIN_CAP_DIGITAL_OUT;
-        /* Mark analog-capable pins */
-#ifdef ARDUINO
-    #ifdef NUM_ANALOG_INPUTS
-        #ifdef A0
-            if (p >= A0 && p < A0 + NUM_ANALOG_INPUTS) {
-                caps |= CONDUYT_PIN_CAP_ANALOG_IN;
-            }
+        uint8_t caps = 0;
+        /* 1. Sketch override wins outright. */
+        if (p < sizeof(_capOverrides) && _capOverrides[p] != 0) {
+            caps = _capOverrides[p];
+        }
+#if CONDUYT_BOARD_PROFILE_KNOWN
+        /* 2. Generated profile from protocol/boards/<id>.yml. */
+        else {
+            caps = conduyt_board_pin_caps[p];
+        }
+#else
+        /* 3. Fallback: probe Arduino-core runtime helpers where available. */
+        else {
+            caps = CONDUYT_PIN_CAP_DIGITAL_IN | CONDUYT_PIN_CAP_DIGITAL_OUT;
+    #ifdef ARDUINO
+        #if defined(digitalPinHasPWM)
+            if (digitalPinHasPWM(p)) caps |= CONDUYT_PIN_CAP_PWM_OUT;
+        #endif
+        #if defined(digitalPinToInterrupt) && defined(NOT_AN_INTERRUPT)
+            if (digitalPinToInterrupt(p) != NOT_AN_INTERRUPT) caps |= CONDUYT_PIN_CAP_INTERRUPT;
         #endif
     #endif
-    /* Mark PWM-capable pins */
-    #if defined(digitalPinHasPWM)
-            if (digitalPinHasPWM(p)) caps |= CONDUYT_PIN_CAP_PWM_OUT;
-    #endif
-    /* Mark interrupt-capable pins */
-    #if defined(digitalPinToInterrupt) && defined(NOT_AN_INTERRUPT)
-            if (digitalPinToInterrupt(p) != NOT_AN_INTERRUPT) caps |= CONDUYT_PIN_CAP_INTERRUPT;
-    #endif
+        }
 #endif
         w.writeUInt8(caps);
     }
 
-    /* i2c_buses */
-#ifdef WIRE_INTERFACES_COUNT
-    w.writeUInt8(WIRE_INTERFACES_COUNT);
-#else
-    w.writeUInt8(1); /* most boards have at least one I2C bus */
-#endif
+    /* i2c_buses: max(profile, declared) */
+    uint8_t i2cBuses = CONDUYT_BOARD_I2C_BUSES;
+    if (_i2cBusOverride > i2cBuses) i2cBuses = _i2cBusOverride;
+    w.writeUInt8(i2cBuses);
 
-    /* spi_buses */
-    w.writeUInt8(1);
+    /* spi_buses: max(profile, declared) */
+    uint8_t spiBuses = CONDUYT_BOARD_SPI_BUSES;
+    if (_spiBusOverride > spiBuses) spiBuses = _spiBusOverride;
+    w.writeUInt8(spiBuses);
 
     /* uart_count */
-#ifdef SERIAL_PORT_HARDWARE_OPEN
-    w.writeUInt8(2);
-#else
-    w.writeUInt8(1);
-#endif
+    w.writeUInt8(CONDUYT_BOARD_UART_COUNT);
 
     /* max_payload: uint16 */
     w.writeUInt16(CONDUYT_PACKET_BUF_SIZE);

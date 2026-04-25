@@ -1,0 +1,9 @@
+name: "NXP i.MX RT1062"
+arduino_arch_macro: TEENSYDUINO
+mcu_id_source: teensy4
+adc_resolution_bits: 12
+pwm_resolution_bits: 16
+notes: |
+  i.MX RT1062 (Cortex-M7 @ 600 MHz, Teensy 4.0/4.1).
+  Crossbar ADC on selected GPIOs. Every pin can interrupt.
+  mcu_id source: HW_OCOTP_CFG0/CFG1 (NXP OCOTP fuses, 64-bit unique ID).

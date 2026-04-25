@@ -1,0 +1,81 @@
+# Arduino Mega 2560 (ATmega2560)
+# Source: ArduinoCore-avr/variants/mega/pins_arduino.h
+name: "Arduino Mega 2560"
+mcu: atmega2560
+arduino_macro: ARDUINO_AVR_MEGA2560
+platformio_id: megaatmega2560
+pin_count: 70
+i2c_buses: 1
+spi_buses: 1
+uart_count: 4
+pins:
+  - { name: D0,  caps: [digital_in, digital_out] }
+  - { name: D1,  caps: [digital_in, digital_out] }
+  - { name: D2,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D4,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D7,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D8,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D12, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D13, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D14, caps: [digital_in, digital_out] }
+  - { name: D15, caps: [digital_in, digital_out] }
+  - { name: D16, caps: [digital_in, digital_out] }
+  - { name: D17, caps: [digital_in, digital_out] }
+  - { name: D18, caps: [digital_in, digital_out, interrupt] }
+  - { name: D19, caps: [digital_in, digital_out, interrupt] }
+  - { name: D20, caps: [digital_in, digital_out, interrupt, i2c_sda], i2c_bus: 0 }
+  - { name: D21, caps: [digital_in, digital_out, interrupt, i2c_scl], i2c_bus: 0 }
+  - { name: D22, caps: [digital_in, digital_out] }
+  - { name: D23, caps: [digital_in, digital_out] }
+  - { name: D24, caps: [digital_in, digital_out] }
+  - { name: D25, caps: [digital_in, digital_out] }
+  - { name: D26, caps: [digital_in, digital_out] }
+  - { name: D27, caps: [digital_in, digital_out] }
+  - { name: D28, caps: [digital_in, digital_out] }
+  - { name: D29, caps: [digital_in, digital_out] }
+  - { name: D30, caps: [digital_in, digital_out] }
+  - { name: D31, caps: [digital_in, digital_out] }
+  - { name: D32, caps: [digital_in, digital_out] }
+  - { name: D33, caps: [digital_in, digital_out] }
+  - { name: D34, caps: [digital_in, digital_out] }
+  - { name: D35, caps: [digital_in, digital_out] }
+  - { name: D36, caps: [digital_in, digital_out] }
+  - { name: D37, caps: [digital_in, digital_out] }
+  - { name: D38, caps: [digital_in, digital_out] }
+  - { name: D39, caps: [digital_in, digital_out] }
+  - { name: D40, caps: [digital_in, digital_out] }
+  - { name: D41, caps: [digital_in, digital_out] }
+  - { name: D42, caps: [digital_in, digital_out] }
+  - { name: D43, caps: [digital_in, digital_out] }
+  - { name: D44, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D45, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D46, caps: [digital_in, digital_out, pwm_out] }
+  - { name: D47, caps: [digital_in, digital_out] }
+  - { name: D48, caps: [digital_in, digital_out] }
+  - { name: D49, caps: [digital_in, digital_out] }
+  - { name: D50, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: cipo }
+  - { name: D51, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: copi }
+  - { name: D52, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: sck }
+  - { name: D53, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: cs }
+  - { name: A0,  caps: [digital_in, digital_out, analog_in], adc_channel: 0 }
+  - { name: A1,  caps: [digital_in, digital_out, analog_in], adc_channel: 1 }
+  - { name: A2,  caps: [digital_in, digital_out, analog_in], adc_channel: 2 }
+  - { name: A3,  caps: [digital_in, digital_out, analog_in], adc_channel: 3 }
+  - { name: A4,  caps: [digital_in, digital_out, analog_in], adc_channel: 4 }
+  - { name: A5,  caps: [digital_in, digital_out, analog_in], adc_channel: 5 }
+  - { name: A6,  caps: [digital_in, digital_out, analog_in], adc_channel: 6 }
+  - { name: A7,  caps: [digital_in, digital_out, analog_in], adc_channel: 7 }
+  - { name: A8,  caps: [digital_in, digital_out, analog_in], adc_channel: 8 }
+  - { name: A9,  caps: [digital_in, digital_out, analog_in], adc_channel: 9 }
+  - { name: A10, caps: [digital_in, digital_out, analog_in], adc_channel: 10 }
+  - { name: A11, caps: [digital_in, digital_out, analog_in], adc_channel: 11 }
+  - { name: A12, caps: [digital_in, digital_out, analog_in], adc_channel: 12 }
+  - { name: A13, caps: [digital_in, digital_out, analog_in], adc_channel: 13 }
+  - { name: A14, caps: [digital_in, digital_out, analog_in], adc_channel: 14 }
+  - { name: A15, caps: [digital_in, digital_out, analog_in], adc_channel: 15 }

@@ -1,0 +1,105 @@
+# nRF52840 DK (Nordic Semiconductor PCA10056)
+#
+# Source of pin map: Adafruit_nRF52_Arduino/variants/pca10056/{variant.h,variant.cpp}
+# plus cores/nRF5/wiring_analog_nRF52.c (SAADC channel routing).
+# Verified at https://github.com/adafruit/Adafruit_nRF52_Arduino (master).
+#
+# Pin numbering follows the Adafruit core's flat 0..47 indexing scheme:
+#   pins 0..31 -> P0.00..P0.31
+#   pins 32..47 -> P1.00..P1.15
+# (g_ADigitalPinMap[] is identity in this variant; the upper-bit port encoding
+# the Nordic SDK uses internally is applied later by the core.)
+#
+# PWM: the nRF52840 has 4 PWM peripherals × 4 channels (16 hardware channels
+# total) that route to ANY GPIO via the GPIOTE/PPI fabric. The Adafruit core's
+# analogWrite() allocates a free channel on demand. We mark every general-purpose
+# digital pin pwm_out-capable; pins that are pre-committed to other functions
+# on the DK silkscreen (LEDs, buttons, NFC antenna, QSPI flash, 32 kHz crystal)
+# are listed without pwm_out to avoid surprises.
+#
+# Interrupts: every GPIO supports GPIOTE-driven interrupts. attachInterrupt
+# accepts any pin index 0..47.
+#
+# ADC: SAADC has 8 analog inputs hard-wired to specific GPIOs.
+#   AIN0=P0.02, AIN1=P0.03, AIN2=P0.04, AIN3=P0.05,
+#   AIN4=P0.28, AIN5=P0.29, AIN6=P0.30, AIN7=P0.31.
+# The pca10056 variant exposes A0..A5 as PIN_A0=3, PIN_A1=4, PIN_A2=28,
+# PIN_A3=29, PIN_A4=30, PIN_A5=31. Pins P0.02 (AIN0) and P0.05 (AIN3) are
+# on the DK's AREF and analog header but not given Arduino A* aliases.
+#
+# I2C: one default Wire instance (TWIM0) on SDA=26 (P0.26), SCL=27 (P0.27).
+# Additional TWI instances exist but require manual construction.
+#
+# SPI: one default SPI instance (SPIM3) on MOSI=45 (P1.13), MISO=46 (P1.14),
+# SCK=47 (P1.15), with no fixed CS (user-selectable). SPI_INTERFACES_COUNT=1
+# in the variant; additional SPIM instances can be created manually.
+#
+# Reserved on the DK and intentionally NOT marked digital_out:
+#   P0.09, P0.10  -> NFC antenna pads (NFC1/NFC2; usable as GPIO only after
+#                    clearing UICR.NFCPINS, so we leave caps minimal here).
+#   P0.17, P0.19, P0.20, P0.21, P0.22, P0.23 -> on-board QSPI flash (MX25R64).
+#   P0.13..P0.16  -> LEDs 1-4 (still digital_in/out capable; user code can
+#                    repurpose them — the DK silkscreen labels them).
+#   P0.11, P0.12, P0.24, P0.25 -> Buttons 1-4 (input with pull-up by default;
+#                                 still digital_in/out capable).
+#   P0.00, P0.01  -> 32.768 kHz crystal pads (XL1/XL2). Not GPIO-usable.
+
+name: "nRF52840 DK (PCA10056)"
+mcu: nrf52840
+arduino_macro: ARDUINO_NRF52840_PCA10056
+platformio_id: nrf52840_dk
+
+pin_count: 48
+i2c_buses: 1
+spi_buses: 1
+uart_count: 2
+
+pins:
+  - { name: P0_00, caps: [] }                                                                    # XL1 (32.768 kHz crystal)
+  - { name: P0_01, caps: [] }                                                                    # XL2 (32.768 kHz crystal)
+  - { name: P0_02, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 0 }  # AIN0, AREF header
+  - { name: P0_03, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 1 }  # A0, AIN1
+  - { name: P0_04, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 2 }  # A1, AIN2
+  - { name: P0_05, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 3 }  # AIN3, UART RTS (SEGGER VCOM)
+  - { name: P0_06, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # UART TXD (SEGGER VCOM)
+  - { name: P0_07, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # UART CTS (SEGGER VCOM)
+  - { name: P0_08, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # UART RXD (SEGGER VCOM)
+  - { name: P0_09, caps: [digital_in, digital_out, interrupt] }                                  # NFC1 (requires UICR config)
+  - { name: P0_10, caps: [digital_in, digital_out, interrupt] }                                  # NFC2 (requires UICR config)
+  - { name: P0_11, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Button 1
+  - { name: P0_12, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Button 2
+  - { name: P0_13, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # LED 1 (built-in)
+  - { name: P0_14, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # LED 2
+  - { name: P0_15, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # LED 3
+  - { name: P0_16, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # LED 4
+  - { name: P0_17, caps: [] }                                                                    # QSPI CS (MX25R64)
+  - { name: P0_18, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # nRESET (configurable)
+  - { name: P0_19, caps: [] }                                                                    # QSPI SCK
+  - { name: P0_20, caps: [] }                                                                    # QSPI IO0
+  - { name: P0_21, caps: [] }                                                                    # QSPI IO1
+  - { name: P0_22, caps: [] }                                                                    # QSPI IO2
+  - { name: P0_23, caps: [] }                                                                    # QSPI IO3
+  - { name: P0_24, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Button 3
+  - { name: P0_25, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Button 4
+  - { name: P0_26, caps: [digital_in, digital_out, pwm_out, interrupt, i2c_sda], i2c_bus: 0 }    # SDA
+  - { name: P0_27, caps: [digital_in, digital_out, pwm_out, interrupt, i2c_scl], i2c_bus: 0 }    # SCL
+  - { name: P0_28, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 4 }  # A2, AIN4
+  - { name: P0_29, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 5 }  # A3, AIN5
+  - { name: P0_30, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 6 }  # A4, AIN6
+  - { name: P0_31, caps: [digital_in, digital_out, pwm_out, analog_in, interrupt], adc_channel: 7 }  # A5, AIN7
+  - { name: P1_00, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_01, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Serial1 RX
+  - { name: P1_02, caps: [digital_in, digital_out, pwm_out, interrupt] }                         # Serial1 TX
+  - { name: P1_03, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_04, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_05, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_06, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_07, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_08, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_09, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_10, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_11, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_12, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: P1_13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }  # MOSI
+  - { name: P1_14, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }  # MISO
+  - { name: P1_15, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }   # SCK

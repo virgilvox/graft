@@ -1,0 +1,9 @@
+name: "Espressif ESP32-S3"
+arduino_arch_macro: ARDUINO_ARCH_ESP32
+mcu_id_source: esp32
+adc_resolution_bits: 12
+pwm_resolution_bits: 8
+notes: |
+  ESP32-S3 (Tensilica Xtensa LX7 dual-core, WiFi+BLE 5.0).
+  ADC1 on GPIO 1-10, ADC2 on GPIO 11-20.
+  Native USB OTG. Supports vector instructions for ML.

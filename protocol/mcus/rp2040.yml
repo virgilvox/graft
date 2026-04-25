@@ -1,0 +1,9 @@
+name: "Raspberry Pi RP2040"
+arduino_arch_macro: ARDUINO_ARCH_RP2040
+mcu_id_source: rp2040
+adc_resolution_bits: 12
+pwm_resolution_bits: 16
+notes: |
+  RP2040 has 30 GPIO, 4 ADC channels (GPIO 26-29; A0-A3), 8 PWM slices x 2 channels routable to any GPIO.
+  Every GPIO can serve as I2C SDA/SCL or SPI MOSI/MISO/SCK via the GPIO mux. Every GPIO supports interrupts.
+  mcu_id source is the external flash chip's JEDEC RUID via pico_get_unique_board_id().

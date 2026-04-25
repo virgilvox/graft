@@ -1,0 +1,9 @@
+name: "NXP Kinetis K66 (MK66FX1M0)"
+arduino_arch_macro: TEENSYDUINO
+mcu_id_source: teensy3
+adc_resolution_bits: 16
+pwm_resolution_bits: 16
+notes: |
+  Kinetis K66 (Cortex-M4F @ 180 MHz, Teensy 3.6).
+  21 ADC channels. Every GPIO can interrupt.
+  mcu_id source: SIM_UIDH/MH/ML/L (Kinetis 128-bit unique-ID; we use upper 64 bits).

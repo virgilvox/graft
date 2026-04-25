@@ -1,0 +1,13 @@
+name: "Espressif ESP32 (classic)"
+arduino_arch_macro: ARDUINO_ARCH_ESP32
+mcu_id_source: esp32
+adc_resolution_bits: 12
+pwm_resolution_bits: 8
+notes: |
+  Classic ESP32 (Tensilica Xtensa LX6 dual-core, WiFi+BLE).
+  ADC1 on GPIO 32-39 (always usable). ADC2 on GPIO 0,2,4,12-15,25-27 (conflicts with WiFi when WiFi is active —
+  conservatively excluded from analog_in declarations).
+  GPIO 6-11 are reserved for SPI flash (board-dependent — not user-accessible on most modules).
+  GPIO 34-39 are input-only (no DIGITAL_OUT capability).
+  PWM via LEDC peripheral works on any output-capable GPIO.
+  mcu_id source: ESP.getEfuseMac() (factory MAC, 48 bits).

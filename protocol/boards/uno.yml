@@ -1,0 +1,31 @@
+# Arduino Uno R3 (ATmega328P)
+# Source: ArduinoCore-avr/variants/standard/pins_arduino.h
+name: "Arduino Uno R3"
+mcu: atmega328p
+arduino_macro: ARDUINO_AVR_UNO
+platformio_id: uno
+pin_count: 20
+i2c_buses: 1
+spi_buses: 1
+uart_count: 1
+pins:
+  - { name: D0,  caps: [digital_in, digital_out] }
+  - { name: D1,  caps: [digital_in, digital_out] }
+  - { name: D2,  caps: [digital_in, digital_out, interrupt] }
+  - { name: D3,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: D4,  caps: [digital_in, digital_out] }
+  - { name: D5,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D6,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D7,  caps: [digital_in, digital_out] }
+  - { name: D8,  caps: [digital_in, digital_out] }
+  - { name: D9,  caps: [digital_in, digital_out, pwm_out] }
+  - { name: D10, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: cs }
+  - { name: D11, caps: [digital_in, digital_out, pwm_out, spi], spi_bus: 0, spi_role: copi }
+  - { name: D12, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: cipo }
+  - { name: D13, caps: [digital_in, digital_out, spi], spi_bus: 0, spi_role: sck }
+  - { name: A0,  caps: [digital_in, digital_out, analog_in], adc_channel: 0 }
+  - { name: A1,  caps: [digital_in, digital_out, analog_in], adc_channel: 1 }
+  - { name: A2,  caps: [digital_in, digital_out, analog_in], adc_channel: 2 }
+  - { name: A3,  caps: [digital_in, digital_out, analog_in], adc_channel: 3 }
+  - { name: A4,  caps: [digital_in, digital_out, analog_in, i2c_sda], adc_channel: 4, i2c_bus: 0 }
+  - { name: A5,  caps: [digital_in, digital_out, analog_in, i2c_scl], adc_channel: 5, i2c_bus: 0 }

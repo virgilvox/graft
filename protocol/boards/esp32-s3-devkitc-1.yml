@@ -1,0 +1,63 @@
+# ESP32-S3 DevKitC-1
+# Source: espressif/arduino-esp32 variants/esp32s3/pins_arduino.h
+# SOC_GPIO_PIN_COUNT=49. GPIO 22-25 don't exist on the silicon.
+# GPIO 26-32 are PSRAM/flash on most modules. GPIO 33-37 are reserved on
+# octal-PSRAM (R8) modules; we leave them enabled for the common N8 SKU.
+name: "ESP32-S3 DevKitC-1"
+mcu: esp32s3
+arduino_macro: ARDUINO_ESP32S3_DEV
+platformio_id: esp32-s3-devkitc-1
+pin_count: 49
+i2c_buses: 2
+spi_buses: 2
+uart_count: 3
+pins:
+  - { name: GPIO0,  caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO1,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 0 }
+  - { name: GPIO2,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 1 }
+  - { name: GPIO3,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 2 }
+  - { name: GPIO4,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 3 }
+  - { name: GPIO5,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 4 }
+  - { name: GPIO6,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 5 }
+  - { name: GPIO7,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in], adc_channel: 6 }
+  - { name: GPIO8,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, i2c_sda], adc_channel: 7, i2c_bus: 0 }
+  - { name: GPIO9,  caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, i2c_scl], adc_channel: 8, i2c_bus: 0 }
+  - { name: GPIO10, caps: [digital_in, digital_out, pwm_out, interrupt, analog_in, spi], adc_channel: 9, spi_bus: 0, spi_role: cs }
+  - { name: GPIO11, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: copi }
+  - { name: GPIO12, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: sck }
+  - { name: GPIO13, caps: [digital_in, digital_out, pwm_out, interrupt, spi], spi_bus: 0, spi_role: cipo }
+  - { name: GPIO14, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO15, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO16, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO17, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO18, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO19, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO20, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO21, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO22, caps: [] }
+  - { name: GPIO23, caps: [] }
+  - { name: GPIO24, caps: [] }
+  - { name: GPIO25, caps: [] }
+  - { name: GPIO26, caps: [] }
+  - { name: GPIO27, caps: [] }
+  - { name: GPIO28, caps: [] }
+  - { name: GPIO29, caps: [] }
+  - { name: GPIO30, caps: [] }
+  - { name: GPIO31, caps: [] }
+  - { name: GPIO32, caps: [] }
+  - { name: GPIO33, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO34, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO35, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO36, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO37, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO38, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO39, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO40, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO41, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO42, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO43, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO44, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO45, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO46, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO47, caps: [digital_in, digital_out, pwm_out, interrupt] }
+  - { name: GPIO48, caps: [digital_in, digital_out, pwm_out, interrupt] }
