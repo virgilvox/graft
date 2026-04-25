@@ -254,7 +254,46 @@ function firstCompat(capName: keyof typeof PIN_CAP): number | null {
   return list.length ? list[0].pin : null
 }
 
+/**
+ * Map a numeric pin index to its silkscreen-style label using a heuristic
+ * keyed off pin_count + ADC pin layout. Keeps dropdowns readable without
+ * needing the firmware to send pin name strings on the wire.
+ */
 function pinLabel(n: number): string {
+  const c = caps.value
+  if (!c) return `pin ${n}`
+  const pinCount = c.pinCount
+  const adcPins = c.pins.filter(p => (p.capabilities & PIN_CAP.ANALOG_IN) !== 0).map(p => p.pin)
+  const firstAdc = adcPins.length ? Math.min(...adcPins) : -1
+
+  // Classic Uno / R4 (20 pins, ADC starts at 14)
+  if (pinCount === 20 && firstAdc === 14) {
+    return n < 14 ? `D${n} (${n})` : `A${n - 14} (${n})`
+  }
+  // Nano (22 pins, ADC at 14..21)
+  if (pinCount === 22 && firstAdc === 14) {
+    return n < 14 ? `D${n} (${n})` : `A${n - 14} (${n})`
+  }
+  // Leonardo (~30 pins, ADC pin layout is irregular — keep it simple)
+  if (pinCount === 30 && c.i2cBuses === 1 && c.spiBuses === 1) {
+    return n < 18 ? `D${n} (${n})` : `A${n - 18} (${n})`
+  }
+  // Mega 2560 (70 pins, ADC starts at 54)
+  if (pinCount === 70 && firstAdc === 54) {
+    return n < 54 ? `D${n} (${n})` : `A${n - 54} (${n})`
+  }
+  // Raspberry Pi Pico (30 pins, no D-style labels)
+  if (pinCount === 30 && c.i2cBuses === 2 && c.spiBuses === 2) {
+    return `GP${n}`
+  }
+  // ESP32 family — pins are GPIOn
+  if (pinCount === 40 || pinCount === 47 || pinCount === 49 || pinCount === 22) {
+    return `GPIO${n}`
+  }
+  // ESP8266 NodeMCU — 0-16 are GPIOn
+  if (pinCount === 18) {
+    return n === 17 ? 'A0' : `GPIO${n}`
+  }
   return `pin ${n}`
 }
 
@@ -358,7 +397,7 @@ function saveStored() {
   } catch {}
 }
 
-function addWidget(type: WidgetType) {
+async function addWidget(type: WidgetType) {
   const spec = specOf(type)
   const pin = firstCompat(spec.cap)
   if (pin === null) {
@@ -377,8 +416,16 @@ function addWidget(type: WidgetType) {
   }
   widgets.value.push(w)
   saveStored()
+  // Race fix: if the user opens the Panel and immediately clicks Add Widget
+  // before HELLO finishes, `device` is still null. Wait for it to come up
+  // before issuing PIN_MODE so the widget initializes on first add (no
+  // need to nudge the pin dropdown to kick polling).
   if (connected.value) {
-    setPinMode(w).then(() => { if (spec.kind === 'input') startPoll(w) }).catch(() => {})
+    if (!device) await ensureDevice()
+    if (device) {
+      await setPinMode(w).catch(() => {})
+      if (spec.kind === 'input') startPoll(w)
+    }
   }
 }
 

@@ -137,8 +137,16 @@
       </div>
 
       <div v-if="flashError" class="flash-error">{{ flashError }}</div>
-      <div v-if="flashSuccess" class="flash-success">
-        Firmware flashed successfully! Click <strong>Connect</strong> below to start coding.
+      <div v-if="flashSuccess" class="flash-success-card">
+        <div class="flash-success-head">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Firmware flashed successfully</span>
+        </div>
+        <div class="flash-success-step">{{ resetHint }}</div>
+        <button class="flash-connect-btn" @click="onPostFlashConnect">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v6m0 8v6M6 8h12a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4a2 2 0 012-2z"/></svg>
+          <span>Connect &amp; open playground</span>
+        </button>
       </div>
     </div>
   </div>
@@ -147,7 +155,32 @@
 <script setup lang="ts">
 import { flashSTK500v1, flashSTK500v2 } from '~/utils/avr-flash'
 
-defineEmits<{ close: [] }>()
+const emit = defineEmits<{ close: [], connect: [] }>()
+
+/**
+ * Per-flash-method instruction shown after a successful flash.
+ * Boards that need explicit user action to leave the bootloader (R4 DFU
+ * mode) get a more emphatic prompt; others just need a typical reboot.
+ */
+const resetHint = computed(() => {
+  const v = activeVariant.value
+  if (!v) return 'Press RESET on your board, then click Connect below.'
+  if (v.flashMethod === 'dfu') {
+    return 'Single-tap the RESET button once to exit DFU mode and boot the new firmware. The "L" LED should stop pulsing slowly.'
+  }
+  if (v.flashMethod === 'esptool') {
+    return 'The board has rebooted automatically. If it didn\'t come up, press RESET once.'
+  }
+  if (v.flashMethod === 'uf2') {
+    return 'The board has rebooted into the new firmware automatically.'
+  }
+  return 'Press RESET on your board, then click Connect below.'
+})
+
+function onPostFlashConnect() {
+  emit('connect')
+  emit('close')
+}
 
 // Register esp-web-install-button custom element (client-side only)
 onMounted(() => import('esp-web-tools'))
@@ -931,14 +964,50 @@ async function flashSTK500() {
   font-size: 13px;
 }
 
-.flash-success {
-  padding: 10px 14px;
+.flash-success-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
   background: var(--accent-dim);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
-  color: var(--accent);
-  font-size: 13px;
+  color: var(--text-bright);
 }
+.flash-success-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+.flash-success-step {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.flash-connect-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s;
+  align-self: flex-start;
+}
+.flash-connect-btn:hover { filter: brightness(1.08); }
+.flash-connect-btn:active { filter: brightness(0.95); }
 
 @media (max-width: 600px) {
   .board-options { grid-template-columns: repeat(2, 1fr); }

@@ -30,7 +30,11 @@
     />
 
     <!-- Flash overlay -->
-    <FlashPanel v-if="activePanel === 'flash'" @close="activePanel = ''" />
+    <FlashPanel
+      v-if="activePanel === 'flash'"
+      @close="activePanel = ''"
+      @connect="onFlashConnect"
+    />
 
     <!-- Panel (Blynk-style widget dashboard) overlay -->
     <PanelPanel
@@ -74,8 +78,10 @@ const activePanel = ref('')
 const mobileTab = ref('editor')
 const deviceCapabilities = ref<HelloResp | null>(null)
 
-// Code state - persist to localStorage
-const STORAGE_KEY = 'conduyt-playground-code'
+// Code state - persist to localStorage. Bump the key whenever the default
+// example shape changes so existing users get the fresh code instead of
+// whatever stale snippet they had saved.
+const STORAGE_KEY = 'conduyt-playground-code-v2'
 const defaultCode = examples[0].code
 
 const code = ref(defaultCode)
@@ -114,6 +120,22 @@ async function toggleConnect() {
     deviceCapabilities.value = null
     log('[runner] Disconnected')
   } else {
+    const ok = await serial.requestPort()
+    if (ok) log('[runner] Serial port connected')
+  }
+}
+
+/**
+ * Triggered by FlashPanel's post-flash "Connect & open playground" button.
+ * Closes the flash overlay (the emit('close') from FlashPanel does that)
+ * and immediately prompts the WebSerial port picker so the user lands
+ * back in the editor with a live device.
+ */
+async function onFlashConnect() {
+  // Give the flash overlay a tick to unmount before opening the port
+  // picker, so the dialog doesn't fight the closing animation.
+  await nextTick()
+  if (!serial.connected.value) {
     const ok = await serial.requestPort()
     if (ok) log('[runner] Serial port connected')
   }
