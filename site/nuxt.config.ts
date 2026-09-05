@@ -11,8 +11,9 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
-    preference: 'dark',
-    fallback: 'dark',
+    // RACEWAY ships on paper stock. Dark is the alternate.
+    preference: 'light',
+    fallback: 'light',
   },
 
   content: {
@@ -27,13 +28,15 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'CONDUYT - Open Binary Protocol for Hardware Control',
+      title: 'CONDUYT - open binary protocol for hardware control',
       meta: [
-        { name: 'description', content: 'Open binary protocol for transport-agnostic, capability-first hardware control. An alternative to Firmata, Johnny-Five, and Blynk.' },
+        { name: 'description', content: 'Flash the firmware once, then drive any circuit board from JavaScript, Python, Go, Rust or Swift over USB, Bluetooth, WiFi or MQTT. MIT, no cloud account.' },
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700;800&display=swap' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       ],
     },
   },

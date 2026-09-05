@@ -12,6 +12,6 @@
   min-height: 100vh;
 }
 .layout-content {
-  padding-top: 56px;
+  padding-top: var(--header-h);
 }
 </style>

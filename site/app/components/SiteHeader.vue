@@ -3,27 +3,20 @@
     <div class="header-inner">
       <div class="header-left">
         <button v-if="showHamburger" class="hamburger" aria-label="Toggle navigation" @click="mobileNav.toggle()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
+          <AppIcon name="menu" :size="18" />
         </button>
-        <NuxtLink to="/" class="header-logo">
-          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-            <rect x="2" y="8" width="5" height="12" :fill="accentColor" opacity="0.9"/>
-            <rect x="21" y="8" width="5" height="12" :fill="accentColor" opacity="0.9"/>
-            <rect x="9" y="4" width="10" height="4" :fill="accentColor" opacity="0.5"/>
-            <rect x="9" y="20" width="10" height="4" :fill="accentColor" opacity="0.5"/>
-            <circle cx="14" cy="14" r="2" :fill="accentColor"/>
-          </svg>
-          <span>CONDUYT</span>
+        <NuxtLink to="/" class="brand">
+          <ConduytMark variant="compact" :size="26" decorative />
+          <span class="wordmark">CON<span class="wm-accent">DUYT</span></span>
         </NuxtLink>
       </div>
       <nav class="header-nav">
         <NuxtLink to="/docs" class="header-link">Docs</NuxtLink>
         <NuxtLink to="/playground" class="header-link">Playground</NuxtLink>
-        <a href="https://github.com/virgilvox/conduyt" class="header-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/virgilvox/conduyt" class="header-link header-link-out" target="_blank" rel="noopener" aria-label="GitHub">
+          <AppIcon name="github" :size="13" />
+          <span>GitHub</span>
+        </a>
         <ColorModeToggle />
       </nav>
     </div>
@@ -36,9 +29,6 @@ import { useMobileNav } from '~/composables/useMobileNav'
 const mobileNav = useMobileNav()
 const route = useRoute()
 const showHamburger = computed(() => route.path.startsWith('/docs'))
-
-const colorMode = useColorMode()
-const accentColor = computed(() => colorMode.value === 'light' ? '#009d7e' : '#00d4aa')
 </script>
 
 <style scoped>
@@ -47,9 +37,9 @@ const accentColor = computed(() => colorMode.value === 'light' ? '#009d7e' : '#0
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  height: var(--header-h);
+  background: var(--conduit);
+  border-bottom: var(--wall) solid var(--gasket);
   z-index: 200;
 }
 
@@ -58,61 +48,85 @@ const accentColor = computed(() => colorMode.value === 'light' ? '#009d7e' : '#0
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 24px;
+  padding: 0 var(--sp-5);
   max-width: 100%;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--sp-3);
 }
 
 .hamburger {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: transparent;
-  border: 1px solid var(--border-bright);
-  border-radius: 4px;
-  color: var(--text);
+  width: 34px;
+  height: 34px;
+  background: var(--raceway);
+  border: var(--wall) solid var(--gasket);
+  border-radius: var(--bend);
+  color: var(--chalk);
   cursor: pointer;
+  transition: border-color var(--snap), color var(--snap);
 }
+.hamburger:hover { border-color: var(--mint); color: var(--mint-ink); }
 
-.header-logo {
+.brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  color: var(--text-bright);
+  gap: var(--sp-3);
+  color: var(--chalk);
   text-decoration: none;
 }
+.brand:hover { text-decoration: none; }
+
+.wordmark {
+  font-family: var(--face-display);
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+.wordmark .wm-accent { color: var(--mint-ink); }
 
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--sp-1);
 }
 
 .header-link {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--face-mono);
+  font-size: var(--t-meta);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--ash);
   text-decoration: none;
-  transition: color 0.15s;
+  padding: 8px 11px;
+  border: var(--wall) solid transparent;
+  transition: color var(--snap), border-color var(--snap);
 }
-.header-link:hover {
-  color: var(--accent);
+.header-link:hover,
+.header-link.router-link-active {
+  color: var(--chalk);
+  border-color: var(--gasket);
   text-decoration: none;
 }
+.header-link.router-link-active { color: var(--mint-ink); border-color: var(--mint-edge); }
 
 @media (max-width: 900px) {
   .hamburger { display: flex; }
+}
+
+@media (max-width: 620px) {
+  .header-inner { padding: 0 var(--sp-4); }
+  .header-link-out span { display: none; }
+  .header-link { padding: 8px; letter-spacing: .12em; }
 }
 </style>

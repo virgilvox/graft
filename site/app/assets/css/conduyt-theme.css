@@ -1,101 +1,304 @@
 /**
- * CONDUYT Design System
- * Industrial-technical aesthetic. High contrast. Warm neutrals.
+ * RACEWAY 1.0 - the CONDUYT design system.
+ *
+ * A raceway is the conduit that carries the conductors. Instrument panel,
+ * not landing page: hard borders over soft shadows, zero corner radius,
+ * one accent, three faces with no overlap in their jobs.
+ *
+ * Two stocks, same parts. Paper (light) is the default; dark is the shop
+ * floor alternate. Nuxt color-mode stamps `.light` / `.dark` on <html>, so
+ * the stocks hang off those classes rather than a [data-theme] attribute.
+ *
+ * The legacy `--bg` / `--text` / `--accent` family is kept as aliases so the
+ * playground and docs keep rendering while they are ported piece by piece.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+/* Faces are requested from a <link> in nuxt.config head, not @import here:
+   an @import cannot start downloading until this file has parsed. */
 
 :root {
-  --orange: #e2653a;
-  --orange-dim: rgba(226,101,58,0.1);
-  --yellow: #daa520;
-  --yellow-dim: rgba(218,165,32,0.08);
-  --purple: #8b7cf4;
-  --red: #e05d70;
-  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono: 'IBM Plex Mono', 'Menlo', monospace;
-  --radius: 6px;
+  /* ---- faces: three, and they never trade jobs ---- */
+  --face-display: 'Archivo Black', 'Arial Black', sans-serif;
+  --face-body: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --face-mono: 'JetBrains Mono', 'Menlo', ui-monospace, monospace;
+  --sans: var(--face-body);
+  --mono: var(--face-mono);
+
+  /* ---- type ---- */
+  --t-micro: 9px;
+  --t-label: 10px;
+  --t-meta: 11px;
+  --t-sm: 13px;
+  --t-base: 15px;
+  --t-lg: 18px;
+  --t-h3: 22px;
+  --t-h2: clamp(23px, 3.2vw, 34px);
+  --t-h1: clamp(42px, 7vw, 86px);
+
+  --track-tight: -0.02em;
+  --track-label: 0.2em;
+  --track-wide: 0.34em;
+
+  /* ---- rhythm ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 72px;
+  --sp-9: 104px;
+
+  /* ---- structure ---- */
+  --rail: 1px;      /* hairline */
+  --wall: 2px;      /* structural border */
+  --bulkhead: 3px;  /* accent edge */
+  --bend: 0;        /* conduit does not round */
+  --radius: 0;
+
+  /* ---- motion ---- */
+  --snap: 140ms cubic-bezier(.2, .8, .2, 1);
+  --seat: 240ms cubic-bezier(.16, 1, .3, 1);
+
+  /* ---- grid ---- */
+  --pitch: 32px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --measure: 1220px;
+  --header-h: 56px;
 }
 
-.dark {
-  --bg: #141418;
-  --surface: #1a1a20;
-  --card: #1e1e25;
-  --border: #2a2a33;
-  --border-bright: #3a3a48;
-  --text: #b0b0c0;
-  --text-bright: #e8e8f0;
-  --text-dim: #707080;
-  --accent: #00d4aa;
-  --accent-dim: rgba(0,212,170,0.08);
-  --accent-glow: rgba(0,212,170,0.2);
-  --code-bg: rgba(255,255,255,0.06);
-  --pre-bg: #111115;
-  --hover-bg: rgba(255,255,255,0.03);
-  color-scheme: dark;
-}
-
+/* ── PAPER: the printed manual. The default stock. ─────────────── */
+/* Also on :root so the page still has a palette if the color-mode class
+   never lands (JS off). Without it every var() is invalid and the borders,
+   background and text colour all drop out at once. */
+:root,
 .light {
-  --bg: #f8f8fa;
-  --surface: #ffffff;
-  --card: #ffffff;
-  --border: #e2e2e8;
-  --border-bright: #d0d0d8;
-  --text: #4a4a5a;
-  --text-bright: #1a1a28;
-  --text-dim: #8a8a98;
-  --accent: #009d7e;
-  --accent-dim: rgba(0,157,126,0.06);
-  --accent-glow: rgba(0,157,126,0.12);
-  --orange: #c94d30;
-  --orange-dim: rgba(201,77,48,0.06);
-  --code-bg: rgba(0,0,0,0.04);
-  --pre-bg: #f0f0f5;
-  --hover-bg: rgba(0,0,0,0.02);
+  --void: #eeece6;
+  --soot: #e4e1d8;
+  --raceway: #f7f6f2;
+  --conduit: #eae7df;
+  --gasket: #c9c5ba;
+  --shim: #a8a397;
+
+  --chalk: #14141a;
+  --ash: #5f5c55;
+  --ghost: #8e8a80;
+
+  --mint: #0d9e86;
+  --mint-ink: #0a7d69;
+  --mint-wash: rgba(13, 158, 134, .10);
+  --mint-edge: rgba(13, 158, 134, .34);
+  --mint-arc: rgba(13, 158, 134, .30);
+
+  /* filled controls: mint at full strength cannot carry paper-coloured
+     text, so the fill darkens one step and the ink lightens to match. */
+  --accent-fill: #0a7d69;
+  --accent-on: #f7f6f2;
+
+  --flux: #d6337f;
+  --amber: #b57612;
+  --rust: #c53b3b;
+  --sap: #16805c;
+
+  --flux-wash: rgba(214, 51, 127, .10);
+  --flux-edge: rgba(214, 51, 127, .38);
+  --amber-wash: rgba(181, 118, 18, .10);
+  --amber-edge: rgba(181, 118, 18, .38);
+  --amber-arc: rgba(181, 118, 18, .35);
+  --rust-wash: rgba(197, 59, 59, .10);
+  --rust-edge: rgba(197, 59, 59, .38);
+
+  --block: 4px 4px 0 #14141a;
+  --block-sm: 3px 3px 0 #14141a;
+  --block-lg: 7px 7px 0 #14141a;
+  --grain: .05;
+  --mesh: rgba(20, 20, 26, .045);
+
   color-scheme: light;
+
+  /* legacy aliases */
+  --bg: var(--void);
+  --surface: var(--conduit);
+  --card: var(--raceway);
+  --border: var(--gasket);
+  --border-bright: var(--shim);
+  --text: var(--ash);
+  --text-bright: var(--chalk);
+  --text-dim: var(--ghost);
+  --heading: var(--face-display);
+  --accent: var(--mint-ink);
+  --accent-dim: var(--mint-wash);
+  --accent-glow: var(--mint-arc);
+  --code-bg: rgba(20, 20, 26, .05);
+  --pre-bg: var(--soot);
+  --hover-bg: rgba(20, 20, 26, .035);
+  --orange: var(--amber);
+  --orange-dim: var(--amber-wash);
+  --yellow: var(--amber);
+  --yellow-dim: var(--amber-wash);
+  --purple: var(--flux);
+  --red: var(--rust);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── DARK: the shop floor. Same parts, different stock. ────────── */
+.dark {
+  --void: #08080a;
+  --soot: #0e0e12;
+  --raceway: #14141a;
+  --conduit: #1c1c24;
+  --gasket: #2a2a35;
+  --shim: #3a3a48;
+
+  --chalk: #e8e8ec;
+  --ash: #6d6d7a;
+  --ghost: #45454f;
+
+  --mint: #5eead4;
+  --mint-ink: #5eead4;
+  --mint-wash: rgba(94, 234, 212, .10);
+  --mint-edge: rgba(94, 234, 212, .28);
+  --mint-arc: rgba(94, 234, 212, .45);
+
+  --accent-fill: #5eead4;
+  --accent-on: #08080a;
+
+  --flux: #f472b6;
+  --amber: #fbbf24;
+  --rust: #f87171;
+  --sap: #34d399;
+
+  --flux-wash: rgba(244, 114, 182, .10);
+  --flux-edge: rgba(244, 114, 182, .34);
+  --amber-wash: rgba(251, 191, 36, .10);
+  --amber-edge: rgba(251, 191, 36, .34);
+  --amber-arc: rgba(251, 191, 36, .38);
+  --rust-wash: rgba(248, 113, 113, .10);
+  --rust-edge: rgba(248, 113, 113, .34);
+
+  --block: 4px 4px 0 #000;
+  --block-sm: 3px 3px 0 #000;
+  --block-lg: 7px 7px 0 #000;
+  --grain: .04;
+  --mesh: rgba(94, 234, 212, .035);
+
+  color-scheme: dark;
+
+  /* legacy aliases */
+  --bg: var(--void);
+  --surface: var(--conduit);
+  --card: var(--raceway);
+  --border: var(--gasket);
+  --border-bright: var(--shim);
+  --text: var(--ash);
+  --text-bright: var(--chalk);
+  --text-dim: var(--ghost);
+  --heading: var(--face-display);
+  --accent: var(--mint-ink);
+  --accent-dim: var(--mint-wash);
+  --accent-glow: var(--mint-arc);
+  --code-bg: rgba(255, 255, 255, .06);
+  --pre-bg: var(--soot);
+  --hover-bg: rgba(255, 255, 255, .03);
+  --orange: var(--amber);
+  --orange-dim: var(--amber-wash);
+  --yellow: var(--amber);
+  --yellow-dim: var(--amber-wash);
+  --purple: var(--flux);
+  --red: var(--rust);
+}
+
+/* ══ base ══════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.7;
+  background: var(--void);
+  color: var(--chalk);
+  font-family: var(--face-body);
+  font-size: var(--t-base);
+  line-height: 1.72;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background var(--seat), color var(--seat);
 }
 
-a { color: var(--accent); text-decoration: none; }
+/* the instrument grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--mesh) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mesh) 1px, transparent 1px);
+  background-size: var(--pitch) var(--pitch);
+}
+
+/* the grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection { background: var(--accent-fill); color: var(--accent-on); }
+
+a { color: var(--mint-ink); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-h1, h2, h3, h4 { color: var(--text-bright); font-family: var(--sans); font-weight: 700; }
-h1 { font-size: 32px; letter-spacing: -0.5px; }
-h2 { font-size: 22px; letter-spacing: -0.3px; }
-h3 { font-size: 14px; font-weight: 600; color: var(--text-bright); text-transform: uppercase; letter-spacing: 1.5px; }
+/* Display face is reserved for headlines and the wordmark. Structural
+   headings inside prose stay on the body face so long titles survive. */
+h1, h2, h3, h4 {
+  color: var(--chalk);
+  font-family: var(--face-body);
+  /* Archivo ships 400/500/600. Asking for 700 gets a synthesised faux bold,
+     so 600 is both the real weight and what the system specifies. */
+  font-weight: 600;
+  letter-spacing: var(--track-tight);
+  line-height: 1.25;
+}
+h1 { font-family: var(--face-display); font-weight: 400; font-size: 32px; line-height: 1.1; }
+h2 { font-size: 22px; }
+h3 { font-size: var(--t-lg); font-weight: 600; }
+
+/* Ligatures off everywhere code appears: on an instrument panel a byte
+   reads as the bytes it is, so "===" must never draw as a triple bar. */
+code, pre, kbd, samp {
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+}
 
 code {
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--face-mono);
+  font-size: var(--t-sm);
   background: var(--code-bg);
-  border: 1px solid var(--border);
+  border: var(--rail) solid var(--gasket);
   padding: 1px 6px;
-  color: var(--accent);
-  border-radius: 3px;
+  color: var(--mint-ink);
+  border-radius: var(--bend);
 }
 
 pre {
-  background: var(--pre-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px 24px;
+  background: var(--soot);
+  border: var(--wall) solid var(--gasket);
+  border-radius: var(--bend);
+  padding: var(--sp-5);
   overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text);
+  font-family: var(--face-mono);
+  font-size: var(--t-sm);
+  line-height: 1.8;
+  color: var(--chalk);
 }
 
 pre code {
@@ -118,23 +321,60 @@ html.dark .shiki span {
   color: var(--shiki-dark) !important;
 }
 
-/* Tag badges */
+/* ══ shared type roles ═════════════════════════════════════════ */
+.display {
+  font-family: var(--face-display);
+  text-transform: uppercase;
+  letter-spacing: var(--track-tight);
+  line-height: .94;
+}
+
+.label {
+  font-family: var(--face-mono);
+  font-size: var(--t-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--ash);
+}
+
+.mono { font-family: var(--face-mono); }
+.dim { color: var(--ash); }
+
+/* Tag badges (legacy name, RACEWAY chip styling) */
 .tag {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  padding: 3px 10px;
-  border: 1px solid var(--border-bright);
-  color: var(--text-dim);
-  border-radius: 3px;
+  font-family: var(--face-mono);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: var(--rail) solid var(--gasket);
+  color: var(--ash);
+  border-radius: var(--bend);
   display: inline-block;
 }
 
-.tag-accent { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-.tag-orange { border-color: var(--orange); color: var(--orange); background: var(--orange-dim); }
+.tag-accent { border-color: var(--mint-edge); color: var(--mint-ink); background: var(--mint-wash); }
+.tag-orange { border-color: var(--amber); color: var(--amber); background: var(--orange-dim); }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+/* ══ scrollbar ═════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--shim); border-radius: 0; }
+
+/* ══ focus ═════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: var(--wall) solid var(--mint);
+  outline-offset: 2px;
+}
+summary:focus-visible { outline-offset: -2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}

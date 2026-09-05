@@ -405,7 +405,7 @@ onMounted(() => {
 .byte-seq { color: var(--purple); }
 .byte-len { color: var(--text); }
 .byte-crc { color: var(--yellow); background: var(--yellow-dim); border-color: var(--yellow); }
-.byte-payload { color: var(--purple); background: rgba(139,124,244,0.08); border-color: rgba(139,124,244,0.3); }
+.byte-payload { color: var(--flux); background: var(--flux-wash); border-color: var(--flux-edge); }
 
 .breakdown-labels {
   display: flex;

@@ -6,14 +6,8 @@
     <aside class="docs-sidebar" :class="{ open: mobileNav.isOpen.value }">
       <div class="sidebar-header">
         <NuxtLink to="/" class="sidebar-logo">
-          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-            <rect x="2" y="8" width="5" height="12" fill="var(--accent)" opacity="0.9"/>
-            <rect x="21" y="8" width="5" height="12" fill="var(--accent)" opacity="0.9"/>
-            <rect x="9" y="4" width="10" height="4" fill="var(--accent)" opacity="0.5"/>
-            <rect x="9" y="20" width="10" height="4" fill="var(--accent)" opacity="0.5"/>
-            <circle cx="14" cy="14" r="2" fill="var(--accent)"/>
-          </svg>
-          <span>CONDUYT</span>
+          <ConduytMark variant="compact" :size="22" decorative />
+          <span>CON<span class="wm-accent">DUYT</span></span>
         </NuxtLink>
         <div class="sidebar-version">v1.0</div>
       </div>
@@ -155,130 +149,185 @@ const navGroups = [
 .docs-layout {
   display: flex;
   min-height: 100vh;
-  padding-top: 56px;
+  padding-top: var(--header-h);
 }
 
 .docs-sidebar {
-  width: 260px;
+  width: 268px;
   position: fixed;
-  top: 56px; left: 0; bottom: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
+  top: var(--header-h);
+  left: 0;
+  bottom: 0;
+  background: var(--conduit);
+  border-right: var(--wall) solid var(--gasket);
   overflow-y: auto;
   z-index: 100;
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease;
+  transition: transform .25s ease;
 }
 
-.sidebar-backdrop {
-  display: none;
-}
+.sidebar-backdrop { display: none; }
 
 .sidebar-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--border);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: var(--wall) solid var(--gasket);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--sp-3);
 }
 
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-bright);
+  gap: var(--sp-2);
+  font-family: var(--face-display);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--chalk);
   text-decoration: none;
 }
+.sidebar-logo:hover { text-decoration: none; }
+.sidebar-logo .wm-accent { color: var(--mint-ink); }
 
 .sidebar-version {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  font-weight: 500;
+  font-family: var(--face-mono);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--mint-ink);
+  border: var(--rail) solid var(--mint-edge);
+  background: var(--mint-wash);
+  padding: 3px 7px;
 }
 
-.sidebar-nav {
-  padding: 12px 0;
-  flex: 1;
-}
+.sidebar-nav { padding: var(--sp-3) 0 var(--sp-7); flex: 1; }
 
-.nav-group { margin-bottom: 8px; }
+.nav-group { margin-bottom: var(--sp-2); }
 
 .nav-group-title {
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--face-mono);
+  font-size: var(--t-label);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  padding: 12px 20px 4px;
+  letter-spacing: var(--track-label);
+  color: var(--ghost);
+  padding: var(--sp-4) var(--sp-5) var(--sp-1);
 }
 
 .nav-link {
   display: block;
-  padding: 6px 20px;
-  color: var(--text);
+  padding: 5px var(--sp-5);
+  color: var(--ash);
   text-decoration: none;
-  font-size: 14px;
-  border-left: 2px solid transparent;
-  transition: color 0.15s, background 0.15s;
+  font-size: var(--t-sm);
+  border-left: var(--bulkhead) solid transparent;
+  transition: color var(--snap), background var(--snap);
 }
 
-.nav-link:hover { color: var(--text-bright); background: var(--hover-bg); }
+.nav-link:hover { color: var(--chalk); background: var(--hover-bg); text-decoration: none; }
 .nav-link.router-link-active {
-  color: var(--accent);
-  border-left-color: var(--accent);
-  background: var(--accent-dim);
-  font-weight: 500;
+  color: var(--mint-ink);
+  border-left-color: var(--mint);
+  background: var(--mint-wash);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .docs-main {
-  margin-left: 260px;
+  margin-left: 268px;
   flex: 1;
-  padding: 48px 64px;
-  max-width: 820px;
+  padding: var(--sp-7) var(--sp-8);
+  max-width: 880px;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── prose ───────────────────────────────────────────────────── */
 .docs-main :deep(h1) {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 16px;
+  font-family: var(--face-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 38px);
+  letter-spacing: var(--track-tight);
+  line-height: 1.05;
+  margin-bottom: var(--sp-4);
+  color: var(--chalk);
 }
 
 .docs-main :deep(h2) {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 36px 0 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-bright);
+  font-family: var(--face-body);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: var(--track-tight);
+  margin: var(--sp-7) 0 var(--sp-3);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--wall) solid var(--gasket);
+  color: var(--chalk);
 }
 
 .docs-main :deep(h3) {
+  font-family: var(--face-body);
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-bright);
-  margin: 24px 0 8px;
+  letter-spacing: 0;
+  color: var(--chalk);
+  margin: var(--sp-5) 0 var(--sp-2);
+}
+
+.docs-main :deep(h4) {
+  font-family: var(--face-mono);
+  font-size: var(--t-meta);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--ash);
+  margin: var(--sp-5) 0 var(--sp-2);
 }
 
 .docs-main :deep(p) {
-  line-height: 1.75;
-  margin-bottom: 12px;
+  line-height: 1.78;
+  margin-bottom: var(--sp-3);
+  color: var(--chalk);
 }
 
+/* Same reason: the UA sheet's bold is 700 and Archivo has no 700 face. */
+.docs-main :deep(strong),
+.docs-main :deep(b) { font-weight: 600; }
+
+.docs-main :deep(a) {
+  color: var(--mint-ink);
+  border-bottom: var(--rail) solid var(--mint-edge);
+  text-decoration: none;
+}
+.docs-main :deep(a:hover) { border-bottom-color: var(--mint); text-decoration: none; }
+
+/* Nuxt Content wraps heading text in an anchor. It is a heading, not a link. */
+.docs-main :deep(h1 a),
+.docs-main :deep(h2 a),
+.docs-main :deep(h3 a),
+.docs-main :deep(h4 a) {
+  color: inherit;
+  border-bottom: 0;
+  text-decoration: none;
+}
+.docs-main :deep(h2 a:hover),
+.docs-main :deep(h3 a:hover),
+.docs-main :deep(h4 a:hover) { color: var(--mint-ink); }
+
 .docs-main :deep(pre) {
-  background: var(--pre-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 20px;
+  background: var(--soot);
+  border: var(--wall) solid var(--gasket);
+  border-left: var(--bulkhead) solid var(--gasket);
+  border-radius: var(--bend);
+  padding: var(--sp-4) var(--sp-5);
   overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.7;
-  margin: 16px 0;
+  font-family: var(--face-mono);
+  font-size: var(--t-sm);
+  line-height: 1.8;
+  margin: var(--sp-4) 0;
 }
 
 .docs-main :deep(pre code) {
@@ -289,59 +338,84 @@ const navGroups = [
   color: inherit;
 }
 
+.docs-main :deep(blockquote) {
+  border-left: var(--bulkhead) solid var(--mint);
+  background: var(--mint-wash);
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+}
+.docs-main :deep(blockquote p:last-child) { margin-bottom: 0; }
+
 .docs-main :deep(table) {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
-  margin: 16px 0;
+  font-family: var(--face-mono);
+  font-size: var(--t-sm);
+  margin: var(--sp-4) 0;
+  border: var(--wall) solid var(--gasket);
+  background: var(--raceway);
 }
 
 .docs-main :deep(th) {
   text-align: left;
-  padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 10px var(--sp-4);
+  font-size: var(--t-micro);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  border-bottom: 2px solid var(--border);
+  letter-spacing: var(--track-label);
+  color: var(--ash);
+  background: var(--conduit);
+  border-bottom: var(--wall) solid var(--gasket);
+  white-space: nowrap;
 }
 
 .docs-main :deep(td) {
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--border);
+  padding: 10px var(--sp-4);
+  border-bottom: var(--rail) solid var(--gasket);
+  color: var(--chalk);
+  overflow-wrap: break-word;
 }
+.docs-main :deep(tr:last-child td) { border-bottom: 0; }
+.docs-main :deep(td code) { font-size: var(--t-sm); }
 
-.docs-main :deep(td code) {
-  font-size: 13px;
-}
-
-.docs-main :deep(ul), .docs-main :deep(ol) {
-  padding-left: 24px;
-  margin-bottom: 12px;
+.docs-main :deep(ul),
+.docs-main :deep(ol) {
+  padding-left: var(--sp-5);
+  margin-bottom: var(--sp-3);
 }
 
 .docs-main :deep(li) {
-  margin-bottom: 4px;
-  line-height: 1.7;
+  margin-bottom: var(--sp-1);
+  line-height: 1.78;
+  color: var(--chalk);
 }
+
+.docs-main :deep(hr) {
+  border: 0;
+  height: var(--rail);
+  background: var(--gasket);
+  margin: var(--sp-6) 0;
+}
+
+.docs-main :deep(img) { max-width: 100%; }
 
 @media (max-width: 900px) {
   .docs-sidebar {
     transform: translateX(-100%);
     z-index: 150;
   }
-  .docs-sidebar.open {
-    transform: translateX(0);
-  }
+  .docs-sidebar.open { transform: translateX(0); }
   .sidebar-backdrop {
     display: block;
     position: fixed;
     inset: 0;
-    top: 56px;
-    background: rgba(0,0,0,0.5);
+    top: var(--header-h);
+    background: rgba(0, 0, 0, .55);
     z-index: 140;
   }
-  .docs-main { margin-left: 0; padding: 32px 24px; }
+  .docs-main { margin-left: 0; padding: var(--sp-6) var(--sp-5); }
+  /* Narrow enough that scrolling the table beats squeezing it, even at the
+     cost of the table role in some screen readers. */
+  .docs-main :deep(table) { display: block; overflow-x: auto; }
 }
 </style>

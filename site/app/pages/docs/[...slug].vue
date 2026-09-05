@@ -23,13 +23,16 @@ const { data: page } = await useAsyncData(
   padding: 80px 0;
 }
 .not-found h1 {
-  font-family: var(--heading);
-  font-size: 24px;
-  letter-spacing: 4px;
-  margin-bottom: 12px;
+  font-family: var(--face-display);
+  font-weight: 400;
+  font-size: clamp(26px, 4vw, 38px);
+  text-transform: uppercase;
+  /* The display face is drawn tight; +4px tracking fought it. */
+  letter-spacing: var(--track-tight);
+  margin-bottom: var(--sp-3);
 }
 .not-found p {
-  color: var(--text-dim);
-  margin-bottom: 24px;
+  color: var(--ash);
+  margin-bottom: var(--sp-5);
 }
 </style>

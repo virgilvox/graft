@@ -116,8 +116,8 @@ defineProps<{
 .device-error {
   margin-top: 8px;
   padding: 8px;
-  background: rgba(224, 93, 112, 0.1);
-  border: 1px solid rgba(224, 93, 112, 0.3);
+  background: var(--rust-wash);
+  border: var(--rail) solid var(--rust-edge);
   border-radius: 4px;
   font-family: var(--mono);
   font-size: 12px;

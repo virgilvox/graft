@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 216 216" width="216" height="216">
+  <title>CONDUYT</title>
+  <style>
+    .shell { stroke: #14141a }
+    .relay { stroke: #0d9e86 }
+    .spine { stroke: #14141a }
+    .ring  { fill: #eeece6; stroke: #14141a }
+    .hub   { fill: #0d9e86 }
+    @media (prefers-color-scheme: dark) {
+      .shell, .spine { stroke: #e8e8ec }
+      .relay { stroke: #5eead4 }
+      .ring  { fill: #08080a; stroke: #e8e8ec }
+      .hub   { fill: #5eead4 }
+    }
+  </style>
+  <path class="shell" d="M 24 62 L 42 44 L 158 44 L 176 62 L 176 138 L 158 156 L 42 156 L 24 138 Z"
+        fill="none" stroke-width="13" stroke-linejoin="miter"/>
+  <line class="relay" x1="56" y1="72"  x2="144" y2="72"  stroke-width="7" stroke-linecap="round"/>
+  <line class="spine" x1="56" y1="100" x2="144" y2="100" stroke-width="7" stroke-linecap="round"/>
+  <line class="relay" x1="56" y1="128" x2="144" y2="128" stroke-width="7" stroke-linecap="round"/>
+  <circle class="ring" cx="100" cy="100" r="13" stroke-width="5.5"/>
+  <circle class="hub" cx="100" cy="100" r="5.5"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 216 216">
+  <style>
+    .shell { stroke: #14141a }
+    .bar   { stroke: #0a7d69 }
+    .ring  { fill: #eeece6; stroke: #14141a }
+    .hub   { fill: #0a7d69 }
+    @media (prefers-color-scheme: dark) {
+      .shell { stroke: #e8e8ec }
+      .bar   { stroke: #5eead4 }
+      .ring  { fill: #08080a; stroke: #e8e8ec }
+      .hub   { fill: #5eead4 }
+    }
+  </style>
+  <path class="shell" d="M 20 60 L 40 40 L 160 40 L 180 60 L 180 140 L 160 160 L 40 160 L 20 140 Z"
+        fill="none" stroke-width="18" stroke-linejoin="miter"/>
+  <line class="bar" x1="50" y1="100" x2="150" y2="100" stroke-width="14"/>
+  <circle class="ring" cx="100" cy="100" r="20" stroke-width="9"/>
+  <circle class="hub" cx="100" cy="100" r="8"/>
+</svg>

@@ -585,11 +585,12 @@ function drawScope(w: Widget) {
   const W = canvas.width, H = canvas.height
   ctx.fillStyle = '#0a0a10'
   ctx.fillRect(0, 0, W, H)
-  ctx.strokeStyle = 'rgba(0,212,170,0.08)'
+  ctx.strokeStyle = 'rgba(94,234,212,0.08)'
   ctx.lineWidth = 1
   for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
   for (let y = 0; y < H; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
-  ctx.strokeStyle = '#00d4aa'
+  // The scope face stays on dark stock in both themes: a screen is a screen.
+  ctx.strokeStyle = '#5eead4'
   ctx.lineWidth = 1.5
   ctx.beginPath()
   const buf = w.extra.buf || []
@@ -802,7 +803,7 @@ onBeforeUnmount(async () => {
 }
 .widget.active { border-color: var(--border-bright); }
 .widget.firing.input { box-shadow: 0 0 24px var(--accent-glow); border-color: var(--accent); }
-.widget.firing.output { box-shadow: 0 0 24px rgba(226,101,58,0.25); border-color: var(--orange); }
+.widget.firing.output { box-shadow: 0 0 24px var(--amber-arc); border-color: var(--orange); }
 
 .w-head {
   display: flex;
@@ -927,7 +928,7 @@ onBeforeUnmount(async () => {
   border-radius: 3px;
   transition: left 0.16s, background 0.16s, box-shadow 0.16s;
 }
-.ctrl-switch.on { background: rgba(0,212,170,0.1); border-color: var(--accent); }
+.ctrl-switch.on { background: var(--mint-wash); border-color: var(--mint); }
 .ctrl-switch.on .knob { left: 60px; background: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
 .ctrl-switch .lbl {
   position: absolute;
@@ -966,7 +967,7 @@ onBeforeUnmount(async () => {
   background: var(--orange);
   color: var(--bg);
   border-color: var(--orange);
-  box-shadow: 0 0 24px rgba(226,101,58,0.5);
+  box-shadow: 0 0 24px var(--amber-arc);
   transform: scale(0.96);
 }
 
@@ -1000,7 +1001,7 @@ onBeforeUnmount(async () => {
   border-radius: 2px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(226,101,58,0.5);
+  box-shadow: 0 0 12px var(--amber-arc);
 }
 .ctrl-slider::-moz-range-thumb {
   width: 18px;

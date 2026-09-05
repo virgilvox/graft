@@ -881,8 +881,8 @@ async function flashSTK500() {
 .flash-btn {
   display: inline-block;
   padding: 10px 24px;
-  background: var(--accent);
-  color: #000;
+  background: var(--accent-fill);
+  color: var(--accent-on);
   border: none;
   border-radius: var(--radius);
   font-family: var(--mono);
@@ -947,8 +947,8 @@ async function flashSTK500() {
 
 .flash-unsupported {
   padding: 10px 14px;
-  background: rgba(224, 178, 76, 0.1);
-  border: 1px solid rgba(224, 178, 76, 0.3);
+  background: var(--amber-wash);
+  border: var(--rail) solid var(--amber-edge);
   border-radius: var(--radius);
   color: var(--yellow);
   font-size: 13px;
@@ -957,8 +957,8 @@ async function flashSTK500() {
 
 .flash-error {
   padding: 10px 14px;
-  background: rgba(224, 93, 112, 0.1);
-  border: 1px solid rgba(224, 93, 112, 0.3);
+  background: var(--rust-wash);
+  border: var(--rail) solid var(--rust-edge);
   border-radius: var(--radius);
   color: var(--red);
   font-size: 13px;
@@ -995,8 +995,8 @@ async function flashSTK500() {
   justify-content: center;
   gap: 8px;
   padding: 10px 18px;
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--accent-fill);
+  color: var(--accent-on);
   border: none;
   border-radius: 6px;
   font-family: var(--mono);

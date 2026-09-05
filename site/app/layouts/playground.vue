@@ -17,7 +17,7 @@
 
 .playground-content {
   flex: 1;
-  padding-top: 56px;
+  padding-top: var(--header-h);
   overflow: hidden;
 }
 </style>

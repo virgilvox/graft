@@ -110,8 +110,8 @@ function onExampleChange(e: Event) {
 .tb-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Per-button color identity. Each action gets its own hue so the toolbar
- * is scannable at a glance — green=run/connect, red=stop, orange=flash,
- * purple=panel. The "active" tinted bg only shows when the button is
+ * is scannable at a glance: mint=run/connect, rust=stop, amber=flash,
+ * flux=panel. The "active" tinted bg only shows when the button is
  * the relevant overlay open (Flash/Panel) or the action is live. */
 .tb-run {
   color: var(--accent);
@@ -126,35 +126,35 @@ function onExampleChange(e: Event) {
 
 .tb-stop {
   color: var(--red);
-  border-color: rgba(224,93,112,0.4);
+  border-color: var(--rust-edge);
 }
 .tb-stop:hover:not(:disabled) {
-  background: rgba(224,93,112,0.1);
+  background: var(--rust-wash);
   color: var(--red);
   border-color: var(--red);
 }
 .tb-stop:disabled { color: var(--text-dim); border-color: var(--border-bright); }
 
-.tb-flash { color: var(--orange); border-color: rgba(226,101,58,0.4); }
+.tb-flash { color: var(--amber); border-color: var(--amber-edge); }
 .tb-flash:hover:not(:disabled),
 .tb-flash.active {
   background: var(--orange-dim);
-  color: var(--orange);
-  border-color: var(--orange);
+  color: var(--amber);
+  border-color: var(--amber);
 }
 
-.tb-panel { color: var(--purple); border-color: rgba(139,124,244,0.4); }
+.tb-panel { color: var(--flux); border-color: var(--flux-edge); }
 .tb-panel:hover:not(:disabled),
 .tb-panel.active {
-  background: rgba(139,124,244,0.1);
-  color: var(--purple);
-  border-color: var(--purple);
+  background: var(--flux-wash);
+  color: var(--flux);
+  border-color: var(--flux);
 }
 
 .tb-connect.connected { color: var(--accent); border-color: var(--accent); }
 .tb-connect.connected:hover { background: var(--accent-dim); }
-.tb-connect.disconnected { color: var(--yellow); border-color: rgba(218,165,32,0.4); }
-.tb-connect.disconnected:hover { background: var(--yellow-dim); color: var(--yellow); border-color: var(--yellow); }
+.tb-connect.disconnected { color: var(--ash); border-color: var(--gasket); }
+.tb-connect.disconnected:hover { background: var(--hover-bg); color: var(--chalk); border-color: var(--shim); }
 
 .tb-sep {
   width: 1px;
